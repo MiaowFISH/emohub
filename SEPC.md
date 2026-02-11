@@ -272,35 +272,32 @@ emohub/
 # 创建项目
 mkdir emohub && cd emohub
 
-# 初始化Monorepo
-npm init -y
-npm install -D turbo typescript
+# 初始化Monorepo（使用bun）
+bun init -y
+bun add -D turbo typescript
 
 # 安装共享依赖
-npm install clsx tailwind-merge date-fns
+bun add clsx tailwind-merge date-fns
 
 # 服务端依赖
 cd packages/server
-npm install fastify @fastify/cors @fastify/websocket
-npm install @prisma/client prisma
-npm install sqlite3 better-sqlite3
+bun add fastify @fastify/cors @fastify/websocket
+bun add @prisma/client prisma
+bun add sqlite3 better-sqlite3
 
 # Web端依赖
 cd apps/web
-npm install react react-dom
-npm install @vitejs/plugin-react
-npm install @tanstack/react-router
-npm install zustand
-npm install @xenova/transformers
-npm install tesseract.js
+bun add react react-dom
+bun add -D @vitejs/plugin-react
+bun add @tanstack/react-router
+bun add zustand
+bun add tesseract.js
 
 # 移动端依赖
 cd apps/mobile
-npx create-expo-app@latest .
-npm install expo-router
-npm install nativewind
-npm install zustand
-npm install @xenova/transformers
+bun add expo-router
+bun add nativewind
+bun add zustand
 ```
 
 ### 环境变量
