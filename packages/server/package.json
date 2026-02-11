@@ -9,10 +9,10 @@
     "@emohub/shared": "workspace:*",
     "@fastify/cors": "^11.2.0",
     "@fastify/websocket": "^11.2.0",
-    "@prisma/client": "^7.3.0",
+    "@prisma/client": "^6.1.0",
     "better-sqlite3": "^12.6.2",
     "fastify": "^5.7.4",
     "fastify-plugin": "^5.0.0",
-    "prisma": "^7.3.0"
+    "prisma": "^6.1.0"
   }
 }
