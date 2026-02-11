@@ -46,10 +46,14 @@ Plans:
   5. Uploaded images are automatically compressed and thumbnails are generated
   6. System detects and warns about duplicate images during upload
   7. User can convert images to single-frame GIF format
-**Plans**: TBD
+**Plans:** 5 plans
 
 Plans:
-- [ ] 02-01: TBD during planning
+- [ ] 02-01-PLAN.md — Server image processing pipeline and API routes (upload, list, delete, serve, GIF convert)
+- [ ] 02-02-PLAN.md — Web app foundation (Vite, TanStack Router, API client, Zustand store)
+- [ ] 02-03-PLAN.md — Upload UI, virtual scrolling image grid, and lightbox preview
+- [ ] 02-04-PLAN.md — Image selection, batch delete, and GIF conversion UI
+- [ ] 02-05-PLAN.md — Human verification of all IMG requirements
 
 ### Phase 3: Tag System
 **Goal**: Users can organize images with tags and perform batch tagging operations
@@ -86,6 +90,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Setup & Backend Foundation | 2/2 | ✓ Complete | 2026-02-12 |
-| 2. Image Management | 0/TBD | Not started | - |
+| 2. Image Management | 0/5 | Planning complete | - |
 | 3. Tag System | 0/TBD | Not started | - |
 | 4. Search & Polish | 0/TBD | Not started | - |
