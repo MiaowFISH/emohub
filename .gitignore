@@ -30,3 +30,6 @@ storage/
 # Build output
 dist/
 .bun-cache
+
+# Turbo cache
+.turbo

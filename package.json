@@ -12,7 +12,11 @@
     "db:migrate": "bunx prisma migrate dev",
     "db:generate": "bunx prisma generate",
     "db:push": "bunx prisma db push",
-    "typecheck": "bunx tsc --noEmit"
+    "typecheck": "bunx tsc --noEmit",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint -- --fix",
+    "fmt": "turbo run fmt",
+    "fmt:check": "turbo run fmt -- --check"
   },
   "devDependencies": {
     "@prisma/client": "6.19.2",
@@ -23,6 +27,12 @@
   "dependencies": {
     "@fastify/cors": "^11.2.0",
     "fastify": "^5.7.4",
-    "fastify-plugin": "^5.1.0"
+    "fastify-plugin": "^5.1.0",
+    "oxfmt": "^0.31.0",
+    "oxlint": "^1.46.0"
+  },
+  "lint-staged": {
+    "*": "oxfmt --no-error-on-unmatched-pattern",
+    "*.{js,jsx,ts,tsx,mjs,cjs}": "turbo run lint"
   }
 }
