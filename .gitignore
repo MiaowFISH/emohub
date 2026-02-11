@@ -15,3 +15,18 @@ node_modules
 
 #!.yarn/cache
 .pnp.*
+
+# Environment variables
+.env
+
+# Database files
+*.db
+*.db-journal
+*.db-wal
+
+# Storage
+storage/
+
+# Build output
+dist/
+.bun-cache
