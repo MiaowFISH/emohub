@@ -77,27 +77,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| IMG-01 | — | Pending |
-| IMG-02 | — | Pending |
-| IMG-03 | — | Pending |
-| IMG-04 | — | Pending |
-| IMG-05 | — | Pending |
-| IMG-06 | — | Pending |
-| IMG-07 | — | Pending |
-| IMG-08 | — | Pending |
-| TAG-01 | — | Pending |
-| TAG-02 | — | Pending |
-| TAG-03 | — | Pending |
-| TAG-04 | — | Pending |
-| SRCH-01 | — | Pending |
-| SRCH-02 | — | Pending |
-| UX-01 | — | Pending |
+| IMG-01 | Phase 2 | Pending |
+| IMG-02 | Phase 2 | Pending |
+| IMG-03 | Phase 2 | Pending |
+| IMG-04 | Phase 2 | Pending |
+| IMG-05 | Phase 2 | Pending |
+| IMG-06 | Phase 2 | Pending |
+| IMG-07 | Phase 2 | Pending |
+| IMG-08 | Phase 2 | Pending |
+| TAG-01 | Phase 3 | Pending |
+| TAG-02 | Phase 3 | Pending |
+| TAG-03 | Phase 3 | Pending |
+| TAG-04 | Phase 3 | Pending |
+| SRCH-01 | Phase 4 | Pending |
+| SRCH-02 | Phase 4 | Pending |
+| UX-01 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 15 total
-- Mapped to phases: 0
-- Unmapped: 15 ⚠️
+- Mapped to phases: 15
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-02-11*
-*Last updated: 2026-02-11 after initial definition*
+*Last updated: 2026-02-12 after roadmap creation*
