@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { ImageUpload } from '@/components/ImageUpload'
+import { ImageToolbar } from '@/components/ImageToolbar'
 import { ImageGrid } from '@/components/ImageGrid'
 import { ImageLightbox } from '@/components/ImageLightbox'
 import { useImageStore } from '@/stores/imageStore'
@@ -18,6 +19,7 @@ const HomePage = () => {
       padding: '16px'
     }}>
       <ImageUpload />
+      <ImageToolbar />
       <ImageGrid onImageClick={setLightboxIndex} />
       <ImageLightbox
         images={images}
