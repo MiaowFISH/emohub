@@ -148,21 +148,28 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                           objectFit: 'cover'
                         }}
                       />
-                      {isSelected && (
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: '8px',
-                            right: '8px',
-                            width: '24px',
-                            height: '24px',
-                            borderRadius: '50%',
-                            backgroundColor: '#3b82f6',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}
-                        >
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSelect(image.id)
+                        }}
+                        style={{
+                          position: 'absolute',
+                          top: '8px',
+                          left: '8px',
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: '50%',
+                          backgroundColor: isSelected ? '#3b82f6' : 'rgba(255, 255, 255, 0.8)',
+                          border: isSelected ? 'none' : '2px solid #d1d5db',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        {isSelected && (
                           <svg
                             style={{ width: '16px', height: '16px', color: 'white' }}
                             fill="currentColor"
@@ -174,8 +181,8 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                               clipRule="evenodd"
                             />
                           </svg>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   )
                 })}

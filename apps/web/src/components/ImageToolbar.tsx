@@ -1,0 +1,208 @@
+import { useImageStore } from '@/stores/imageStore'
+import { imageApi } from '@/lib/api'
+import { useState, useCallback } from 'react'
+
+export const ImageToolbar = () => {
+  const { images, selectedIds, selectAll, clearSelection, removeImages } = useImageStore()
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isConverting, setIsConverting] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  const handleDelete = useCallback(async () => {
+    setIsDeleting(true)
+    try {
+      const idsArray = Array.from(selectedIds)
+      await imageApi.deleteBatch(idsArray)
+      removeImages(idsArray)
+      clearSelection()
+      setShowConfirm(false)
+    } catch (error) {
+      alert(`Failed to delete images: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } finally {
+      setIsDeleting(false)
+    }
+  }, [selectedIds, removeImages, clearSelection])
+
+  const handleConvertToGif = useCallback(async () => {
+    if (selectedIds.size !== 1) return
+
+    setIsConverting(true)
+    try {
+      const id = Array.from(selectedIds)[0]
+      const blob = await imageApi.convertToGif(id)
+
+      // Create download link
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `sticker-${id}.gif`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch (error) {
+      alert(`Failed to convert image: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } finally {
+      setIsConverting(false)
+    }
+  }, [selectedIds])
+
+  // Only show toolbar when there are selections
+  if (selectedIds.size === 0) {
+    return null
+  }
+
+  return (
+    <>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        padding: '8px 16px',
+        backgroundColor: '#f9fafb',
+        borderBottom: '1px solid #e5e7eb',
+        position: 'sticky',
+        top: 0,
+        zIndex: 10
+      }}>
+        <span style={{ color: '#374151', fontWeight: 500 }}>
+          {selectedIds.size} selected
+        </span>
+
+        <button
+          onClick={selectAll}
+          style={{
+            padding: '6px 12px',
+            backgroundColor: 'white',
+            border: '1px solid #d1d5db',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            color: '#374151'
+          }}
+        >
+          Select All
+        </button>
+
+        <button
+          onClick={clearSelection}
+          style={{
+            padding: '6px 12px',
+            backgroundColor: 'white',
+            border: '1px solid #d1d5db',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            color: '#374151'
+          }}
+        >
+          Clear
+        </button>
+
+        <div style={{
+          width: '1px',
+          height: '24px',
+          backgroundColor: '#d1d5db',
+          margin: '0 4px'
+        }} />
+
+        <button
+          onClick={() => setShowConfirm(true)}
+          disabled={isDeleting}
+          style={{
+            padding: '6px 12px',
+            backgroundColor: '#ef4444',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: isDeleting ? 'not-allowed' : 'pointer',
+            fontSize: '14px',
+            color: 'white',
+            opacity: isDeleting ? 0.6 : 1
+          }}
+        >
+          {isDeleting ? 'Deleting...' : 'Delete'}
+        </button>
+
+        <button
+          onClick={handleConvertToGif}
+          disabled={selectedIds.size !== 1 || isConverting}
+          style={{
+            padding: '6px 12px',
+            backgroundColor: selectedIds.size === 1 ? '#3b82f6' : '#e5e7eb',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: selectedIds.size === 1 && !isConverting ? 'pointer' : 'not-allowed',
+            fontSize: '14px',
+            color: selectedIds.size === 1 ? 'white' : '#9ca3af',
+            opacity: isConverting ? 0.6 : 1
+          }}
+        >
+          {isConverting ? 'Converting...' : 'Convert to GIF'}
+        </button>
+      </div>
+
+      {showConfirm && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 50
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            padding: '24px',
+            borderRadius: '8px',
+            maxWidth: '400px',
+            width: '90%'
+          }}>
+            <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 600 }}>
+              Confirm Delete
+            </h3>
+            <p style={{ margin: '0 0 20px 0', color: '#6b7280' }}>
+              Delete {selectedIds.size} image(s)? This cannot be undone.
+            </p>
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setShowConfirm(false)}
+                disabled={isDeleting}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: 'white',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                  fontSize: '14px',
+                  color: '#374151'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={isDeleting}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: '#ef4444',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                  fontSize: '14px',
+                  color: 'white',
+                  opacity: isDeleting ? 0.6 : 1
+                }}
+              >
+                {isDeleting ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
