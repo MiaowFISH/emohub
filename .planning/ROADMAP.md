@@ -28,10 +28,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Database schema is created with Prisma migrations applied successfully
   3. Fastify API server starts and responds to health check endpoint
   4. File storage directory structure exists and accepts test file writes
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 01-01: TBD during planning
+- [ ] 01-01-PLAN.md — Monorepo config, shared types package, Prisma schema & migration
+- [ ] 01-02-PLAN.md — Fastify server with DB/storage plugins and health check endpoint
 
 ### Phase 2: Image Management
 **Goal**: Users can upload, view, and manage their sticker collection
@@ -84,7 +85,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Setup & Backend Foundation | 0/TBD | Not started | - |
+| 1. Project Setup & Backend Foundation | 0/2 | Planned | - |
 | 2. Image Management | 0/TBD | Not started | - |
 | 3. Tag System | 0/TBD | Not started | - |
 | 4. Search & Polish | 0/TBD | Not started | - |
