@@ -1,0 +1,84 @@
+### Pitfall 5: Tesseract.js OCR Running on Every Search Query
+**What goes wrong:** Running OCR on images during search instead of at index time, causing 2-5 second search latency.
+
+**Why it happens:**
+- OCR placed in search path instead of indexing path
+- Misunderstanding of when to extract text
+- No caching of OCR results
+
+**Consequences:**
+- Unacceptably slow search (multi-second delays)
+- High CPU usage during searches
+- Poor user experience
+- Wasted computation on repeated searches
+
+**Prevention:**
+- Run OCR once during image import/upload
+- Store extracted text in database
+- Index text for full-text search
+- Never run OCR in request path
+- Make OCR optional/async for better UX
+
+**Detection:**
+- Search queries taking > 1 second
+- High CPU during search operations
+- Tesseract.js in search endpoint stack traces
+- Users complaining about slow search
+
+---
+
+### Pitfall 6: No Normalization of CLIP Vectors Before Storage
+**What goes wrong:** Storing raw CLIP vectors without L2 normalization breaks cosine similarity search in sqlite-vss.
+
+**Why it happens:**
+- Assuming CLIP outputs normalized vectors (it doesn't always)
+- Not understanding vector similarity metrics
+- Missing normalization step in pipeline
+
+**Consequences:**
+- Incorrect similarity scores
+- Poor search result ranking
+- Inconsistent results across queries
+- Distance metrics don't work as expected
+
+**Prevention:**
+- Always L2-normalize vectors before storage
+- Verify normalization in tests (vector magnitude = 1.0)
+- Document normalization requirement
+- Add validation to catch unnormalized vectors
+
+**Detection:**
+- Search results seem random
+- Similar images ranked far apart
+- Vector magnitudes != 1.0 when queried
+- Inconsistent similarity scores
+
+---
+
+### Pitfall 7: sqlite-vss Index Not Created or Rebuilt After Bulk Inserts
+**What goes wrong:** Forgetting to create/rebuild vector index after bulk inserting 4000+ stickers, causing linear scan searches that take 10+ seconds.
+
+**Why it happens:**
+- sqlite-vss requires explicit index creation
+- Index not automatically maintained during bulk inserts
+- Missing index rebuild step in import workflow
+
+**Consequences:**
+- Extremely slow vector searches (linear scan of all vectors)
+- Poor user experience
+- Wasted CLIP computation if search is unusable
+
+**Prevention:**
+- Create index immediately after schema setup
+- Rebuild index after bulk imports
+- Add index existence check to search endpoint
+- Document index maintenance in import procedures
+
+**Detection:**
+- Search queries taking 5-10+ seconds
+- CPU usage high during searches
+- sqlite-vss not using index (check EXPLAIN QUERY PLAN)
+- Performance degrades with more stickers
+
+---
+
