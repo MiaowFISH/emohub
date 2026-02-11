@@ -10,25 +10,25 @@ See: .planning/PROJECT.md (updated 2026-02-11)
 ## Current Position
 
 Phase: 2 of 4 (Image Management)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: Executing
-Last activity: 2026-02-11 — Completed 02-03-PLAN.md (UI Components)
+Last activity: 2026-02-12 — Completed 02-04-PLAN.md (Selection and Batch Operations)
 
-Progress: [████░░░░░░] 40.0%
+Progress: [████░░░░░░] 50.0%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 6.9 minutes
-- Total execution time: 0.58 hours
+- Total plans completed: 6
+- Average duration: 6.3 minutes
+- Total execution time: 0.61 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 2 | 12.7 min | 6.4 min |
-| 02 | 3 | 21.4 min | 7.1 min |
+| 02 | 4 | 23.1 min | 5.8 min |
 
 **Recent Executions:**
 
@@ -37,6 +37,7 @@ Progress: [████░░░░░░] 40.0%
 | Phase 02 P01 | 380s (6.3m) | 2 tasks | 6 files |
 | Phase 02 P02 | 634s (10.6m) | 2 tasks | 2 files |
 | Phase 02 P03 | 269s (4.5m) | 3 tasks | 5 files |
+| Phase 02 P04 | 103s (1.7m) | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,11 @@ Recent decisions affecting current work:
 - Used @tanstack/react-virtual for efficient rendering of large image collections (02-03)
 - Used yet-another-react-lightbox for full-featured image preview (02-03)
 - ResizeObserver for dynamic column calculation based on container width (02-03)
+- Toolbar only visible when selections exist for cleaner UI (02-04)
+- Checkbox positioned top-left with stopPropagation to prevent lightbox trigger (02-04)
+- Confirmation dialog as modal overlay for delete safety (02-04)
+- GIF download via temporary anchor element with Blob URL (02-04)
+- Sticky toolbar positioning for visibility during grid scrolling (02-04)
 
 ### Pending Todos
 
@@ -73,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-11T18:02:13Z
-Stopped at: Completed 02-03-PLAN.md (UI Components)
-Resume file: .planning/phases/02-image-management/02-03-SUMMARY.md
+Last session: 2026-02-12T02:06:22Z
+Stopped at: Completed 02-04-PLAN.md (Selection and Batch Operations)
+Resume file: .planning/phases/02-image-management/02-04-SUMMARY.md
