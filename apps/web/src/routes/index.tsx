@@ -1,13 +1,29 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
+import { ImageUpload } from '@/components/ImageUpload'
+import { ImageGrid } from '@/components/ImageGrid'
+import { ImageLightbox } from '@/components/ImageLightbox'
+import { useImageStore } from '@/stores/imageStore'
 
 const HomePage = () => {
+  const [lightboxIndex, setLightboxIndex] = useState(-1)
+  const { images } = useImageStore()
+
   return (
     <div style={{
-      textAlign: 'center',
-      padding: '3rem',
-      color: '#6b7280'
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh',
+      gap: '16px',
+      padding: '16px'
     }}>
-      <p>Images will appear here</p>
+      <ImageUpload />
+      <ImageGrid onImageClick={setLightboxIndex} />
+      <ImageLightbox
+        images={images}
+        index={lightboxIndex}
+        onClose={() => setLightboxIndex(-1)}
+      />
     </div>
   )
 }
