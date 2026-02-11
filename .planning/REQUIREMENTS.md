@@ -1,0 +1,103 @@
+# Requirements: EmoHub
+
+**Defined:** 2026-02-11
+**Core Value:** 用户能快速给表情包打标签并通过标签搜索找到想要的图片
+
+## v1 Requirements
+
+Requirements for initial release. Each maps to roadmap phases.
+
+### 图片管理
+
+- [ ] **IMG-01**: 用户可以通过拖拽或点击上传单张/多张图片
+- [ ] **IMG-02**: 用户可以删除单张或批量删除多张图片
+- [ ] **IMG-03**: 用户可以在瀑布流/网格布局中浏览所有图片（虚拟滚动）
+- [ ] **IMG-04**: 用户可以点击图片查看大图预览
+- [ ] **IMG-05**: 上传时自动压缩图片优化存储
+- [ ] **IMG-06**: 上传时自动生成缩略图加速网格加载
+- [ ] **IMG-07**: 上传时通过 SHA-256 哈希检测重复文件并提示用户
+- [ ] **IMG-08**: 用户可以一键将图片转为单帧 GIF 格式（便于 QQ 等平台发送表情）
+
+### 标签系统
+
+- [ ] **TAG-01**: 用户可以为一张图片添加多个标签
+- [ ] **TAG-02**: 用户可以创建、删除、重命名标签
+- [ ] **TAG-03**: 用户可以按标签筛选图片
+- [ ] **TAG-04**: 用户可以选中多张图片批量添加/移除标签
+
+### 搜索
+
+- [ ] **SRCH-01**: 用户可以通过标签名搜索筛选图片
+- [ ] **SRCH-02**: 用户可以通过文本关键词搜索图片（匹配标签名和图片文件名）
+
+### 基础体验
+
+- [ ] **UX-01**: Web 界面适配不同屏幕尺寸（响应式布局）
+
+## v2 Requirements
+
+Deferred to future release. Tracked but not in current roadmap.
+
+### 标签增强
+
+- **TAG-05**: 标签分类支持（角色/系列/关键词维度）
+- **TAG-06**: 标签组合搜索（AND/OR 逻辑）
+- **TAG-07**: 标签自动补全（基于已有标签）
+
+### 智能搜索
+
+- **SRCH-03**: CLIP 向量相似度搜索
+- **SRCH-04**: 以图搜图（上传图片查找相似）
+- **SRCH-05**: OCR 文字搜索（提取图片中的文字）
+- **SRCH-06**: 搜索历史记录
+
+### 高级体验
+
+- **UX-02**: 键盘快捷键操作
+- **UX-03**: 复制图片到剪贴板
+- **UX-04**: 图片信息展示（尺寸、大小、上传时间）
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| 移动端（React Native） | v1 聚焦 Web，后续迭代 |
+| 桌面端（Electron） | Web 端够用，优先级低 |
+| 多用户认证 | 个人工具，不需要用户系统 |
+| 对象存储（S3/MinIO） | 本地存储足够 |
+| 社交功能（分享、导出） | 个人工具，不需要社交 |
+| AI 自动标签/角色识别 | v2+ 考虑 |
+| 实时同步（WebSocket） | 单端使用，暂不需要 |
+| 批量导入现有图片 | 系统建好后再处理 |
+| 动图播放/编辑 | 复杂度高，非核心需求 |
+
+## Traceability
+
+Which phases cover which requirements. Updated during roadmap creation.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| IMG-01 | — | Pending |
+| IMG-02 | — | Pending |
+| IMG-03 | — | Pending |
+| IMG-04 | — | Pending |
+| IMG-05 | — | Pending |
+| IMG-06 | — | Pending |
+| IMG-07 | — | Pending |
+| IMG-08 | — | Pending |
+| TAG-01 | — | Pending |
+| TAG-02 | — | Pending |
+| TAG-03 | — | Pending |
+| TAG-04 | — | Pending |
+| SRCH-01 | — | Pending |
+| SRCH-02 | — | Pending |
+| UX-01 | — | Pending |
+
+**Coverage:**
+- v1 requirements: 15 total
+- Mapped to phases: 0
+- Unmapped: 15 ⚠️
+
+---
+*Requirements defined: 2026-02-11*
+*Last updated: 2026-02-11 after initial definition*
