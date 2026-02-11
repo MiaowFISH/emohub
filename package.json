@@ -1,4 +1,12 @@
 {
   "name": "emohub",
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "bun@1.3.9",
+  "workspaces": [
+    "packages/server",
+    "apps/*"
+  ],
+  "devDependencies": {
+    "turbo": "^2.8.6",
+    "typescript": "^5.9.3"
+  }
 }
