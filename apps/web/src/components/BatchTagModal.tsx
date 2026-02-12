@@ -105,14 +105,15 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
         maxWidth: '640px',
         width: '90%',
         maxHeight: '80vh',
-        overflow: 'auto'
+        display: 'flex',
+        flexDirection: 'column'
       }}>
         <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: 600 }}>
           {mode === 'add' ? `Add Tags to ${imageIds.length} Images` : `Remove Tags from ${imageIds.length} Images`}
         </h3>
 
         {mode === 'add' ? (
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: '20px', minHeight: '280px' }}>
             {/* @ts-ignore react-tag-autocomplete types incompatible with React 19 */}
             <ReactTags
               selected={selectedTags}
