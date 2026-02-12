@@ -10,13 +10,15 @@ interface ImageState {
   hasMore: boolean
   selectedIds: Set<string>
   activeTagFilter: string[]
-  fetchImages: (page?: number, tagIds?: string[]) => Promise<void>
+  searchQuery: string
+  fetchImages: (page?: number, tagIds?: string[], search?: string) => Promise<void>
   fetchMore: () => Promise<void>
   addImages: (images: Image[]) => void
   removeImages: (ids: string[]) => void
   toggleSelect: (id: string) => void
   selectAll: () => void
   clearSelection: () => void
+  setSearchQuery: (query: string) => void
 }
 
 export const useImageStore = create<ImageState>((set, get) => ({
@@ -27,11 +29,12 @@ export const useImageStore = create<ImageState>((set, get) => ({
   hasMore: true,
   selectedIds: new Set<string>(),
   activeTagFilter: [],
+  searchQuery: '',
 
-  fetchImages: async (page = 1, tagIds?: string[]) => {
+  fetchImages: async (page = 1, tagIds?: string[], search?: string) => {
     set({ isLoading: true })
     try {
-      const response = await imageApi.list(page, 50, tagIds)
+      const response = await imageApi.list(page, 50, tagIds, search)
       const data = response.data || []
       set({
         images: data,
@@ -39,7 +42,8 @@ export const useImageStore = create<ImageState>((set, get) => ({
         page: response.meta.page,
         isLoading: false,
         hasMore: data.length < response.meta.total,
-        activeTagFilter: tagIds || []
+        activeTagFilter: tagIds || [],
+        searchQuery: search || ''
       })
     } catch (error) {
       console.error('Failed to fetch images:', error)
@@ -48,13 +52,13 @@ export const useImageStore = create<ImageState>((set, get) => ({
   },
 
   fetchMore: async () => {
-    const { isLoading, hasMore, page, images, activeTagFilter } = get()
+    const { isLoading, hasMore, page, images, activeTagFilter, searchQuery } = get()
     if (isLoading || !hasMore) return
     set({ isLoading: true })
     try {
       const nextPage = page + 1
       const tagIds = activeTagFilter.length > 0 ? activeTagFilter : undefined
-      const response = await imageApi.list(nextPage, 50, tagIds)
+      const response = await imageApi.list(nextPage, 50, tagIds, searchQuery || undefined)
       const newData = response.data || []
       const merged = [...images, ...newData]
       set({
@@ -109,5 +113,11 @@ export const useImageStore = create<ImageState>((set, get) => ({
 
   clearSelection: () => {
     set({ selectedIds: new Set<string>() })
+  },
+
+  setSearchQuery: (query) => {
+    const { activeTagFilter } = get()
+    const tagIds = activeTagFilter.length > 0 ? activeTagFilter : undefined
+    get().fetchImages(1, tagIds, query)
   }
 }))

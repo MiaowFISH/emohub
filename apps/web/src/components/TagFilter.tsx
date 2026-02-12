@@ -4,7 +4,7 @@ import { useImageStore } from '@/stores/imageStore'
 
 export const TagFilter = () => {
   const { tags, filterTagIds, toggleFilterTag, clearFilters, fetchTags } = useTagStore()
-  const { fetchImages } = useImageStore()
+  const { fetchImages, searchQuery } = useImageStore()
 
   // Fetch tags on mount
   useEffect(() => {
@@ -14,11 +14,11 @@ export const TagFilter = () => {
   // Re-fetch images when filter changes
   useEffect(() => {
     if (filterTagIds.size > 0) {
-      fetchImages(1, Array.from(filterTagIds))
+      fetchImages(1, Array.from(filterTagIds), searchQuery || undefined)
     } else {
-      fetchImages(1)
+      fetchImages(1, undefined, searchQuery || undefined)
     }
-  }, [filterTagIds, fetchImages])
+  }, [filterTagIds, fetchImages, searchQuery])
 
   // Sort tags alphabetically
   const sortedTags = [...tags].sort((a, b) => a.name.localeCompare(b.name))

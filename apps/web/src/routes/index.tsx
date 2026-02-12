@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { TagFilter } from '@/components/TagFilter'
 import { TagManager } from '@/components/TagManager'
 import { ImageUpload } from '@/components/ImageUpload'
+import { SearchBar } from '@/components/SearchBar'
 import { ImageToolbar } from '@/components/ImageToolbar'
 import { ImageGrid } from '@/components/ImageGrid'
 import { ImageLightbox } from '@/components/ImageLightbox'
@@ -60,6 +61,9 @@ const HomePage = () => {
             Manage Tags
           </button>
         </div>
+
+        {/* Search bar */}
+        <SearchBar />
 
         <ImageToolbar />
         <ImageGrid onImageClick={setLightboxIndex} />

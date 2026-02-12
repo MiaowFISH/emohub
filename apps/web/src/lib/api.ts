@@ -11,10 +11,13 @@ async function handleResponse<T>(response: Response): Promise<T> {
 }
 
 export const imageApi = {
-  async list(page = 1, limit = 50, tagIds?: string[]): Promise<PaginatedResponse<Image>> {
+  async list(page = 1, limit = 50, tagIds?: string[], search?: string): Promise<PaginatedResponse<Image>> {
     const params = new URLSearchParams({ page: String(page), limit: String(limit) })
     if (tagIds && tagIds.length > 0) {
       params.append('tagIds', tagIds.join(','))
+    }
+    if (search && search.trim()) {
+      params.append('search', search.trim())
     }
     const response = await fetch(`${baseUrl}/api/images?${params}`)
     return handleResponse<PaginatedResponse<Image>>(response)
