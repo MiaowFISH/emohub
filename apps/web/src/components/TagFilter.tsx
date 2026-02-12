@@ -59,7 +59,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
             onClick={clearFilters}
             style={{
               fontSize: '12px',
-              color: '#3b82f6',
+              color: 'var(--color-accent)',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -75,9 +75,9 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
       {filterTagIds.size > 0 && (
         <div style={{
           fontSize: '12px',
-          color: '#6b7280',
+          color: 'var(--color-text-secondary)',
           padding: '8px',
-          backgroundColor: '#f3f4f6',
+          backgroundColor: 'var(--color-bg-secondary)',
           borderRadius: '4px'
         }}>
           Showing images with {filterTagIds.size} tag(s)
@@ -96,7 +96,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
         {sortedTags.length === 0 ? (
           <div style={{
             fontSize: '14px',
-            color: '#9ca3af',
+            color: 'var(--color-text-secondary)',
             textAlign: 'center',
             padding: '16px'
           }}>
@@ -114,11 +114,11 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
                 padding: '8px',
                 borderRadius: '4px',
                 transition: 'background-color 0.2s',
-                backgroundColor: filterTagIds.has(tag.id) ? '#eff6ff' : 'transparent'
+                backgroundColor: filterTagIds.has(tag.id) ? 'var(--color-accent-bg)' : 'transparent'
               }}
               onMouseEnter={(e) => {
                 if (!filterTagIds.has(tag.id)) {
-                  e.currentTarget.style.backgroundColor = '#f9fafb'
+                  e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)'
                 }
               }}
               onMouseLeave={(e) => {
@@ -145,7 +145,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
               </span>
               <span style={{
                 fontSize: '12px',
-                color: '#9ca3af',
+                color: 'var(--color-text-secondary)',
                 marginLeft: 'auto'
               }}>
                 {tag.imageCount}

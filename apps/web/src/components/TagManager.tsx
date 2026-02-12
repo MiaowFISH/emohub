@@ -90,7 +90,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
         {/* Modal content */}
         <div
           style={{
-            backgroundColor: 'white',
+            backgroundColor: 'var(--color-bg-primary)',
             borderRadius: '12px',
             width: '90%',
             maxWidth: '600px',
@@ -105,13 +105,13 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
           <div
             style={{
               padding: '20px 24px',
-              borderBottom: '1px solid #e5e7eb',
+              borderBottom: '1px solid var(--color-border)',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center'
             }}
           >
-            <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600 }}>Manage Tags</h2>
+            <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Manage Tags</h2>
             <button
               onClick={onClose}
               style={{
@@ -119,7 +119,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                 border: 'none',
                 fontSize: '24px',
                 cursor: 'pointer',
-                color: '#6b7280',
+                color: 'var(--color-text-secondary)',
                 padding: '0',
                 lineHeight: '1'
               }}
@@ -132,7 +132,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
           <div
             style={{
               padding: '16px 24px',
-              borderBottom: '1px solid #e5e7eb',
+              borderBottom: '1px solid var(--color-border)',
               display: 'flex',
               gap: '8px'
             }}
@@ -148,10 +148,12 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
               style={{
                 flex: 1,
                 padding: '8px 12px',
-                border: '1px solid #e5e7eb',
+                border: '1px solid var(--color-border)',
                 borderRadius: '6px',
                 fontSize: '14px',
-                outline: 'none'
+                outline: 'none',
+                backgroundColor: 'var(--color-bg-primary)',
+                color: 'var(--color-text-primary)'
               }}
             />
             <button
@@ -184,7 +186,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                 style={{
                   padding: '40px 24px',
                   textAlign: 'center',
-                  color: '#9ca3af'
+                  color: 'var(--color-text-muted)'
                 }}
               >
                 No tags yet. Create one above!
@@ -198,7 +200,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    borderBottom: '1px solid #f3f4f6'
+                    borderBottom: '1px solid var(--color-bg-tertiary)'
                   }}
                 >
                   {editingId === tag.id ? (
@@ -215,10 +217,12 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                         style={{
                           flex: 1,
                           padding: '6px 10px',
-                          border: '1px solid #3b82f6',
+                          border: '1px solid var(--color-accent)',
                           borderRadius: '4px',
                           fontSize: '14px',
-                          outline: 'none'
+                          outline: 'none',
+                          backgroundColor: 'var(--color-bg-primary)',
+                          color: 'var(--color-text-primary)'
                         }}
                       />
                       <button
@@ -253,12 +257,12 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                   ) : (
                     <>
                       <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '14px', fontWeight: 500 }}>{tag.name}</span>
+                        <span style={{ fontSize: '14px', fontWeight: 500, color: 'var(--color-text-primary)' }}>{tag.name}</span>
                         <span
                           style={{
                             fontSize: '12px',
-                            color: '#6b7280',
-                            backgroundColor: '#f3f4f6',
+                            color: 'var(--color-text-secondary)',
+                            backgroundColor: 'var(--color-bg-tertiary)',
                             padding: '2px 8px',
                             borderRadius: '12px'
                           }}
@@ -270,8 +274,8 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                         onClick={() => handleStartEdit(tag.id, tag.name)}
                         style={{
                           padding: '6px 12px',
-                          backgroundColor: '#eff6ff',
-                          color: '#3b82f6',
+                          backgroundColor: 'var(--color-accent-bg)',
+                          color: 'var(--color-accent)',
                           border: 'none',
                           borderRadius: '4px',
                           cursor: 'pointer',
@@ -322,7 +326,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
         >
           <div
             style={{
-              backgroundColor: 'white',
+              backgroundColor: 'var(--color-bg-primary)',
               borderRadius: '12px',
               padding: '24px',
               maxWidth: '400px',
@@ -330,10 +334,10 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 600 }}>
+            <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
               Delete Tag?
             </h3>
-            <p style={{ margin: '0 0 20px 0', color: '#6b7280', fontSize: '14px' }}>
+            <p style={{ margin: '0 0 20px 0', color: 'var(--color-text-secondary)', fontSize: '14px' }}>
               This tag is used on {confirmingTag.imageCount} {confirmingTag.imageCount === 1 ? 'image' : 'images'}. Remove it?
             </p>
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
@@ -341,8 +345,8 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                 onClick={handleCancelDelete}
                 style={{
                   padding: '8px 16px',
-                  backgroundColor: '#f3f4f6',
-                  color: '#374151',
+                  backgroundColor: 'var(--color-bg-tertiary)',
+                  color: 'var(--color-text-primary)',
                   border: 'none',
                   borderRadius: '6px',
                   cursor: 'pointer',

@@ -6,12 +6,14 @@ const RootLayout = () => {
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100vh',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      backgroundColor: 'var(--color-bg-primary)',
+      color: 'var(--color-text-primary)'
     }}>
       <header style={{
         padding: '1rem 2rem',
-        borderBottom: '1px solid var(--color-border, #e5e7eb)',
-        backgroundColor: 'var(--color-bg-secondary, #f9fafb)'
+        borderBottom: '1px solid var(--color-border)',
+        backgroundColor: 'var(--color-bg-secondary)'
       }}>
         <nav style={{
           display: 'flex',

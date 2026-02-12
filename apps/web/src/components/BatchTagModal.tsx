@@ -99,7 +99,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
       zIndex: 50
     }}>
       <div style={{
-        backgroundColor: 'white',
+        backgroundColor: 'var(--color-bg-primary)',
         padding: '24px',
         borderRadius: '8px',
         maxWidth: '640px',
@@ -108,7 +108,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: 600 }}>
+        <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
           {mode === 'add' ? `Add Tags to ${imageIds.length} Images` : `Remove Tags from ${imageIds.length} Images`}
         </h3>
 
@@ -145,7 +145,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
         ) : (
           <div style={{ marginBottom: '20px' }}>
             {tags.length === 0 ? (
-              <p style={{ color: '#6b7280', fontSize: '14px' }}>No tags available</p>
+              <p style={{ color: 'var(--color-text-secondary)', fontSize: '14px' }}>No tags available</p>
             ) : (
               <div style={{ maxHeight: '300px', overflow: 'auto' }}>
                 {tags.map(tag => (
@@ -158,7 +158,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
                       cursor: 'pointer',
                       borderRadius: '4px',
                       marginBottom: '4px',
-                      backgroundColor: checkedTagIds.has(tag.id) ? '#eff6ff' : 'transparent'
+                      backgroundColor: checkedTagIds.has(tag.id) ? 'var(--color-accent-bg)' : 'transparent'
                     }}
                   >
                     <input
@@ -167,9 +167,9 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
                       onChange={() => handleToggleTag(tag.id)}
                       style={{ marginRight: '8px', cursor: 'pointer' }}
                     />
-                    <span style={{ fontSize: '14px', color: '#374151' }}>
+                    <span style={{ fontSize: '14px', color: 'var(--color-text-primary)' }}>
                       {tag.name}
-                      <span style={{ color: '#9ca3af', marginLeft: '8px' }}>
+                      <span style={{ color: 'var(--color-text-muted)', marginLeft: '8px' }}>
                         ({tag.imageCount})
                       </span>
                     </span>
@@ -186,12 +186,12 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
             disabled={isLoading}
             style={{
               padding: '8px 16px',
-              backgroundColor: 'white',
-              border: '1px solid #d1d5db',
+              backgroundColor: 'var(--color-bg-primary)',
+              border: '1px solid var(--color-border-light)',
               borderRadius: '6px',
               cursor: isLoading ? 'not-allowed' : 'pointer',
               fontSize: '14px',
-              color: '#374151'
+              color: 'var(--color-text-primary)'
             }}
           >
             Cancel
@@ -218,13 +218,14 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
           .react-tags {
             position: relative;
             padding: 8px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--color-border);
             border-radius: 6px;
-            background: white;
+            background: var(--color-bg-primary);
             font-size: 14px;
+            color: var(--color-text-primary);
           }
           .react-tags.is-active {
-            border-color: #3b82f6;
+            border-color: var(--color-accent);
           }
           .react-tags__label {
             position: absolute;
@@ -247,18 +248,18 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
             display: inline-flex;
             align-items: center;
             padding: 4px 8px;
-            background: #e5e7eb;
+            background: var(--color-bg-tertiary);
             border: none;
             border-radius: 4px;
             font-size: 13px;
             font-family: inherit;
             cursor: default;
-            color: #374151;
+            color: var(--color-text-primary);
             line-height: 1.4;
             gap: 4px;
           }
           .react-tags__tag:hover {
-            background: #d1d5db;
+            background: var(--color-border);
           }
           .react-tags__tag-name {
             margin-right: 2px;
@@ -268,7 +269,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
           .react-tags__list-item button {
             all: unset;
             cursor: pointer;
-            color: #6b7280;
+            color: var(--color-text-secondary);
             font-size: 14px;
             line-height: 1;
             padding: 0 2px;
@@ -291,12 +292,13 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
             min-width: 150px;
             font-family: inherit;
             background: transparent;
+            color: var(--color-text-primary);
           }
           .react-tags__listbox {
             position: absolute;
             z-index: 1000;
-            background: white;
-            border: 1px solid #e5e7eb;
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
             border-radius: 6px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             max-height: 200px;
@@ -305,14 +307,15 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
             min-width: 200px;
             list-style: none;
             padding: 0;
+            color: var(--color-text-primary);
           }
           .react-tags__listbox-option {
             padding: 8px 12px;
             cursor: pointer;
           }
           .react-tags__listbox-option.is-active {
-            background: #eff6ff;
-            color: #3b82f6;
+            background: var(--color-accent-bg);
+            color: var(--color-accent);
           }
           .react-tags__listbox-option-highlight {
             font-weight: 600;

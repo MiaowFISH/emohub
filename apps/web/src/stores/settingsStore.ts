@@ -1,28 +1,48 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import type { StateCreator } from 'zustand'
+
+type Theme = 'light' | 'dark' | 'system'
+type Language = 'en' | 'zh'
 
 interface SettingsState {
-  theme: 'light' | 'dark' | 'system'
-  language: 'en' | 'zh'
-  setTheme: (theme: 'light' | 'dark' | 'system') => void
-  setLanguage: (language: 'en' | 'zh') => void
+  theme: Theme
+  language: Language
+  setTheme: (theme: Theme) => void
+  setLanguage: (language: Language) => void
 }
 
-export const useSettingsStore = create<SettingsState>()(
-  persist(
-    (set) => ({
-      theme: 'system',
-      language: 'zh',
-      setTheme: (theme) => set({ theme }),
-      setLanguage: (language) => set({ language })
-    }),
-    {
-      name: 'emohub-settings',
-      storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        theme: state.theme,
-        language: state.language
-      })
-    }
-  )
+function resolveTheme(theme: Theme): 'light' | 'dark' {
+  if (theme !== 'system') return theme
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+function applyTheme(theme: Theme) {
+  document.documentElement.setAttribute('data-theme', resolveTheme(theme))
+}
+
+const initializer: StateCreator<SettingsState> = (set) => ({
+  theme: 'system',
+  language: 'zh',
+  setTheme: (theme) => set({ theme }),
+  setLanguage: (language) => set({ language })
+})
+
+export const useSettingsStore = create<SettingsState>(
+  persist(initializer, {
+    name: 'emohub-settings',
+    storage: createJSONStorage(() => localStorage),
+    partialize: (state) => ({ theme: state.theme, language: state.language }) as SettingsState
+  }) as StateCreator<SettingsState>
 )
+
+// Apply theme whenever store changes (including rehydration from localStorage)
+useSettingsStore.subscribe((state) => applyTheme(state.theme))
+
+// Apply on initial load
+applyTheme(useSettingsStore.getState().theme)
+
+// Follow OS theme changes when set to 'system'
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (useSettingsStore.getState().theme === 'system') applyTheme('system')
+})

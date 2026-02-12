@@ -100,13 +100,14 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
         .react-tags {
           position: relative;
           padding: 8px;
-          border: 1px solid #e5e7eb;
+          border: 1px solid var(--color-border);
           border-radius: 6px;
-          background: white;
+          background: var(--color-bg-primary);
           font-size: 14px;
+          color: var(--color-text-primary);
         }
         .react-tags.is-active {
-          border-color: #3b82f6;
+          border-color: var(--color-accent);
         }
         .react-tags__label {
           position: absolute;
@@ -129,18 +130,18 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
           display: inline-flex;
           align-items: center;
           padding: 4px 8px;
-          background: #e5e7eb;
+          background: var(--color-bg-tertiary);
           border: none;
           border-radius: 4px;
           font-size: 13px;
           font-family: inherit;
           cursor: default;
-          color: #374151;
+          color: var(--color-text-primary);
           line-height: 1.4;
           gap: 4px;
         }
         .react-tags__tag:hover {
-          background: #d1d5db;
+          background: var(--color-border);
         }
         .react-tags__tag-name {
           margin-right: 2px;
@@ -150,7 +151,7 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
         .react-tags__list-item button {
           all: unset;
           cursor: pointer;
-          color: #6b7280;
+          color: var(--color-text-secondary);
           font-size: 14px;
           line-height: 1;
           padding: 0 2px;
@@ -173,12 +174,13 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
           min-width: 150px;
           font-family: inherit;
           background: transparent;
+          color: var(--color-text-primary);
         }
         .react-tags__listbox {
           position: absolute;
           z-index: 1000;
-          background: white;
-          border: 1px solid #e5e7eb;
+          background: var(--color-bg-primary);
+          border: 1px solid var(--color-border);
           border-radius: 6px;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           max-height: 200px;
@@ -187,14 +189,15 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
           min-width: 200px;
           list-style: none;
           padding: 0;
+          color: var(--color-text-primary);
         }
         .react-tags__listbox-option {
           padding: 8px 12px;
           cursor: pointer;
         }
         .react-tags__listbox-option.is-active {
-          background: #eff6ff;
-          color: #3b82f6;
+          background: var(--color-accent-bg);
+          color: var(--color-accent);
         }
         .react-tags__listbox-option-highlight {
           font-weight: 600;

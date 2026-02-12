@@ -12,17 +12,17 @@ export const SettingsForm = () => {
     }}>
       {/* Theme Section */}
       <fieldset style={{
-        border: '1px solid #e5e7eb',
+        border: '1px solid var(--color-border)',
         borderRadius: '8px',
         padding: '1.5rem',
         marginBottom: '1.5rem',
-        backgroundColor: '#f9fafb'
+        backgroundColor: 'var(--color-bg-secondary)'
       }}>
         <legend style={{
           fontSize: '1.125rem',
           fontWeight: 600,
           padding: '0 0.5rem',
-          color: '#111827'
+          color: 'var(--color-text-primary)'
         }}>
           Appearance
         </legend>
@@ -47,7 +47,7 @@ export const SettingsForm = () => {
               onChange={(e) => setTheme(e.target.value as 'light')}
               style={{ marginRight: '0.75rem', cursor: 'pointer' }}
             />
-            <span style={{ fontSize: '0.9375rem', color: '#374151' }}>Light</span>
+            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>Light</span>
           </label>
           <label style={{
             display: 'flex',
@@ -65,7 +65,7 @@ export const SettingsForm = () => {
               onChange={(e) => setTheme(e.target.value as 'dark')}
               style={{ marginRight: '0.75rem', cursor: 'pointer' }}
             />
-            <span style={{ fontSize: '0.9375rem', color: '#374151' }}>Dark</span>
+            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>Dark</span>
           </label>
           <label style={{
             display: 'flex',
@@ -83,23 +83,23 @@ export const SettingsForm = () => {
               onChange={(e) => setTheme(e.target.value as 'system')}
               style={{ marginRight: '0.75rem', cursor: 'pointer' }}
             />
-            <span style={{ fontSize: '0.9375rem', color: '#374151' }}>System</span>
+            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>System</span>
           </label>
         </div>
       </fieldset>
 
       {/* Language Section */}
       <fieldset style={{
-        border: '1px solid #e5e7eb',
+        border: '1px solid var(--color-border)',
         borderRadius: '8px',
         padding: '1.5rem',
-        backgroundColor: '#f9fafb'
+        backgroundColor: 'var(--color-bg-secondary)'
       }}>
         <legend style={{
           fontSize: '1.125rem',
           fontWeight: 600,
           padding: '0 0.5rem',
-          color: '#111827'
+          color: 'var(--color-text-primary)'
         }}>
           Language
         </legend>
@@ -115,10 +115,10 @@ export const SettingsForm = () => {
               width: '100%',
               padding: '0.75rem',
               fontSize: '0.9375rem',
-              border: '1px solid #e5e7eb',
+              border: '1px solid var(--color-border)',
               borderRadius: '6px',
-              backgroundColor: 'white',
-              color: '#374151',
+              backgroundColor: 'var(--color-bg-primary)',
+              color: 'var(--color-text-secondary)',
               cursor: 'pointer',
               outline: 'none'
             }}

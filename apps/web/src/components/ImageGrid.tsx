@@ -63,7 +63,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: '#9ca3af'
+          color: 'var(--color-text-muted)'
         }}
       >
         <p>Loading...</p>
@@ -80,7 +80,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: '#9ca3af'
+          color: 'var(--color-text-muted)'
         }}
       >
         <p>No images yet. Upload some stickers!</p>
@@ -142,7 +142,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                         cursor: 'pointer',
                         borderRadius: '8px',
                         overflow: 'hidden',
-                        border: isSelected ? '3px solid #3b82f6' : '1px solid #e5e7eb',
+                        border: isSelected ? '3px solid var(--color-accent)' : '1px solid var(--color-border)',
                         transition: 'all 0.2s ease'
                       }}
                       onClick={() => onImageClick(globalIndex)}
@@ -176,8 +176,8 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                           width: '24px',
                           height: '24px',
                           borderRadius: '50%',
-                          backgroundColor: isSelected ? '#3b82f6' : 'rgba(255, 255, 255, 0.8)',
-                          border: isSelected ? 'none' : '2px solid #d1d5db',
+                          backgroundColor: isSelected ? 'var(--color-accent)' : 'rgba(255, 255, 255, 0.8)',
+                          border: isSelected ? 'none' : '2px solid var(--color-border-light)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -219,9 +219,9 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                               style={{
                                 fontSize: '11px',
                                 padding: '2px 6px',
-                                backgroundColor: '#e5e7eb',
+                                backgroundColor: 'var(--color-border)',
                                 borderRadius: '4px',
-                                color: '#374151',
+                                color: 'var(--color-text-primary)',
                                 fontWeight: 500
                               }}
                             >
@@ -233,9 +233,9 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                               style={{
                                 fontSize: '11px',
                                 padding: '2px 6px',
-                                backgroundColor: '#e5e7eb',
+                                backgroundColor: 'var(--color-border)',
                                 borderRadius: '4px',
-                                color: '#6b7280',
+                                color: 'var(--color-text-secondary)',
                                 fontWeight: 500
                               }}
                             >

@@ -21,17 +21,19 @@ export const SearchBar = () => {
       style={{
         width: '100%',
         padding: '8px 12px',
-        border: '1px solid #d1d5db',
+        border: '1px solid var(--color-border-light)',
         borderRadius: '6px',
         fontSize: '14px',
         outline: 'none',
-        transition: 'border-color 0.2s'
+        transition: 'border-color 0.2s',
+        backgroundColor: 'var(--color-bg-primary)',
+        color: 'var(--color-text-primary)'
       }}
       onFocus={(e) => {
-        e.currentTarget.style.borderColor = '#3b82f6'
+        e.currentTarget.style.borderColor = 'var(--color-accent)'
       }}
       onBlur={(e) => {
-        e.currentTarget.style.borderColor = '#d1d5db'
+        e.currentTarget.style.borderColor = 'var(--color-border-light)'
       }}
     />
   )

@@ -84,8 +84,8 @@ export const ImageUpload = () => {
       <div
         {...getRootProps()}
         style={{
-          border: isDragActive ? '2px dashed #3b82f6' : '2px dashed #d1d5db',
-          backgroundColor: isDragActive ? '#eff6ff' : 'transparent',
+          border: isDragActive ? '2px dashed var(--color-accent)' : '2px dashed var(--color-border-light)',
+          backgroundColor: isDragActive ? 'var(--color-accent-bg)' : 'transparent',
           borderRadius: '8px',
           padding: '32px',
           textAlign: 'center',
@@ -101,13 +101,13 @@ export const ImageUpload = () => {
               style={{
                 width: '24px',
                 height: '24px',
-                border: '3px solid #e5e7eb',
-                borderTop: '3px solid #3b82f6',
+                border: '3px solid var(--color-border)',
+                borderTop: '3px solid var(--color-accent)',
                 borderRadius: '50%',
                 animation: 'spin 1s linear infinite'
               }}
             />
-            <p style={{ margin: 0, color: '#6b7280' }}>Uploading...</p>
+            <p style={{ margin: 0, color: 'var(--color-text-secondary)' }}>Uploading...</p>
             <style>{`
               @keyframes spin {
                 0% { transform: rotate(0deg); }
@@ -118,7 +118,7 @@ export const ImageUpload = () => {
         ) : (
           <div>
             <svg
-              style={{ width: '48px', height: '48px', margin: '0 auto 16px', color: '#9ca3af' }}
+              style={{ width: '48px', height: '48px', margin: '0 auto 16px', color: 'var(--color-text-muted)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -130,10 +130,10 @@ export const ImageUpload = () => {
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
               />
             </svg>
-            <p style={{ margin: 0, color: '#374151', fontSize: '16px', fontWeight: 500 }}>
+            <p style={{ margin: 0, color: 'var(--color-text-primary)', fontSize: '16px', fontWeight: 500 }}>
               {isDragActive ? 'Drop images here' : 'Drag and drop images here, or click to select'}
             </p>
-            <p style={{ margin: '8px 0 0', color: '#9ca3af', fontSize: '14px' }}>
+            <p style={{ margin: '8px 0 0', color: 'var(--color-text-muted)', fontSize: '14px' }}>
               Supports JPG, PNG, WebP, GIF (max 10MB)
             </p>
           </div>
@@ -168,7 +168,7 @@ export const ImageUpload = () => {
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
               )}
-              <span style={{ fontSize: '14px', color: '#374151', flex: 1 }}>
+              <span style={{ fontSize: '14px', color: 'var(--color-text-primary)', flex: 1 }}>
                 {result.filename}
                 {result.duplicate && <span style={{ color: '#f59e0b', marginLeft: '8px' }}>(duplicate)</span>}
                 {result.error && <span style={{ color: '#ef4444', marginLeft: '8px' }}>- {result.error}</span>}

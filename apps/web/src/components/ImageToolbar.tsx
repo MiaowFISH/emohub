@@ -76,14 +76,14 @@ export const ImageToolbar = () => {
         alignItems: 'center',
         gap: '8px',
         padding: '8px 16px',
-        backgroundColor: '#f9fafb',
-        borderBottom: '1px solid #e5e7eb',
+        backgroundColor: 'var(--color-bg-secondary)',
+        borderBottom: '1px solid var(--color-border)',
         position: 'sticky',
         top: 0,
         zIndex: 10,
         flexWrap: 'wrap'
       }}>
-        <span style={{ color: '#374151', fontWeight: 500 }}>
+        <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>
           {selectedIds.size} selected
         </span>
 
@@ -91,12 +91,12 @@ export const ImageToolbar = () => {
           onClick={selectAll}
           style={{
             padding: '6px 12px',
-            backgroundColor: 'white',
-            border: '1px solid #d1d5db',
+            backgroundColor: 'var(--color-bg-primary)',
+            border: '1px solid var(--color-border-light)',
             borderRadius: '6px',
             cursor: 'pointer',
             fontSize: '14px',
-            color: '#374151'
+            color: 'var(--color-text-primary)'
           }}
         >
           Select All
@@ -106,12 +106,12 @@ export const ImageToolbar = () => {
           onClick={clearSelection}
           style={{
             padding: '6px 12px',
-            backgroundColor: 'white',
-            border: '1px solid #d1d5db',
+            backgroundColor: 'var(--color-bg-primary)',
+            border: '1px solid var(--color-border-light)',
             borderRadius: '6px',
             cursor: 'pointer',
             fontSize: '14px',
-            color: '#374151'
+            color: 'var(--color-text-primary)'
           }}
         >
           Clear
@@ -120,7 +120,7 @@ export const ImageToolbar = () => {
         <div style={{
           width: '1px',
           height: '24px',
-          backgroundColor: '#d1d5db',
+          backgroundColor: 'var(--color-border-light)',
           margin: '0 4px'
         }} />
 
@@ -203,16 +203,16 @@ export const ImageToolbar = () => {
           zIndex: 50
         }}>
           <div style={{
-            backgroundColor: 'white',
+            backgroundColor: 'var(--color-bg-primary)',
             padding: '24px',
             borderRadius: '8px',
             maxWidth: '400px',
             width: '90%'
           }}>
-            <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 600 }}>
+            <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
               Confirm Delete
             </h3>
-            <p style={{ margin: '0 0 20px 0', color: '#6b7280' }}>
+            <p style={{ margin: '0 0 20px 0', color: 'var(--color-text-secondary)' }}>
               Delete {selectedIds.size} image(s)? This cannot be undone.
             </p>
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
@@ -221,12 +221,12 @@ export const ImageToolbar = () => {
                 disabled={isDeleting}
                 style={{
                   padding: '8px 16px',
-                  backgroundColor: 'white',
-                  border: '1px solid #d1d5db',
+                  backgroundColor: 'var(--color-bg-primary)',
+                  border: '1px solid var(--color-border-light)',
                   borderRadius: '6px',
                   cursor: isDeleting ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
-                  color: '#374151'
+                  color: 'var(--color-text-primary)'
                 }}
               >
                 Cancel

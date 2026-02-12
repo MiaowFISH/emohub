@@ -13,7 +13,7 @@ const SettingsPage = () => {
         fontSize: '2rem',
         fontWeight: 700,
         marginBottom: '2rem',
-        color: '#111827'
+        color: 'var(--color-text-primary)'
       }}>
         Settings
       </h1>

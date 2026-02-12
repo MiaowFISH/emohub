@@ -89,9 +89,9 @@ const HomePage = () => {
               padding: '8px 16px',
               fontSize: '14px',
               fontWeight: 500,
-              color: '#3b82f6',
-              backgroundColor: 'white',
-              border: '1px solid #3b82f6',
+              color: 'var(--color-accent)',
+              backgroundColor: 'var(--color-bg-primary)',
+              border: '1px solid var(--color-accent)',
               borderRadius: '6px',
               cursor: 'pointer',
               transition: 'all 0.2s',
@@ -99,10 +99,10 @@ const HomePage = () => {
               flexShrink: 0
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#eff6ff'
+              e.currentTarget.style.backgroundColor = 'var(--color-accent-bg)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'white'
+              e.currentTarget.style.backgroundColor = 'var(--color-bg-primary)'
             }}
           >
             Manage Tags

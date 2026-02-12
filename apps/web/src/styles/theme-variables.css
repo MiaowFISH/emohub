@@ -1,21 +1,35 @@
+/* Apply theme background to html and body to eliminate white edges */
+html, body {
+  margin: 0;
+  background-color: var(--color-bg-primary);
+}
+
 /* Light theme (default) */
 :root {
   --color-bg-primary: #ffffff;
   --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
   --color-text-primary: #111827;
   --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
   --color-border: #e5e7eb;
+  --color-border-light: #d1d5db;
   --color-accent: #3b82f6;
   --color-accent-hover: #2563eb;
+  --color-accent-bg: #eff6ff;
 }
 
-/* Dark theme (activated in Phase 6) */
+/* Dark theme */
 [data-theme='dark'] {
   --color-bg-primary: #1f2937;
   --color-bg-secondary: #111827;
+  --color-bg-tertiary: #1a2332;
   --color-text-primary: #f9fafb;
   --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
   --color-border: #374151;
+  --color-border-light: #4b5563;
   --color-accent: #60a5fa;
   --color-accent-hover: #93c5fd;
+  --color-accent-bg: #1e3a5f;
 }
