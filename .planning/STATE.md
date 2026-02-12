@@ -1,6 +1,6 @@
 # Project State: EmoHub v1.1 UX Polish
 
-**Last Updated:** 2026-02-12
+**Last Updated:** 2026-02-13
 **Milestone:** v1.1 UX Polish
 
 ## Project Reference
@@ -12,17 +12,17 @@
 ## Current Position
 
 **Phase:** 9 - Visual Polish
-**Plan:** 1 of 2 complete
-**Status:** In Progress
-**Progress:** [██████████] 95%
+**Plan:** 2 of 2 complete
+**Status:** Complete
+**Progress:** [██████████] 100%
 
 ## Performance Metrics
 
 **Milestone v1.1:**
-- Phases: 5 total, 4 complete
-- Plans: 7 total, 6 complete
-- Tasks: 13 total, 13 complete
-- Requirements: 15 total, 11 complete
+- Phases: 5 total, 5 complete
+- Plans: 7 total, 7 complete
+- Tasks: 15 total, 15 complete
+- Requirements: 15 total, 15 complete
 
 **Historical (v1.0):**
 - Phases: 4 complete
@@ -58,12 +58,16 @@
 | Image card reduced-motion keeps shadow/border transitions but disables transform | Maintains visual feedback without motion for accessibility | 2026-02-12 |
 | Double-rAF ensures browser paints before enabling transitions | More reliable than setTimeout for FOUC prevention | 2026-02-12 |
 | Focus-visible outline colors match button semantic colors | Accent for primary/secondary/icon, danger/success/warning for status buttons | 2026-02-12 |
+| ImageGrid refactored to use .image-card CSS class instead of inline event handlers | Maintainability, consistency, easier theming | 2026-02-13 |
+| Theme switching uses 350ms setTimeout to remove theme-transitioning class | Ensures 300ms transition completes before removing class | 2026-02-13 |
+| Lightbox animation timing set to 250ms for fade/swipe/navigation | Matches modal/navigation timing from research recommendations | 2026-02-13 |
 | Phase 06 P02 | 145 | 2 tasks | 6 files |
 | Phase 07 P01 | 283 | 2 tasks | 11 files |
 | Phase 07 P02 | 410 | 2 tasks | 12 files |
 | Phase 08 P02 | 181 | 2 tasks | 9 files |
 | Phase 08 P01 | 389 | 2 tasks | 9 files |
 | Phase 09 P01 | 109 | 2 tasks | 5 files |
+| Phase 09 P02 | 79 | 2 tasks | 3 files |
 
 ### Active TODOs
 
@@ -79,7 +83,7 @@
 - [x] Phase 8 Plan 2: Skeleton loading and visual hierarchy
 - [x] Phase 8 Plan 1: Clipboard operations with format selection
 - [x] Phase 9 Plan 1: CSS transition foundation
-- [ ] Phase 9 Plan 2: Apply transitions to components
+- [x] Phase 9 Plan 2: Apply transitions to components
 
 ### Known Blockers
 
@@ -87,25 +91,26 @@ None currently.
 
 ### Recent Changes
 
+- 2026-02-13: Phase 9 Plan 2 completed - Refactored ImageGrid to use .image-card CSS class, added smooth theme switching with theme-transitioning toggle, configured lightbox animations
 - 2026-02-12: Phase 9 Plan 1 completed - CSS transition foundation with utility classes, focus-visible states, reduced-motion support, FOUC prevention
 - 2026-02-12: Phase 8 Plan 1 completed - Clipboard copy with PNG/GIF format selector, toast notifications via sonner, server-side GIF conversion
 - 2026-02-12: Phase 8 Plan 2 completed - Skeleton loading cards with shimmer animation, contextual empty states, CSS button hierarchy system
 - 2026-02-12: Phase 7 Plan 2 completed - All components converted to use translation keys
-- 2026-02-12: Phase 7 Plan 1 completed - i18next infrastructure with bidirectional store sync, 6 translation files (3 namespaces × 2 languages)
 
 ## Session Continuity
 
-**What just happened:** Phase 9 Plan 1 (Visual Polish Foundation) completed — Created transitions.css with utility classes, added focus-visible states to all buttons, implemented reduced-motion support, and added FOUC prevention for theme transitions.
+**What just happened:** Phase 9 Plan 2 (Apply Visual Polish to Components) completed — Refactored ImageGrid to use .image-card CSS class (removed inline event handlers), added smooth 300ms theme switching via theme-transitioning class toggle in settingsStore, and configured lightbox with explicit 250ms animation timing. Phase 9 Visual Polish is now complete with all 5 success criteria met.
 
-**What's next:** Execute Phase 9 Plan 2 — Apply transition classes to components, refactor ImageCard to use .image-card class, implement theme-transitioning toggle.
+**What's next:** Milestone v1.1 UX Polish is complete. All 5 phases finished (Settings Foundation, Dark Mode, i18n, Enhanced Operations, Visual Polish). Ready for testing and deployment.
 
 **Context for next session:**
-- CSS transition foundation complete: 5 utility classes ready for use
-- Focus-visible states on all 6 button types with colored outline rings
-- Global reduced-motion override respects user accessibility preferences
-- No-transitions guard prevents color flash on page load (double-rAF removal)
-- Image card hover/focus styles ready to replace inline styles in components
-- Theme-transitioning class ready for settings store integration
+- Phase 9 complete: All visual polish features implemented and working
+- ImageGrid uses CSS classes for hover effects (maintainability improvement)
+- Theme switching shows smooth 300ms color crossfade
+- Lightbox has explicit 250ms fade/swipe/navigation animations
+- Reduced-motion users get instant state changes (CSS media query override)
+- All animations work identically in light and dark themes
+- Milestone v1.1 ready for final testing and deployment
 
 ---
 
