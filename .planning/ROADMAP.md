@@ -113,6 +113,12 @@ Plans:
 - VISUAL-01: Buttons, cards, and sidebar have clear visual hierarchy
 - VISUAL-02: Loading states show skeleton screens, empty states show guidance
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Clipboard copy with format selection and toast notifications
+- [ ] 08-02-PLAN.md — Skeleton loading screens, empty states, and button hierarchy
+
 **Success Criteria:**
 1. User can click copy button in lightbox to copy image to clipboard
 2. User can select "Copy Original" or "Copy as GIF" from format menu
@@ -121,7 +127,7 @@ Plans:
 5. User sees skeleton screens while images load
 6. User sees helpful empty state message when no images match search
 
-**Status:** Pending
+**Status:** Planned
 
 ---
 
@@ -157,7 +163,7 @@ Plans:
 | 5. Settings Foundation | v1.1 | 1/1 | Complete | 2026-02-12 |
 | 6. Dark Mode | v1.1 | 2/2 | Complete | 2026-02-12 |
 | 7. Internationalization | v1.1 | 2/2 | Complete | 2026-02-12 |
-| 8. Enhanced Operations | v1.1 | 0/0 | Pending | — |
+| 8. Enhanced Operations | v1.1 | 0/2 | Planned | — |
 | 9. Visual Polish | v1.1 | 0/0 | Pending | — |
 
 ---
