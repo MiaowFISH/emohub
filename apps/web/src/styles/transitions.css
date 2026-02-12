@@ -1,0 +1,83 @@
+/* Transition utility classes */
+
+.transition-colors {
+  transition-property: background-color, border-color, color, fill;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+.transition-transform {
+  transition-property: transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+.transition-shadow {
+  transition-property: box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
+.transition-interactive {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Image card styles — replaces inline styles in components */
+.image-card {
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.image-card:hover,
+.image-card:focus-within {
+  transform: scale(1.02);
+  box-shadow: 0 4px 6px -1px var(--color-shadow);
+  border-color: var(--color-accent);
+}
+
+.image-card.selected {
+  border: 3px solid var(--color-accent);
+}
+
+/* Theme transition rule — used during theme switching */
+body.theme-transitioning * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, fill 0.3s ease !important;
+}
+
+/* Global reduced-motion override */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Image cards: keep shadow/border transitions but disable transform */
+  .image-card {
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .image-card:hover,
+  .image-card:focus-within {
+    transform: none;
+  }
+}
+
+/* No-transitions guard — prevents FOUC on page load */
+.no-transitions *,
+.no-transitions *::before,
+.no-transitions *::after {
+  transition: none !important;
+}

@@ -4,6 +4,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import './i18n/config'
 import './styles/theme-variables.css'
+import './styles/transitions.css'
 import './styles/responsive.css'
 
 const router = createRouter({ routeTree })
