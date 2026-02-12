@@ -12,7 +12,6 @@ interface ImageGridProps {
 
 export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
   const { t } = useTranslation('images')
-  const { t: tCommon } = useTranslation('common')
   const { images, isLoading, hasMore, selectedIds, toggleSelect, fetchImages, fetchMore, searchQuery, activeTagFilter } = useImageStore()
   const parentRef = useRef<HTMLDivElement>(null)
   const [columns, setColumns] = useState(4)
