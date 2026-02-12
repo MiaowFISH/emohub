@@ -4,6 +4,7 @@ import { useTagStore } from '@/stores/tagStore'
 import { imageApi } from '@/lib/api'
 import { useState, useCallback } from 'react'
 import { BatchTagModal } from './BatchTagModal'
+import '@/styles/buttons.css'
 
 export const ImageToolbar = () => {
   const { t } = useTranslation('images')
@@ -92,30 +93,14 @@ export const ImageToolbar = () => {
 
         <button
           onClick={selectAll}
-          style={{
-            padding: '6px 12px',
-            backgroundColor: 'var(--color-bg-primary)',
-            border: '1px solid var(--color-border-light)',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            color: 'var(--color-text-primary)'
-          }}
+          className="btn-secondary"
         >
           {t('toolbar.select_all')}
         </button>
 
         <button
           onClick={clearSelection}
-          style={{
-            padding: '6px 12px',
-            backgroundColor: 'var(--color-bg-primary)',
-            border: '1px solid var(--color-border-light)',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            color: 'var(--color-text-primary)'
-          }}
+          className="btn-secondary"
         >
           {tCommon('actions.clear')}
         </button>
@@ -129,30 +114,14 @@ export const ImageToolbar = () => {
 
         <button
           onClick={() => setBatchTagMode('add')}
-          style={{
-            padding: '6px 12px',
-            backgroundColor: 'var(--color-success)',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            color: 'white'
-          }}
+          className="btn-success"
         >
           {t('toolbar.add_tags')}
         </button>
 
         <button
           onClick={() => setBatchTagMode('remove')}
-          style={{
-            padding: '6px 12px',
-            backgroundColor: 'var(--color-warning)',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            color: 'white'
-          }}
+          className="btn-warning"
         >
           {t('toolbar.remove_tags')}
         </button>
@@ -160,16 +129,7 @@ export const ImageToolbar = () => {
         <button
           onClick={() => setShowConfirm(true)}
           disabled={isDeleting}
-          style={{
-            padding: '6px 12px',
-            backgroundColor: 'var(--color-danger)',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: isDeleting ? 'not-allowed' : 'pointer',
-            fontSize: '14px',
-            color: 'white',
-            opacity: isDeleting ? 0.6 : 1
-          }}
+          className="btn-danger"
         >
           {isDeleting ? tCommon('status.deleting') : tCommon('actions.delete')}
         </button>
@@ -177,16 +137,7 @@ export const ImageToolbar = () => {
         <button
           onClick={handleConvertToGif}
           disabled={selectedIds.size !== 1 || isConverting}
-          style={{
-            padding: '6px 12px',
-            backgroundColor: selectedIds.size === 1 ? 'var(--color-info)' : 'var(--color-disabled-bg)',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: selectedIds.size === 1 && !isConverting ? 'pointer' : 'not-allowed',
-            fontSize: '14px',
-            color: selectedIds.size === 1 ? 'white' : 'var(--color-disabled-text)',
-            opacity: isConverting ? 0.6 : 1
-          }}
+          className="btn-primary"
         >
           {isConverting ? (isSelectedGif ? t('toolbar.downloading') : t('toolbar.converting')) : (isSelectedGif ? t('toolbar.download_gif') : t('toolbar.convert_to_gif'))}
         </button>
@@ -222,31 +173,14 @@ export const ImageToolbar = () => {
               <button
                 onClick={() => setShowConfirm(false)}
                 disabled={isDeleting}
-                style={{
-                  padding: '8px 16px',
-                  backgroundColor: 'var(--color-bg-primary)',
-                  border: '1px solid var(--color-border-light)',
-                  borderRadius: '6px',
-                  cursor: isDeleting ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  color: 'var(--color-text-primary)'
-                }}
+                className="btn-secondary"
               >
                 {tCommon('actions.cancel')}
               </button>
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                style={{
-                  padding: '8px 16px',
-                  backgroundColor: 'var(--color-danger)',
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: isDeleting ? 'not-allowed' : 'pointer',
-                  fontSize: '14px',
-                  color: 'white',
-                  opacity: isDeleting ? 0.6 : 1
-                }}
+                className="btn-danger"
               >
                 {isDeleting ? tCommon('status.deleting') : tCommon('actions.delete')}
               </button>

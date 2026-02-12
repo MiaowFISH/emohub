@@ -9,6 +9,7 @@ import { ImageToolbar } from '@/components/ImageToolbar'
 import { ImageGrid } from '@/components/ImageGrid'
 import { ImageLightbox } from '@/components/ImageLightbox'
 import { useImageStore } from '@/stores/imageStore'
+import '@/styles/buttons.css'
 
 const HomePage = () => {
   const { t } = useTranslation('images')
@@ -87,24 +88,10 @@ const HomePage = () => {
           </div>
           <button
             onClick={() => setShowTagManager(true)}
+            className="btn-secondary"
             style={{
-              padding: '8px 16px',
-              fontSize: '14px',
-              fontWeight: 500,
-              color: 'var(--color-accent)',
-              backgroundColor: 'var(--color-bg-primary)',
-              border: '1px solid var(--color-accent)',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
               whiteSpace: 'nowrap',
               flexShrink: 0
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--color-accent-bg)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--color-bg-primary)'
             }}
           >
             {t('tag_manager.title')}

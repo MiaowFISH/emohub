@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useImageStore } from '@/stores/imageStore'
 import { imageApi } from '@/lib/api'
 import { useRef, useState, useEffect, useCallback } from 'react'
+import { SkeletonCard } from '@/components/SkeletonCard'
+import { EmptyState } from '@/components/EmptyState'
 
 interface ImageGridProps {
   onImageClick: (index: number) => void
@@ -11,7 +13,7 @@ interface ImageGridProps {
 export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
   const { t } = useTranslation('images')
   const { t: tCommon } = useTranslation('common')
-  const { images, isLoading, hasMore, selectedIds, toggleSelect, fetchImages, fetchMore } = useImageStore()
+  const { images, isLoading, hasMore, selectedIds, toggleSelect, fetchImages, fetchMore, searchQuery, activeTagFilter } = useImageStore()
   const parentRef = useRef<HTMLDivElement>(null)
   const [columns, setColumns] = useState(4)
 
@@ -63,18 +65,27 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
         ref={parentRef}
         style={{
           flex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'var(--color-text-muted)'
+          overflow: 'auto',
+          padding: '16px'
         }}
       >
-        <p>{tCommon('status.loading')}</p>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${columns}, 1fr)`,
+            gap: '8px'
+          }}
+        >
+          {Array.from({ length: columns * 3 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
       </div>
     )
   }
 
   if (!isLoading && images.length === 0) {
+    const hasActiveFilters = searchQuery || activeTagFilter.length > 0
     return (
       <div
         ref={parentRef}
@@ -82,11 +93,10 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
           flex: 1,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          color: 'var(--color-text-muted)'
+          justifyContent: 'center'
         }}
       >
-        <p>{t('grid.no_images')}</p>
+        <EmptyState type={hasActiveFilters ? 'no-results' : 'no-images'} />
       </div>
     )
   }
@@ -255,6 +265,21 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
           )
         })}
       </div>
+      {/* Loading more skeleton cards during infinite scroll */}
+      {isLoading && images.length > 0 && (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${columns}, 1fr)`,
+            gap: '8px',
+            padding: '8px 0'
+          }}
+        >
+          {Array.from({ length: columns }).map((_, i) => (
+            <SkeletonCard key={`loading-${i}`} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
