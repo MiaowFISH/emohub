@@ -1,12 +1,16 @@
 import { useImageStore } from '@/stores/imageStore'
+import { useTagStore } from '@/stores/tagStore'
 import { imageApi } from '@/lib/api'
 import { useState, useCallback } from 'react'
+import { BatchTagModal } from './BatchTagModal'
 
 export const ImageToolbar = () => {
-  const { images, selectedIds, selectAll, clearSelection, removeImages } = useImageStore()
+  const { images, selectedIds, selectAll, clearSelection, removeImages, fetchImages } = useImageStore()
+  const { fetchTags } = useTagStore()
   const [isDeleting, setIsDeleting] = useState(false)
   const [isConverting, setIsConverting] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [batchTagMode, setBatchTagMode] = useState<'add' | 'remove' | null>(null)
 
   const handleDelete = useCallback(async () => {
     setIsDeleting(true)
@@ -107,6 +111,36 @@ export const ImageToolbar = () => {
         }} />
 
         <button
+          onClick={() => setBatchTagMode('add')}
+          style={{
+            padding: '6px 12px',
+            backgroundColor: '#10b981',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            color: 'white'
+          }}
+        >
+          Add Tags
+        </button>
+
+        <button
+          onClick={() => setBatchTagMode('remove')}
+          style={{
+            padding: '6px 12px',
+            backgroundColor: '#f59e0b',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            color: 'white'
+          }}
+        >
+          Remove Tags
+        </button>
+
+        <button
           onClick={() => setShowConfirm(true)}
           disabled={isDeleting}
           style={{
@@ -202,6 +236,19 @@ export const ImageToolbar = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {batchTagMode && (
+        <BatchTagModal
+          mode={batchTagMode}
+          imageIds={Array.from(selectedIds)}
+          onClose={() => setBatchTagMode(null)}
+          onComplete={async () => {
+            setBatchTagMode(null)
+            await fetchTags()
+            await fetchImages()
+          }}
+        />
       )}
     </>
   )
