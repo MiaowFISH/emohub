@@ -11,18 +11,18 @@
 
 ## Current Position
 
-**Phase:** 5 - Settings Foundation
-**Plan:** 1 of 1 complete
-**Status:** Phase 5 Complete
-**Progress:** `[██████████] 100%` (1/1 plans complete)
+**Phase:** 6 - Dark Mode
+**Plan:** 1 of 2 complete
+**Status:** In Progress
+**Progress:** [█████████░] 94%
 
 ## Performance Metrics
 
 **Milestone v1.1:**
-- Phases: 5 total, 1 complete
-- Plans: 1 total, 1 complete
-- Tasks: 3 total, 3 complete
-- Requirements: 15 total, 3 complete
+- Phases: 5 total, 2 in progress
+- Plans: 3 total, 2 complete
+- Tasks: 5 total, 5 complete
+- Requirements: 15 total, 5 complete
 
 **Historical (v1.0):**
 - Phases: 4 complete
@@ -44,6 +44,8 @@
 | Visual polish last | Must test animations in both light and dark themes | 2026-02-12 |
 | Default language 'zh' | EmoHub is a Chinese emoji tool, Chinese should be default | 2026-02-12 |
 | CSS variables with fallbacks | Ensures UI works before Phase 6 dark mode activation | 2026-02-12 |
+| Use inline synchronous script for FOUC prevention | Blocks render until theme set, preventing white flash on dark mode load | 2026-02-12 |
+| Dark theme status colors lighter/more saturated | Better readability on dark backgrounds | 2026-02-12 |
 
 ### Active TODOs
 
@@ -51,7 +53,9 @@
 - [x] Implement settings store with Zustand persist middleware
 - [x] Create CSS variable system for theming
 - [x] Build settings page UI
-- [ ] Plan Phase 6: Dark Mode Implementation
+- [x] Plan Phase 6: Dark Mode Implementation
+- [x] Phase 6 Plan 1: FOUC prevention and semantic color palette
+- [ ] Phase 6 Plan 2: Apply theme to all components
 - [ ] Plan Phase 7: Internationalization (i18n)
 
 ### Known Blockers
@@ -60,6 +64,7 @@ None currently.
 
 ### Recent Changes
 
+- 2026-02-12: Phase 6 Plan 1 completed - FOUC prevention inline script and 28 semantic color variables for both themes
 - 2026-02-12: Phase 5 Plan 1 completed - Settings foundation with persist store, /settings page, CSS variables
 - 2026-02-12: Roadmap created for v1.1 UX Polish milestone
 - 2026-02-12: Research completed (STACK.md, FEATURES.md, ARCHITECTURE-UX-POLISH.md)
@@ -67,15 +72,15 @@ None currently.
 
 ## Session Continuity
 
-**What just happened:** Phase 5 Plan 1 completed - Settings foundation infrastructure built with Zustand persist store, /settings page with immediate-feedback form, header navigation, and CSS variables for theming.
+**What just happened:** Phase 6 Plan 1 completed - Added FOUC prevention inline script to index.html and expanded CSS variables with 28 semantic color variables (success, warning, danger, info, overlay, disabled) for both light and dark themes.
 
-**What's next:** Plan and execute Phase 6 (Dark Mode Implementation) which will activate the CSS variables and use the theme preference from settings store.
+**What's next:** Execute Phase 6 Plan 2 to apply the new CSS variables to all components, replacing hardcoded colors.
 
 **Context for next session:**
-- Phase 5 complete: Settings store persists theme/language to localStorage, /settings page accessible from header
-- Phase 6 ready: CSS variables defined, theme preference stored, just needs activation logic
-- Phase 7 ready: Language preference stored, ready for react-i18next integration
-- All infrastructure in place for dark mode and i18n features
+- Phase 6 Plan 1 complete: FOUC prevention in place, no white flash on dark mode load
+- Complete semantic color palette available: 39 CSS variables per theme
+- Phase 6 Plan 2 ready: All variables defined, ready to convert components
+- Build passes, TypeScript clean, all commits verified
 
 ---
 
