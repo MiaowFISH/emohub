@@ -29,13 +29,18 @@
 - SET-01: User can manage theme and language preferences through settings page
 - SET-02: Setting changes take effect immediately without page refresh
 
+**Plans:** 1 plan
+
+Plans:
+- [ ] 05-01-PLAN.md — Settings store, settings page, navigation link, CSS variables
+
 **Success Criteria:**
 1. User can navigate to settings page from main navigation
 2. User can change settings and see immediate visual feedback
 3. User's settings persist across browser sessions
 4. Settings page is accessible on mobile and desktop layouts
 
-**Status:** Pending
+**Status:** Planned
 
 ---
 
@@ -137,7 +142,7 @@
 | 2. Image Management | v1.0 | 5/5 | Complete | 2026-02-12 |
 | 3. Tag System | v1.0 | 4/4 | Complete | 2026-02-12 |
 | 4. Search & Polish | v1.0 | 2/2 | Complete | 2026-02-12 |
-| 5. Settings Foundation | v1.1 | 0/0 | Pending | — |
+| 5. Settings Foundation | v1.1 | 0/1 | Planned | — |
 | 6. Dark Mode | v1.1 | 0/0 | Pending | — |
 | 7. Internationalization | v1.1 | 0/0 | Pending | — |
 | 8. Enhanced Operations | v1.1 | 0/0 | Pending | — |
