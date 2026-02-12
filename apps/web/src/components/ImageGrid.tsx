@@ -148,7 +148,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                       onClick={() => onImageClick(globalIndex)}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.02)'
-                        e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                        e.currentTarget.style.boxShadow = '0 4px 6px -1px var(--color-shadow)'
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'scale(1)'
@@ -176,7 +176,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                           width: '24px',
                           height: '24px',
                           borderRadius: '50%',
-                          backgroundColor: isSelected ? 'var(--color-accent)' : 'rgba(255, 255, 255, 0.8)',
+                          backgroundColor: isSelected ? 'var(--color-accent)' : 'var(--color-surface-float)',
                           border: isSelected ? 'none' : '2px solid var(--color-border-light)',
                           display: 'flex',
                           alignItems: 'center',

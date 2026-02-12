@@ -161,7 +161,7 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
         .react-tags__tag button:hover,
         .react-tags__tag > button:hover,
         .react-tags__list-item button:hover {
-          color: #ef4444;
+          color: var(--color-danger);
         }
         .react-tags__combobox {
           display: inline-block;
@@ -182,7 +182,7 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
           background: var(--color-bg-primary);
           border: 1px solid var(--color-border);
           border-radius: 6px;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 6px -1px var(--color-shadow);
           max-height: 200px;
           overflow-y: auto;
           margin-top: 4px;

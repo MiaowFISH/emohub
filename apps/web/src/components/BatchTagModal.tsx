@@ -92,7 +92,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: 'var(--color-overlay)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -201,7 +201,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
             disabled={isLoading}
             style={{
               padding: '8px 16px',
-              backgroundColor: mode === 'add' ? '#10b981' : '#f59e0b',
+              backgroundColor: mode === 'add' ? 'var(--color-success)' : 'var(--color-warning)',
               border: 'none',
               borderRadius: '6px',
               cursor: isLoading ? 'not-allowed' : 'pointer',
@@ -279,7 +279,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
           .react-tags__tag button:hover,
           .react-tags__tag > button:hover,
           .react-tags__list-item button:hover {
-            color: #ef4444;
+            color: var(--color-danger);
           }
           .react-tags__combobox {
             display: inline-block;
@@ -300,7 +300,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
             background: var(--color-bg-primary);
             border: 1px solid var(--color-border);
             border-radius: 6px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px var(--color-shadow);
             max-height: 200px;
             overflow-y: auto;
             margin-top: 4px;
