@@ -1,6 +1,9 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 const RootLayout = () => {
+  const { t } = useTranslation('common')
+
   return (
     <div style={{
       display: 'flex',
@@ -28,7 +31,7 @@ const RootLayout = () => {
                 color: 'inherit'
               }}
             >
-              EmoHub
+              {t('app_name')}
             </Link>
           </h1>
           <Link
@@ -40,7 +43,7 @@ const RootLayout = () => {
               color: 'inherit',
               textDecoration: 'none'
             }}
-            aria-label="Settings"
+            aria-label={t('nav.settings')}
           >
             <svg
               width="24"
@@ -55,7 +58,7 @@ const RootLayout = () => {
               <circle cx="12" cy="12" r="3" />
               <path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 6l4.2 4.2M23 12h-6m-6 0H1m18.2-5.2l-4.2 4.2m0 6l4.2 4.2" />
             </svg>
-            <span className="sr-only">Settings</span>
+            <span className="sr-only">{t('nav.settings')}</span>
           </Link>
         </nav>
       </header>

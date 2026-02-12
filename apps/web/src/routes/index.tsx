@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { TagFilter } from '@/components/TagFilter'
 import { TagManager } from '@/components/TagManager'
 import { ImageUpload } from '@/components/ImageUpload'
@@ -10,6 +11,7 @@ import { ImageLightbox } from '@/components/ImageLightbox'
 import { useImageStore } from '@/stores/imageStore'
 
 const HomePage = () => {
+  const { t } = useTranslation('images')
   const [lightboxIndex, setLightboxIndex] = useState(-1)
   const [showTagManager, setShowTagManager] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -38,7 +40,7 @@ const HomePage = () => {
         <button
           className="hamburger-button"
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label="Toggle menu"
+          aria-label={t('filter.toggle_menu')}
         >
           <svg
             width="24"
@@ -105,7 +107,7 @@ const HomePage = () => {
               e.currentTarget.style.backgroundColor = 'var(--color-bg-primary)'
             }}
           >
-            Manage Tags
+            {t('tag_manager.title')}
           </button>
         </div>
 

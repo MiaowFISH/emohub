@@ -1,7 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { SettingsForm } from '@/components/SettingsForm'
 
 const SettingsPage = () => {
+  const { t } = useTranslation('settings')
+
   return (
     <div style={{
       maxWidth: '600px',
@@ -15,7 +18,7 @@ const SettingsPage = () => {
         marginBottom: '2rem',
         color: 'var(--color-text-primary)'
       }}>
-        Settings
+        {t('title')}
       </h1>
       <SettingsForm />
     </div>

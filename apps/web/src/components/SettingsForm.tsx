@@ -1,7 +1,14 @@
+import { useTranslation } from 'react-i18next'
 import { useSettingsStore } from '@/stores/settingsStore'
 
 export const SettingsForm = () => {
+  const { t, i18n } = useTranslation('settings')
   const { theme, language, setTheme, setLanguage } = useSettingsStore()
+
+  const handleLanguageChange = async (value: 'en' | 'zh') => {
+    await i18n.changeLanguage(value)
+    setLanguage(value)
+  }
 
   return (
     <div style={{
@@ -24,7 +31,7 @@ export const SettingsForm = () => {
           padding: '0 0.5rem',
           color: 'var(--color-text-primary)'
         }}>
-          Appearance
+          {t('appearance.title')}
         </legend>
         <div style={{
           display: 'flex',
@@ -47,7 +54,7 @@ export const SettingsForm = () => {
               onChange={(e) => setTheme(e.target.value as 'light')}
               style={{ marginRight: '0.75rem', cursor: 'pointer' }}
             />
-            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>Light</span>
+            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>{t('appearance.light')}</span>
           </label>
           <label style={{
             display: 'flex',
@@ -65,7 +72,7 @@ export const SettingsForm = () => {
               onChange={(e) => setTheme(e.target.value as 'dark')}
               style={{ marginRight: '0.75rem', cursor: 'pointer' }}
             />
-            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>Dark</span>
+            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>{t('appearance.dark')}</span>
           </label>
           <label style={{
             display: 'flex',
@@ -83,7 +90,7 @@ export const SettingsForm = () => {
               onChange={(e) => setTheme(e.target.value as 'system')}
               style={{ marginRight: '0.75rem', cursor: 'pointer' }}
             />
-            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>System</span>
+            <span style={{ fontSize: '0.9375rem', color: 'var(--color-text-secondary)' }}>{t('appearance.system')}</span>
           </label>
         </div>
       </fieldset>
@@ -101,16 +108,16 @@ export const SettingsForm = () => {
           padding: '0 0.5rem',
           color: 'var(--color-text-primary)'
         }}>
-          Language
+          {t('language.title')}
         </legend>
         <label style={{
           display: 'block',
           width: '100%'
         }}>
-          <span className="sr-only">Select language</span>
+          <span className="sr-only">{t('language.select')}</span>
           <select
             value={language}
-            onChange={(e) => setLanguage(e.target.value as 'en' | 'zh')}
+            onChange={(e) => handleLanguageChange(e.target.value as 'en' | 'zh')}
             style={{
               width: '100%',
               padding: '0.75rem',
@@ -123,8 +130,8 @@ export const SettingsForm = () => {
               outline: 'none'
             }}
           >
-            <option value="zh">中文</option>
-            <option value="en">English</option>
+            <option value="zh">{t('language.chinese')}</option>
+            <option value="en">{t('language.english')}</option>
           </select>
         </label>
       </fieldset>
