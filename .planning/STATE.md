@@ -11,17 +11,17 @@
 
 ## Current Position
 
-**Phase:** 6 - Dark Mode
-**Plan:** 2 of 2 complete
-**Status:** Phase 6 Complete
-**Progress:** `[██████████] 100%` (2/2 plans complete)
+**Phase:** 7 - Internationalization
+**Plan:** 1 of 2 complete
+**Status:** In Progress
+**Progress:** [█████████░] 94%
 
 ## Performance Metrics
 
 **Milestone v1.1:**
 - Phases: 5 total, 2 complete
-- Plans: 3 total, 3 complete
-- Tasks: 7 total, 7 complete
+- Plans: 4 total, 4 complete
+- Tasks: 9 total, 9 complete
 - Requirements: 15 total, 6 complete
 
 **Historical (v1.0):**
@@ -46,7 +46,10 @@
 | CSS variables with fallbacks | Ensures UI works before Phase 6 dark mode activation | 2026-02-12 |
 | Use inline synchronous script for FOUC prevention | Blocks render until theme set, preventing white flash on dark mode load | 2026-02-12 |
 | Dark theme status colors lighter/more saturated | Better readability on dark backgrounds | 2026-02-12 |
+| Bidirectional sync between i18next and settingsStore | Event listeners and store subscriptions avoid circular imports | 2026-02-12 |
+| Three namespaces (common, settings, images) | Logical separation enables lazy loading and matches component organization | 2026-02-12 |
 | Phase 06 P02 | 145 | 2 tasks | 6 files |
+| Phase 07 P01 | 283 | 2 tasks | 11 files |
 
 ### Active TODOs
 
@@ -57,7 +60,8 @@
 - [x] Plan Phase 6: Dark Mode Implementation
 - [x] Phase 6 Plan 1: FOUC prevention and semantic color palette
 - [x] Phase 6 Plan 2: Apply theme to all components
-- [ ] Plan Phase 7: Internationalization (i18n)
+- [x] Phase 7 Plan 1: i18n infrastructure setup
+- [ ] Phase 7 Plan 2: Convert components to use translations
 
 ### Known Blockers
 
@@ -65,23 +69,24 @@ None currently.
 
 ### Recent Changes
 
+- 2026-02-12: Phase 7 Plan 1 completed - i18next infrastructure with bidirectional store sync, 6 translation files (3 namespaces × 2 languages)
+- 2026-02-12: Phase 6 Plan 2 completed - All components converted to CSS variables
 - 2026-02-12: Phase 6 Plan 1 completed - FOUC prevention inline script and 28 semantic color variables for both themes
 - 2026-02-12: Phase 5 Plan 1 completed - Settings foundation with persist store, /settings page, CSS variables
 - 2026-02-12: Roadmap created for v1.1 UX Polish milestone
-- 2026-02-12: Research completed (STACK.md, FEATURES.md, ARCHITECTURE-UX-POLISH.md)
-- 2026-02-12: v1.0 MVP milestone completed (4 phases, 13 plans, 8 tasks)
 
 ## Session Continuity
 
-**What just happened:** Phase 6 (Dark Mode) completed — FOUC prevention script added, 28 semantic CSS variables defined for both themes, all 6 components converted from hardcoded colors to CSS variables. Verification passed 6/6 must-haves.
+**What just happened:** Phase 7 Plan 1 completed — i18next infrastructure established with 4 dependencies installed, bidirectional sync with settingsStore, 6 translation files created (common, settings, images × en/zh), TypeScript type definitions for autocomplete.
 
-**What's next:** Plan and execute Phase 7 (Internationalization) — react-i18next integration for Chinese/English language switching.
+**What's next:** Phase 7 Plan 2 — Convert all components to use useTranslation() hooks, replacing hardcoded strings with translation keys.
 
 **Context for next session:**
-- Phase 6 complete: Full dark mode support with FOUC prevention, instant theme switching, system theme sync
-- All components use CSS variables exclusively — zero hardcoded colors remain
-- Phase 7 ready: Language preference already stored in settings, ready for react-i18next integration
-- Phase 8 and 9 remain after i18n
+- i18n infrastructure ready: config loads before app renders, Suspense prevents FOUC, translations load from /locales/
+- Bidirectional sync working: settingsStore.language ↔ i18n.language (no circular imports)
+- Complete translation coverage: 6 JSON files with all UI strings mapped
+- TypeScript autocomplete enabled for all translation keys
+- Phase 8 and 9 remain after i18n component conversion
 
 ---
 
