@@ -26,15 +26,26 @@
 
 ### Active
 
+<!-- Current Milestone: v1.1 UX Polish -->
+
+- [ ] 组件样式打磨（视觉区分度提升）
+- [ ] 批量下载图片
+- [ ] 复制图片到剪贴板（快捷操作）
+- [ ] 复制选项（原图/GIF 格式可选，免手动转换）
+- [ ] 夜间模式
+- [ ] 多语言支持（i18n）
+- [ ] 设置页面（UI 偏好配置）
+
+<!-- Deferred to v1.2+ -->
+
+- [ ] 键盘快捷键操作
+- [ ] 图片信息展示（尺寸、大小、上传时间）
+- [ ] 搜索历史记录
 - [ ] 标签分类支持（角色/系列/关键词维度）
 - [ ] 标签组合搜索（AND/OR 逻辑）
 - [ ] CLIP 向量相似度搜索
 - [ ] 以图搜图（上传图片查找相似）
 - [ ] OCR 文字搜索（提取图片中的文字）
-- [ ] 键盘快捷键操作
-- [ ] 复制图片到剪贴板
-- [ ] 图片信息展示（尺寸、大小、上传时间）
-- [ ] 搜索历史记录
 
 ### Out of Scope
 
@@ -46,6 +57,18 @@
 - AI 自动标签/角色识别 — v2+ 考虑
 - 实时同步（WebSocket）— 单端使用
 - 动图播放/编辑 — 复杂度高，非核心需求
+
+## Current Milestone: v1.1 UX Polish
+
+**Goal:** 打磨使用体验和视觉质量，让日常操作更顺手、界面更精致。
+
+**Target features:**
+- 组件样式打磨（视觉区分度）
+- 批量下载图片
+- 复制到剪贴板（原图/GIF 可选）
+- 夜间模式
+- 多语言支持（i18n）
+- 设置页面（UI 偏好配置）
 
 ## Context
 
@@ -78,4 +101,4 @@ UI: TanStack Virtual (virtual scroll), Zustand (state), react-dropzone, yet-anot
 | Mobile-first CSS | 渐进增强，三档断点（768/1024px） | ✓ Good |
 
 ---
-*Last updated: 2026-02-12 after v1.0 milestone*
+*Last updated: 2026-02-12 after v1.1 milestone started*
