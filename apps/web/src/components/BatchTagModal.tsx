@@ -102,7 +102,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
         backgroundColor: 'white',
         padding: '24px',
         borderRadius: '8px',
-        maxWidth: '500px',
+        maxWidth: '640px',
         width: '90%',
         maxHeight: '80vh',
         overflow: 'auto'

@@ -27,15 +27,28 @@ export const ImageToolbar = () => {
     }
   }, [selectedIds, removeImages, clearSelection])
 
+  const selectedImage = selectedIds.size === 1
+    ? images.find(img => selectedIds.has(img.id))
+    : null
+  const isSelectedGif = selectedImage?.mimeType === 'image/gif'
+
   const handleConvertToGif = useCallback(async () => {
     if (selectedIds.size !== 1) return
 
     setIsConverting(true)
     try {
       const id = Array.from(selectedIds)[0]
-      const blob = await imageApi.convertToGif(id)
+      const img = images.find(i => i.id === id)
 
-      // Create download link
+      let blob: Blob
+      if (img?.mimeType === 'image/gif') {
+        // Already a GIF — download original directly
+        const response = await fetch(imageApi.getFullUrl(id))
+        blob = await response.blob()
+      } else {
+        blob = await imageApi.convertToGif(id)
+      }
+
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
@@ -45,11 +58,11 @@ export const ImageToolbar = () => {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
     } catch (error) {
-      alert(`Failed to convert image: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      alert(`Failed to download image: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setIsConverting(false)
     }
-  }, [selectedIds])
+  }, [selectedIds, images])
 
   // Only show toolbar when there are selections
   if (selectedIds.size === 0) {
@@ -172,7 +185,7 @@ export const ImageToolbar = () => {
             opacity: isConverting ? 0.6 : 1
           }}
         >
-          {isConverting ? 'Converting...' : 'Convert to GIF'}
+          {isConverting ? (isSelectedGif ? 'Downloading...' : 'Converting...') : (isSelectedGif ? 'Download GIF' : 'Convert to GIF')}
         </button>
       </div>
 
