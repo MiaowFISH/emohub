@@ -83,6 +83,12 @@ Plans:
 - I18N-02: User's language preference persists across page refreshes
 - I18N-03: All UI text renders through translation keys (no hardcoded strings)
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — i18next setup, translation files, settings store sync
+- [ ] 07-02-PLAN.md — Convert all components to use translation keys
+
 **Success Criteria:**
 1. User can select language from settings page
 2. All UI text updates immediately when language changes
@@ -150,7 +156,7 @@ Plans:
 | 4. Search & Polish | v1.0 | 2/2 | Complete | 2026-02-12 |
 | 5. Settings Foundation | v1.1 | 1/1 | Complete | 2026-02-12 |
 | 6. Dark Mode | v1.1 | 2/2 | Complete | 2026-02-12 |
-| 7. Internationalization | v1.1 | 0/0 | Pending | — |
+| 7. Internationalization | v1.1 | 0/2 | Pending | — |
 | 8. Enhanced Operations | v1.1 | 0/0 | Pending | — |
 | 9. Visual Polish | v1.1 | 0/0 | Pending | — |
 
