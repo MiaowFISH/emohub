@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useRef, useState, useEffect, useCallback } from 'react'
 import { EmptyState } from '@/components/EmptyState'
 import '@/styles/skeleton.css'
+import '@/styles/transitions.css'
 
 interface ImageGridProps {
   onImageClick: (index: number) => void
@@ -187,23 +188,9 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                   return (
                     <div
                       key={image.id}
-                      style={{
-                        position: 'relative',
-                        cursor: 'pointer',
-                        borderRadius: '8px',
-                        overflow: 'hidden',
-                        border: isSelected ? '3px solid var(--color-accent)' : '1px solid var(--color-border)',
-                        transition: 'all 0.2s ease'
-                      }}
+                      className={`image-card${isSelected ? ' selected' : ''}`}
+                      style={{ position: 'relative' }}
                       onClick={() => onImageClick(globalIndex)}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'scale(1.02)'
-                        e.currentTarget.style.boxShadow = '0 4px 6px -1px var(--color-shadow)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'scale(1)'
-                        e.currentTarget.style.boxShadow = 'none'
-                      }}
                     >
                       {/* Loading spinner — visible until image loads */}
                       {!loadedImages.has(image.id) && (
