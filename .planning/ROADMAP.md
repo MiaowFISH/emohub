@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-02-12)
-- 🚧 **v1.1 UX Polish** — Phases 5-9 (in progress)
+- ✅ **v1.1 UX Polish** — Phases 5-9 (shipped 2026-02-13)
 
 ## Phases
 
@@ -151,10 +151,10 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — CSS transition foundation: utilities, focus-visible, reduced-motion, FOUC prevention
-- [ ] 09-02-PLAN.md — Apply transitions to components: ImageGrid CSS classes, smooth theme switch, lightbox animations
+- [x] 09-01-PLAN.md — CSS transition foundation: utilities, focus-visible, reduced-motion, FOUC prevention
+- [x] 09-02-PLAN.md — Apply transitions to components: ImageGrid CSS classes, smooth theme switch, lightbox animations
 
-**Status:** Pending
+**Status:** Complete — 2026-02-13
 
 ---
 
@@ -170,8 +170,8 @@ Plans:
 | 6. Dark Mode | v1.1 | 2/2 | Complete | 2026-02-12 |
 | 7. Internationalization | v1.1 | 2/2 | Complete | 2026-02-12 |
 | 8. Enhanced Operations | v1.1 | 2/2 | Complete | 2026-02-12 |
-| 9. Visual Polish | v1.1 | 0/2 | Pending | — |
+| 9. Visual Polish | v1.1 | 2/2 | Complete | 2026-02-13 |
 
 ---
 
-*Last updated: 2026-02-12*
+*Last updated: 2026-02-13*
