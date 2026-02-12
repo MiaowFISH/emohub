@@ -1,0 +1,15 @@
+{
+  "title": "设置",
+  "appearance": {
+    "title": "外观",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统"
+  },
+  "language": {
+    "title": "语言",
+    "select": "选择语言",
+    "chinese": "中文",
+    "english": "English"
+  }
+}

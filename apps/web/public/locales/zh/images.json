@@ -1,0 +1,58 @@
+{
+  "toolbar": {
+    "selected_count": "已选择 {{count}} 项",
+    "select_all": "全选",
+    "add_tags": "添加标签",
+    "remove_tags": "移除标签",
+    "convert_to_gif": "转换为 GIF",
+    "converting": "转换中...",
+    "download_gif": "下载 GIF",
+    "downloading": "下载中...",
+    "confirm_delete_title": "确认删除",
+    "confirm_delete_message": "删除 {{count}} 张图片？此操作无法撤销。",
+    "delete_failed": "删除图片失败：{{error}}"
+  },
+  "upload": {
+    "uploading": "上传中...",
+    "drop_here": "将图片拖放到此处",
+    "drag_or_click": "拖放图片到此处，或点击选择文件",
+    "supported_formats": "支持 JPG、PNG、WebP、GIF（最大 10MB）",
+    "duplicate": "（重复）"
+  },
+  "grid": {
+    "no_images": "还没有图片，上传一些表情包吧！",
+    "more_tags": "+{{count}} 更多"
+  },
+  "search": {
+    "placeholder": "按文件名或标签搜索...",
+    "aria_label": "搜索图片"
+  },
+  "filter": {
+    "title": "按标签筛选",
+    "showing_count": "显示包含 {{count}} 个标签的图片",
+    "no_tags": "暂无标签",
+    "toggle_menu": "切换菜单"
+  },
+  "tag_input": {
+    "placeholder": "添加标签...",
+    "no_options": "没有匹配的标签"
+  },
+  "tag_manager": {
+    "title": "管理标签",
+    "new_tag_placeholder": "新标签名称...",
+    "no_tags": "暂无标签，在上方创建一个吧！",
+    "image_count_one": "{{count}} 张图片",
+    "image_count_other": "{{count}} 张图片",
+    "delete_tag_title": "删除标签？",
+    "delete_tag_message": "此标签已用于 {{count}} 张图片，确定移除吗？"
+  },
+  "batch_tag": {
+    "add_title": "为 {{count}} 张图片添加标签",
+    "remove_title": "从 {{count}} 张图片移除标签",
+    "add_placeholder": "输入以添加标签...",
+    "no_tags_available": "暂无可用标签",
+    "select_one_tag": "请至少选择一个标签",
+    "select_one_tag_remove": "请至少选择一个要移除的标签",
+    "operation_failed": "{{mode}}标签失败：{{error}}"
+  }
+}

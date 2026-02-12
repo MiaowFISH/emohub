@@ -1,0 +1,15 @@
+{
+  "title": "Settings",
+  "appearance": {
+    "title": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "title": "Language",
+    "select": "Select language",
+    "chinese": "中文",
+    "english": "English"
+  }
+}

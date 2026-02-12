@@ -1,0 +1,58 @@
+{
+  "toolbar": {
+    "selected_count": "{{count}} selected",
+    "select_all": "Select All",
+    "add_tags": "Add Tags",
+    "remove_tags": "Remove Tags",
+    "convert_to_gif": "Convert to GIF",
+    "converting": "Converting...",
+    "download_gif": "Download GIF",
+    "downloading": "Downloading...",
+    "confirm_delete_title": "Confirm Delete",
+    "confirm_delete_message": "Delete {{count}} image(s)? This cannot be undone.",
+    "delete_failed": "Failed to delete images: {{error}}"
+  },
+  "upload": {
+    "uploading": "Uploading...",
+    "drop_here": "Drop images here",
+    "drag_or_click": "Drag and drop images here, or click to select",
+    "supported_formats": "Supports JPG, PNG, WebP, GIF (max 10MB)",
+    "duplicate": "(duplicate)"
+  },
+  "grid": {
+    "no_images": "No images yet. Upload some stickers!",
+    "more_tags": "+{{count}} more"
+  },
+  "search": {
+    "placeholder": "Search by filename or tag...",
+    "aria_label": "Search images"
+  },
+  "filter": {
+    "title": "Filter by Tags",
+    "showing_count": "Showing images with {{count}} tag(s)",
+    "no_tags": "No tags yet",
+    "toggle_menu": "Toggle menu"
+  },
+  "tag_input": {
+    "placeholder": "Add tags...",
+    "no_options": "No matching tags"
+  },
+  "tag_manager": {
+    "title": "Manage Tags",
+    "new_tag_placeholder": "New tag name...",
+    "no_tags": "No tags yet. Create one above!",
+    "image_count_one": "{{count}} image",
+    "image_count_other": "{{count}} images",
+    "delete_tag_title": "Delete Tag?",
+    "delete_tag_message": "This tag is used on {{count}} image(s). Remove it?"
+  },
+  "batch_tag": {
+    "add_title": "Add Tags to {{count}} Images",
+    "remove_title": "Remove Tags from {{count}} Images",
+    "add_placeholder": "Type to add tags...",
+    "no_tags_available": "No tags available",
+    "select_one_tag": "Please select at least one tag",
+    "select_one_tag_remove": "Please select at least one tag to remove",
+    "operation_failed": "Failed to {{mode}} tags: {{error}}"
+  }
+}
