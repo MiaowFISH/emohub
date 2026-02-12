@@ -12,17 +12,17 @@
 ## Current Position
 
 **Phase:** 6 - Dark Mode
-**Plan:** 1 of 2 complete
-**Status:** In Progress
-**Progress:** [██████████] 100%
+**Plan:** 2 of 2 complete
+**Status:** Phase 6 Complete
+**Progress:** `[██████████] 100%` (2/2 plans complete)
 
 ## Performance Metrics
 
 **Milestone v1.1:**
-- Phases: 5 total, 2 in progress
-- Plans: 3 total, 2 complete
-- Tasks: 5 total, 5 complete
-- Requirements: 15 total, 5 complete
+- Phases: 5 total, 2 complete
+- Plans: 3 total, 3 complete
+- Tasks: 7 total, 7 complete
+- Requirements: 15 total, 6 complete
 
 **Historical (v1.0):**
 - Phases: 4 complete
@@ -56,7 +56,7 @@
 - [x] Build settings page UI
 - [x] Plan Phase 6: Dark Mode Implementation
 - [x] Phase 6 Plan 1: FOUC prevention and semantic color palette
-- [ ] Phase 6 Plan 2: Apply theme to all components
+- [x] Phase 6 Plan 2: Apply theme to all components
 - [ ] Plan Phase 7: Internationalization (i18n)
 
 ### Known Blockers
@@ -73,15 +73,15 @@ None currently.
 
 ## Session Continuity
 
-**What just happened:** Phase 6 Plan 1 completed - Added FOUC prevention inline script to index.html and expanded CSS variables with 28 semantic color variables (success, warning, danger, info, overlay, disabled) for both light and dark themes.
+**What just happened:** Phase 6 (Dark Mode) completed — FOUC prevention script added, 28 semantic CSS variables defined for both themes, all 6 components converted from hardcoded colors to CSS variables. Verification passed 6/6 must-haves.
 
-**What's next:** Execute Phase 6 Plan 2 to apply the new CSS variables to all components, replacing hardcoded colors.
+**What's next:** Plan and execute Phase 7 (Internationalization) — react-i18next integration for Chinese/English language switching.
 
 **Context for next session:**
-- Phase 6 Plan 1 complete: FOUC prevention in place, no white flash on dark mode load
-- Complete semantic color palette available: 39 CSS variables per theme
-- Phase 6 Plan 2 ready: All variables defined, ready to convert components
-- Build passes, TypeScript clean, all commits verified
+- Phase 6 complete: Full dark mode support with FOUC prevention, instant theme switching, system theme sync
+- All components use CSS variables exclusively — zero hardcoded colors remain
+- Phase 7 ready: Language preference already stored in settings, ready for react-i18next integration
+- Phase 8 and 9 remain after i18n
 
 ---
 
