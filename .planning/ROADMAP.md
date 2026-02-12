@@ -1,99 +1,26 @@
 # Roadmap: EmoHub
 
-## Overview
+## Milestones
 
-EmoHub delivers a personal sticker management system in 4 phases. Starting with project foundation and backend infrastructure, we build image management capabilities, add tagging functionality, and complete with search features and responsive UI. Each phase delivers verifiable user-facing capabilities that build toward the core value: fast tagging and search for 4000+ stickers.
+- ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-02-12)
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+<details>
+<summary>✅ v1.0 MVP (Phases 1-4) — SHIPPED 2026-02-12</summary>
 
-Decimal phases appear between their surrounding integers in numeric order.
+- [x] Phase 1: Project Setup & Backend Foundation (2/2 plans) — completed 2026-02-12
+- [x] Phase 2: Image Management (5/5 plans) — completed 2026-02-12
+- [x] Phase 3: Tag System (4/4 plans) — completed 2026-02-12
+- [x] Phase 4: Search & Polish (2/2 plans) — completed 2026-02-12
 
-- [x] **Phase 1: Project Setup & Backend Foundation** - Monorepo structure, database schema, API foundation
-- [x] **Phase 2: Image Management** - Upload, storage, viewing, and optimization
-- [x] **Phase 3: Tag System** - Tagging, tag management, and batch operations
-- [x] **Phase 4: Search & Polish** - Search functionality and responsive UI
-
-## Phase Details
-
-### Phase 1: Project Setup & Backend Foundation
-**Goal**: Establish monorepo structure, database schema, and API foundation that all features depend on
-**Depends on**: Nothing (first phase)
-**Requirements**: None directly (enables all other requirements)
-**Success Criteria** (what must be TRUE):
-  1. Monorepo workspace structure exists with shared types accessible across packages
-  2. Database schema is created with Prisma migrations applied successfully
-  3. Fastify API server starts and responds to health check endpoint
-  4. File storage directory structure exists and accepts test file writes
-**Plans:** 2 plans
-
-Plans:
-- [x] 01-01-PLAN.md — Monorepo config, shared types package, Prisma schema & migration
-- [x] 01-02-PLAN.md — Fastify server with DB/storage plugins and health check endpoint
-
-### Phase 2: Image Management
-**Goal**: Users can upload, view, and manage their sticker collection
-**Depends on**: Phase 1
-**Requirements**: IMG-01, IMG-02, IMG-03, IMG-04, IMG-05, IMG-06, IMG-07, IMG-08
-**Success Criteria** (what must be TRUE):
-  1. User can drag and drop multiple images to upload them to the system
-  2. User can view all uploaded images in a grid layout with smooth scrolling
-  3. User can click an image to see full-size preview
-  4. User can delete single or multiple selected images
-  5. Uploaded images are automatically compressed and thumbnails are generated
-  6. System detects and warns about duplicate images during upload
-  7. User can convert images to single-frame GIF format
-**Plans:** 5 plans
-
-Plans:
-- [x] 02-01-PLAN.md — Server image processing pipeline and API routes (upload, list, delete, serve, GIF convert)
-- [x] 02-02-PLAN.md — Web app foundation (Vite, TanStack Router, API client, Zustand store)
-- [x] 02-03-PLAN.md — Upload UI, virtual scrolling image grid, and lightbox preview
-- [x] 02-04-PLAN.md — Image selection, batch delete, and GIF conversion UI
-- [x] 02-05-PLAN.md — Human verification of all IMG requirements
-
-### Phase 3: Tag System
-**Goal**: Users can organize images with tags and perform batch tagging operations
-**Depends on**: Phase 2
-**Requirements**: TAG-01, TAG-02, TAG-03, TAG-04
-**Success Criteria** (what must be TRUE):
-  1. User can add multiple tags to a single image
-  2. User can create new tags, rename existing tags, and delete unused tags
-  3. User can filter the image grid to show only images with specific tags
-  4. User can select multiple images and add or remove tags in batch
-**Plans:** 4 plans
-
-Plans:
-- [x] 03-01-PLAN.md — Tag service, API routes, shared types, frontend API client and store
-- [x] 03-02-PLAN.md — TagInput component with autocomplete, TagManager panel, tag display on images
-- [x] 03-03-PLAN.md — TagFilter sidebar and home page layout integration
-- [x] 03-04-PLAN.md — Batch tag operations and human verification of all TAG requirements
-
-### Phase 4: Search & Polish
-**Goal**: Users can search for images and use the system on different screen sizes
-**Depends on**: Phase 3
-**Requirements**: SRCH-01, SRCH-02, UX-01
-**Success Criteria** (what must be TRUE):
-  1. User can search images by typing tag names and see filtered results
-  2. User can search images by typing keywords that match filenames or tag names
-  3. Web interface adapts to different screen sizes (mobile, tablet, desktop)
-**Plans:** 2 plans
-
-Plans:
-- [x] 04-01-PLAN.md — Text search across filenames and tag names with debounced SearchBar
-- [x] 04-02-PLAN.md — Responsive layout with mobile sidebar and human verification
+</details>
 
 ## Progress
 
-**Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
-
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Project Setup & Backend Foundation | 2/2 | ✓ Complete | 2026-02-12 |
-| 2. Image Management | 5/5 | ✓ Complete | 2026-02-12 |
-| 3. Tag System | 4/4 | ✓ Complete | 2026-02-12 |
-| 4. Search & Polish | 2/2 | ✓ Complete | 2026-02-12 |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Project Setup & Backend Foundation | v1.0 | 2/2 | Complete | 2026-02-12 |
+| 2. Image Management | v1.0 | 5/5 | Complete | 2026-02-12 |
+| 3. Tag System | v1.0 | 4/4 | Complete | 2026-02-12 |
+| 4. Search & Polish | v1.0 | 2/2 | Complete | 2026-02-12 |
