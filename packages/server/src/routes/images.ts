@@ -45,11 +45,17 @@ const imageRoutes: FastifyPluginAsync = async (fastify) => {
 
   // GET / - List images with pagination
   fastify.get('/', async (request, reply) => {
-    const { page = 1, limit = 50 } = request.query as any;
+    const { page = 1, limit = 50, tagIds } = request.query as any;
+
+    const tagIdsArray = tagIds
+      ? (typeof tagIds === 'string' ? tagIds.split(',') : tagIds)
+      : undefined;
+
     const result = await imageService.listImages(
       fastify.prisma,
       Number(page),
-      Number(limit)
+      Number(limit),
+      tagIdsArray
     );
 
     return reply.send({

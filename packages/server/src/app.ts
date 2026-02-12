@@ -4,6 +4,7 @@ import dbPlugin from './plugins/db.js';
 import storagePlugin from './plugins/storage.js';
 import healthRoutes from './routes/health.js';
 import imageRoutes from './routes/images.js';
+import tagRoutes from './routes/tags.js';
 
 export async function build(opts: FastifyServerOptions = {}) {
   const app = Fastify({
@@ -21,6 +22,7 @@ export async function build(opts: FastifyServerOptions = {}) {
   await app.register(storagePlugin);
   await app.register(healthRoutes, { prefix: '/health' });
   await app.register(imageRoutes, { prefix: '/api/images' });
+  await app.register(tagRoutes, { prefix: '/api/tags' });
 
   return app;
 }

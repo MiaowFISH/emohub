@@ -103,18 +103,46 @@ interface ListImagesResult {
 export async function listImages(
   prisma: PrismaClient,
   page: number = 1,
-  limit: number = 50
+  limit: number = 50,
+  tagIds?: string[]
 ): Promise<ListImagesResult> {
   const skip = (page - 1) * limit;
 
-  const [images, total] = await Promise.all([
+  const where = tagIds && tagIds.length > 0
+    ? {
+        tags: {
+          some: {
+            tagId: { in: tagIds },
+          },
+        },
+      }
+    : {};
+
+  const [rawImages, total] = await Promise.all([
     prisma.image.findMany({
+      where,
       skip,
       take: limit,
       orderBy: { createdAt: 'desc' },
+      include: {
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     }),
-    prisma.image.count(),
+    prisma.image.count({ where }),
   ]);
+
+  const images = rawImages.map(image => ({
+    ...image,
+    tags: image.tags.map(it => ({
+      id: it.tag.id,
+      name: it.tag.name,
+      category: it.tag.category,
+    })),
+  }));
 
   return { images, total, page, limit };
 }
