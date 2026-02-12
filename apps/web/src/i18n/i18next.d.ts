@@ -1,0 +1,15 @@
+import 'i18next'
+import common from '../../public/locales/en/common.json'
+import settings from '../../public/locales/en/settings.json'
+import images from '../../public/locales/en/images.json'
+
+declare module 'i18next' {
+  interface CustomTypeOptions {
+    defaultNS: 'common'
+    resources: {
+      common: typeof common
+      settings: typeof settings
+      images: typeof images
+    }
+  }
+}
