@@ -8,7 +8,7 @@ interface ImageGridProps {
 }
 
 export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
-  const { images, isLoading, selectedIds, toggleSelect, fetchImages } = useImageStore()
+  const { images, isLoading, hasMore, selectedIds, toggleSelect, fetchImages, fetchMore } = useImageStore()
   const parentRef = useRef<HTMLDivElement>(null)
   const [columns, setColumns] = useState(4)
 
@@ -28,6 +28,22 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
     resizeObserver.observe(parentRef.current)
     return () => resizeObserver.disconnect()
   }, [])
+
+  // Infinite scroll: load more when near bottom
+  useEffect(() => {
+    const el = parentRef.current
+    if (!el) return
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = el
+      if (scrollHeight - scrollTop - clientHeight < 400 && hasMore && !isLoading) {
+        fetchMore()
+      }
+    }
+
+    el.addEventListener('scroll', handleScroll)
+    return () => el.removeEventListener('scroll', handleScroll)
+  }, [hasMore, isLoading, fetchMore])
 
   const rows = Math.ceil(images.length / columns)
 

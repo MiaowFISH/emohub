@@ -38,6 +38,13 @@ export async function compressImage(
     withoutEnlargement: true,
   });
 
+  // GIF: copy as-is to preserve animation
+  if (metadata.format === 'gif') {
+    const { copyFile } = await import('fs/promises');
+    await copyFile(inputPath, outputPath);
+    return getImageMetadata(outputPath);
+  }
+
   // Apply format-specific compression
   switch (metadata.format) {
     case 'jpeg':
@@ -51,7 +58,6 @@ export async function compressImage(
       pipeline = pipeline.png({ compressionLevel: 9 });
       break;
     default:
-      // Keep original format
       break;
   }
 
@@ -67,10 +73,20 @@ export async function generateThumbnail(
   // Create parent directory
   await mkdir(path.dirname(outputPath), { recursive: true });
 
-  await sharp(inputPath)
-    .resize(300, 300, { fit: 'cover' })
-    .jpeg({ quality: 80 })
-    .toFile(outputPath);
+  const metadata = await sharp(inputPath).metadata();
+
+  if (metadata.format === 'gif') {
+    // Preserve GIF animation for thumbnails
+    await sharp(inputPath, { animated: true })
+      .resize(300, 300, { fit: 'cover' })
+      .gif()
+      .toFile(outputPath);
+  } else {
+    await sharp(inputPath)
+      .resize(300, 300, { fit: 'cover' })
+      .jpeg({ quality: 80 })
+      .toFile(outputPath);
+  }
 }
 
 export async function convertToGif(
