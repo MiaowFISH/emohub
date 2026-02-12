@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-11)
 
 **Core value:** 用户能快速给表情包打标签并通过标签/向量搜索找到想要的图片
-**Current focus:** Phase 3 - Tag System (COMPLETE)
+**Current focus:** Phase 4 - Search & Polish (IN PROGRESS)
 
 ## Current Position
 
-Phase: 3 of 4 (Tag System) - COMPLETE
-Plan: 4 of 4 in current phase - COMPLETE
-Status: Phase Complete
-Last activity: 2026-02-12 — Completed Phase 3 with human verification and bug fixes
+Phase: 4 of 4 (Search & Polish) - IN PROGRESS
+Plan: 1 of 2 in current phase - COMPLETE
+Status: Active
+Last activity: 2026-02-12 — Completed 04-01 text search implementation
 
-Progress: [████████░░] 75.0%
+Progress: [████████░░] 80.0%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 5.2 minutes
-- Total execution time: 0.95 hours
+- Total plans completed: 12
+- Average duration: 5.0 minutes
+- Total execution time: 1.0 hours
 
 **By Phase:**
 
@@ -30,6 +30,7 @@ Progress: [████████░░] 75.0%
 | 01 | 2 | 12.7 min | 6.4 min |
 | 02 | 5 | 29.1 min | 5.8 min |
 | 03 | 4 | 20.4 min | 5.1 min |
+| 04 | 1 | 2.5 min | 2.5 min |
 
 **Recent Executions:**
 
@@ -43,6 +44,7 @@ Progress: [████████░░] 75.0%
 | Phase 03 P02 | 304s (5.1m) | 2 tasks | 5 files |
 | Phase 03 P03 | 97s (1.6m) | 2 tasks | 3 files |
 | Phase 03 P04 | 480s (8.0m) | 2 tasks | 2 files |
+| Phase 04 P01 | 149 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -96,6 +98,8 @@ Recent decisions affecting current work:
 - [Phase 03]: Remove mode uses simple checkboxes with tag counts (03-04)
 - [Phase 03]: Lightbox uses useRef instead of useState to avoid infinite re-render with yet-another-react-lightbox (03-04)
 - [Phase 03]: Check tag store to distinguish new vs existing tags in react-tag-autocomplete allowNew mode (03-04)
+- [Phase 04]: Use 400ms debounce delay for search input
+- [Phase 04]: Search uses OR logic internally (filename OR tag name), AND logic with tag filter at top level
 
 ### Pending Todos
 
@@ -107,6 +111,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-12T05:00:00Z
-Stopped at: Completed Phase 3 - Tag System (all 4 plans, human verified)
-Resume file: .planning/phases/03-tag-system/03-04-SUMMARY.md
+Last session: 2026-02-12T07:31:49Z
+Stopped at: Completed 04-01-PLAN.md (text search implementation)
+Resume file: .planning/phases/04-search-polish/04-01-SUMMARY.md
