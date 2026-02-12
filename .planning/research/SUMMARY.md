@@ -1,310 +1,237 @@
 # Project Research Summary
 
-**Project:** EmoHub - Personal Emoji/Sticker Management System
-**Domain:** Personal image management with AI-powered vector search
-**Researched:** 2026-02-11
-**Confidence:** MEDIUM
+**Project:** EmoHub v1.1 UX Polish Milestone
+**Domain:** Personal meme/sticker management web application (UX enhancements)
+**Researched:** 2026-02-12
+**Confidence:** HIGH
 
 ## Executive Summary
 
-EmoHub is a personal sticker/emoji management system that combines traditional image library features with AI-powered search capabilities. The research reveals this is a hybrid product sitting between simple emoji keyboards and professional asset managers. The recommended approach uses a layered monorepo architecture with SQLite for metadata, sqlite-vss for vector search, and @xenova/transformers for CLIP embeddings—all running on Bun runtime for performance.
+EmoHub v1.1 focuses on polishing the v1.0 MVP with modern UX expectations: dark mode, internationalization, enhanced clipboard operations, batch download, settings management, and visual refinement. Research shows these features are table stakes for 2026 web applications, with dark mode and settings pages being universal expectations. The recommended approach leverages existing architecture (Zustand, TanStack Router, inline styles) and adds minimal dependencies: react-i18next for i18n (22KB), client-zip for batch downloads (6.4KB), and CSS-only dark mode implementation.
 
-The core technical challenge is managing 4000+ stickers with real-time vector similarity search while maintaining fast upload and search performance. The recommended stack (Bun + Fastify + React + SQLite + sqlite-vss) provides a lightweight, local-first solution suitable for personal use. Critical success factors include asynchronous vectorization (avoid blocking UI), proper vector normalization, and sqlite-vss index management.
+The key insight is that all features integrate cleanly without architectural changes. Dark mode uses CSS variables, i18n wraps existing components, clipboard/download extend existing APIs, and settings persist via Zustand's built-in middleware. The main risk is scope creep - the temptation to add custom themes, advanced animations, or cloud sync. Mitigation: stick to the defined feature set, use CSS-first approaches, and defer enhancements to future milestones.
 
-Key risks center around vector processing performance and SQLite concurrency. Mitigation strategies include implementing job queues from day one, enabling WAL mode for SQLite, batch processing with backpressure, and running expensive operations (CLIP embeddings, OCR) asynchronously. The architecture must prioritize async processing to handle bulk imports without freezing the UI.
+Implementation should follow a foundation-first approach: build the settings store and CSS variable system first, then layer on dark mode and i18n, finally add feature enhancements (clipboard, download) and visual polish. This order minimizes rework and allows early testing of theme/language switching across all components.
 
 ## Key Findings
 
 ### Recommended Stack
 
-The stack is optimized for a local-first personal application with AI capabilities. Bun 1.3.9 provides fast package management and native TypeScript support. Fastify handles API routing with excellent performance (20k+ req/s). React + Vite + Tailwind CSS delivers modern frontend DX. The database layer uses SQLite with Prisma ORM for metadata and sqlite-vss extension for vector similarity search.
+The research recommends a minimal-dependency approach that extends the existing stack rather than introducing new paradigms. For i18n, react-i18next (22KB) is the clear choice over next-intl (Next.js-specific) or FormatJS (more verbose). For batch downloads, client-zip (6.4KB) outperforms JSZip (22KB) by 40% for uncompressed archives and has no memory limits. Dark mode requires zero dependencies - native CSS variables with `prefers-color-scheme` detection is sufficient and performs better than any library.
 
 **Core technologies:**
-- **Bun 1.3.9**: Runtime and package manager — 3x faster than npm, native TypeScript support
-- **Fastify 4.x**: HTTP server — fastest Node.js framework, schema validation, TypeScript support
-- **React 18.2 + Vite 5.0**: Frontend — industry standard UI library with fast HMR build tool
-- **SQLite 3.45 + Prisma 5.x**: Database — zero-config single-file database with type-safe ORM
-- **sqlite-vss 0.1.x**: Vector search — SQLite extension for FAISS-based similarity search
-- **@xenova/transformers 2.17+**: CLIP inference — pure JavaScript ONNX runtime for embeddings
-- **Tesseract.js 5.x**: OCR — pure JavaScript text extraction supporting Chinese + English
+- **react-i18next + i18next**: Multi-language support - most flexible for Vite+React, hooks-first API, 3.5M weekly downloads
+- **client-zip**: Batch ZIP generation - 40% faster than JSZip for uncompressed files, 6.4KB bundle, Zip64 support
+- **CSS Variables + Zustand**: Dark mode - zero dependencies, optimal performance, leverages existing state management
+- **Native Clipboard API**: Image copying - mature browser support in 2026, no polyfill needed
+- **Zustand persist middleware**: Settings storage - already in stack, handles localStorage sync and migrations
 
-**Critical compatibility note:** sqlite-vss requires native compilation. Bun compatibility with native SQLite extensions must be validated early in Phase 1.
+**What NOT to add:**
+- Tailwind CSS (current codebase uses vanilla CSS)
+- styled-components/emotion (runtime overhead)
+- JSZip (3.4x larger than client-zip)
+- Framer Motion initially (CSS transitions sufficient)
 
 ### Expected Features
 
-Research identifies clear feature tiers based on user expectations and competitive analysis.
+Research identifies a clear hierarchy: dark mode, settings page, and batch download are table stakes in 2026. Multi-language support and format-aware clipboard are differentiators that position EmoHub as a polished, professional tool. Visual polish (micro-interactions, loading states) elevates perceived quality without adding complexity.
 
 **Must have (table stakes):**
-- Upload/Import stickers — core functionality, blocks everything else
-- Browse/Grid view — visual content needs visual browsing
-- Basic search by filename — minimum discoverability
-- Copy to clipboard — primary use case for getting stickers out
-- Delete stickers — basic content management
-- Basic categorization — simple tag system for organization
-- Keyboard shortcuts — power user efficiency
-- Responsive UI — web app must work on different screens
+- **Dark mode toggle** - Standard expectation in 2026, all modern apps offer theme choice
+- **Settings page** - Central location for preferences, foundation for other features
+- **Batch download (ZIP)** - Users managing 4000+ images need efficient bulk export
+- **Clipboard copy enhancements** - Better feedback, error handling for existing feature
+- **Loading states** - Users expect feedback during async operations
+- **Responsive polish** - Visual refinement for mobile/desktop
 
-**Should have (competitive differentiators):**
-- Vector similarity search — find visually similar stickers using CLIP embeddings (core differentiator)
-- OCR text extraction — search stickers by text content in images
-- Multi-dimensional tagging — character + series + keyword taxonomy
-- Tag autocomplete/suggestions — faster tagging workflow
-- Bulk tagging operations — efficient management of large collections
-- Advanced search filters — combine tags, text, similarity in queries
+**Should have (competitive):**
+- **Multi-language (i18n)** - Rare in personal tools, enables global audience
+- **Format-aware clipboard** - Copy as original format OR convert to GIF - power user feature
+- **Visual polish (micro-interactions)** - Smooth animations elevate perceived quality
+- **Keyboard shortcuts** - Efficiency for power users
 
 **Defer (v2+):**
-- Favorites/Bookmarks — nice to have but not critical for launch
-- Preview/Full view — can work with grid-only initially
-- Usage analytics — show most-used stickers
-- Duplicate detection — prevent redundant uploads
-- Export collections — backup or share curated sets
-
-**Anti-features (explicitly avoid):**
-- Social sharing/community features — out of scope for personal tool
-- Real-time collaboration — not needed for single-user system
-- Cloud sync across devices — v1 is local-first
-- Sticker creation/editing — not a design tool
-- Mobile native apps — responsive web UI sufficient for v1
+- **Cloud theme sync** - Requires backend changes, auth complexity
+- **Custom theme colors** - Maintenance burden, diminishing returns
+- **Translation management UI** - Scope creep, not core workflow
+- **Animated GIF preview** - Performance impact on large grids
+- **Theme-aware image optimization** - Nice-to-have, not critical
 
 ### Architecture Approach
 
-EmoHub follows a layered monorepo architecture with clear separation between presentation, business logic, and data layers. The system uses hybrid storage: SQLite for structured metadata, sqlite-vss for vector embeddings, and filesystem for image files. This separation enables efficient vector search while maintaining data portability.
+All features integrate through three clean layers: a new global settings store (Zustand with persist middleware), component enhancements (add capabilities without restructuring), and utility functions (clipboard, download, i18n helpers). The architecture maintains v1.0 patterns - inline styles become CSS variables, hardcoded strings become translation keys, existing APIs gain new consumers. No server changes required except optional server-side ZIP generation for 50+ image batches.
 
 **Major components:**
-1. **Presentation Layer** — React web app with Zustand state management, optimistic updates
-2. **API Gateway** — Fastify server with route handlers, validation, WebSocket for real-time notifications
-3. **Business Logic Layer** — Service classes (Image, Tag, Search, Vector Processing, OCR, Sync)
-4. **Data Access Layer** — Prisma ORM for SQL, Vector Storage adapter for sqlite-vss, File Storage adapter
-5. **Storage Layer** — SQLite database (metadata), Vector Index (embeddings), File System (images)
+1. **Settings Store** - Zustand store with persist middleware manages theme, language, display preferences, behavior toggles
+2. **Theme System** - CSS variables in `:root` and `[data-theme='dark']`, inline script prevents FOUC, respects `prefers-color-scheme`
+3. **i18n Infrastructure** - react-i18next wraps app, translation files in `public/locales/{lang}/`, lazy loading per language
+4. **Clipboard Utilities** - Native Clipboard API with format detection, leverages existing GIF conversion endpoint
+5. **Download Utilities** - client-zip streams files with progress tracking, batched fetches (5 concurrent), memory-efficient
+6. **Settings Page** - New TanStack Router route, grouped sections (Appearance, Language, Behavior), immediate persistence
 
-**Key patterns:**
-- Repository pattern for data access abstraction
-- Service layer for business logic encapsulation
-- Async processing for expensive operations (vectorization, OCR)
-- Optimistic UI updates for better perceived performance
+**Integration patterns:**
+- Settings-driven behavior (e.g., `confirmDelete` setting gates delete operations)
+- Theme-aware styling (replace hardcoded colors with CSS variables)
+- Translated text (replace strings with `t('key')`)
+- Progressive enhancement (feature detection for Clipboard API)
 
-**Critical data flows:**
-- Image upload → compress → save file → create DB record → async vectorization → async OCR
-- Vector search → generate query embedding → similarity search → fetch metadata → return ranked results
-- All expensive operations (CLIP inference 100-500ms, OCR 1-3s) run asynchronously to avoid blocking UI
+### Watch Out For
 
-### Critical Pitfalls
+Based on pitfalls mentioned across research files:
 
-Research identified 7 critical pitfalls that could cause rewrites or major issues:
+1. **FOUC (Flash of Unstyled Content)** - Dark mode can cause white flash on page load. Prevention: inline `<script>` in `index.html` to set theme before React hydration, read from localStorage synchronously.
 
-1. **Vector dimension mismatch** — Using CLIP model with different dimensions than database schema. Lock CLIP model variant (ViT-B/32 = 512-dim) in config from day 1, add model version metadata to database.
+2. **Bundle size bloat** - Adding multiple libraries can balloon bundle. Prevention: Use CSS-only dark mode (0KB), choose client-zip over JSZip (saves 16KB), lazy load translation files per language.
 
-2. **Synchronous vectorization blocking UI** — Running CLIP inference synchronously during uploads causes UI freezes on batch imports. Implement job queue system (BullMQ) from Phase 1, use worker threads, process asynchronously.
+3. **Memory limits in batch download** - Fetching 200+ images simultaneously can crash browser. Prevention: Limit concurrent fetches to 5, show progress indicator, consider server-side ZIP endpoint for large batches.
 
-3. **SQLite write contention** — Multiple concurrent vectorization jobs cause "database is locked" errors. Enable WAL mode in Prisma from start, implement write queue with single writer, serialize vector writes.
+4. **Missing translations** - Hardcoded strings slip through during refactoring. Prevention: Extract all strings to translation files first, use TypeScript with i18next's `enableSelector` for type-safe keys, test both languages.
 
-4. **Memory explosion from full-resolution images** — Loading large images into CLIP causes heap exhaustion. Resize images to 224x224 before inference, extract first frame from animated images, process in small batches.
-
-5. **OCR running on every search** — Running OCR during search instead of at index time causes 2-5 second latency. Run OCR once during import, store extracted text in database, never run OCR in request path.
-
-6. **No vector normalization** — Storing raw CLIP vectors without L2 normalization breaks cosine similarity search. Always L2-normalize vectors before storage, verify normalization in tests.
-
-7. **Missing sqlite-vss index** — Forgetting to create/rebuild vector index after bulk inserts causes 10+ second searches. Create index immediately after schema setup, rebuild after bulk imports.
+5. **Accessibility regressions** - Dark mode can fail WCAG contrast ratios. Prevention: Test contrast ratios (4.5:1 for text, 3:1 for UI), avoid pure black/white, respect `prefers-reduced-motion` for animations.
 
 ## Implications for Roadmap
 
-Based on research, suggested phase structure follows architectural dependencies and avoids critical pitfalls:
+Based on research, suggested phase structure:
 
-### Phase 1: Foundation & Core Backend
-**Rationale:** Everything depends on database schema, type system, and basic API. Must establish vector dimension contract and async processing patterns before building features.
+### Phase 1: Foundation & Settings
+**Rationale:** Settings store and CSS variables are dependencies for all other features. Build the foundation first to avoid rework.
+**Delivers:** Settings page with persistence, CSS variable system, toast notifications
+**Addresses:** Settings page (table stakes), infrastructure for theme/language
+**Avoids:** Rework pitfall - changing color system after components are built
 
-**Delivers:**
-- Shared types across monorepo
-- Database schema (Prisma + sqlite-vss hybrid)
-- Repository layer with data access abstraction
-- Service layer foundation (Image, Tag services)
-- Fastify API with CRUD endpoints
-- File storage with upload handling
+**Features:**
+- Settings store with Zustand persist middleware
+- CSS variables for all colors (`:root` and `[data-theme='dark']`)
+- Settings page route with grouped sections
+- Toast notification setup (react-hot-toast)
 
-**Addresses:**
-- Upload/Import stickers (table stakes)
-- Delete stickers (table stakes)
-- Basic categorization via simple tags
+**Complexity:** Low (2-3 days)
 
-**Avoids:**
-- Pitfall #1 (vector dimension mismatch) — lock CLIP model early
-- Pitfall #3 (SQLite write contention) — enable WAL mode from start
-- Pitfall #6 (no normalization) — establish vector processing contract
+### Phase 2: Dark Mode
+**Rationale:** Most requested feature, enables visual polish work, must be tested across all components before adding more features.
+**Delivers:** Light/dark/system theme switching with persistence
+**Uses:** Settings store (Phase 1), CSS variables (Phase 1)
+**Implements:** Theme system component from architecture
+**Avoids:** FOUC pitfall with inline script, accessibility pitfall with WCAG testing
 
-**Research flag:** MEDIUM — sqlite-vss integration with Prisma needs validation, Bun compatibility with native extensions must be tested.
+**Features:**
+- Theme toggle component in header
+- Dark mode CSS variables
+- FOUC prevention (inline script)
+- `prefers-color-scheme` detection
+- Refactor all inline styles to use CSS variables
 
-### Phase 2: Frontend Foundation
-**Rationale:** With working backend API, build UI to consume it. Establishes user interaction patterns and state management before adding complex features.
+**Complexity:** Low-Medium (2-3 days)
 
-**Delivers:**
-- React web app with Vite build
-- Zustand state management with optimistic updates
-- UI components (ImageCard, ImageGrid, TagInput)
-- Browse/Grid view with virtual scrolling
-- Basic search by filename
-- Copy to clipboard functionality
-- Keyboard shortcuts
+### Phase 3: Internationalization
+**Rationale:** Requires extracting all strings, best done before adding new features with new strings. Language selector lives in settings page from Phase 1.
+**Delivers:** Multi-language support (English + 1 additional language)
+**Uses:** Settings store (Phase 1), settings page (Phase 1)
+**Implements:** i18n infrastructure component from architecture
+**Avoids:** Missing translations pitfall with comprehensive extraction
 
-**Addresses:**
-- Browse/Grid view (table stakes)
-- Basic search (table stakes)
-- Copy to clipboard (table stakes)
-- Keyboard shortcuts (table stakes)
-- Responsive UI (table stakes)
+**Features:**
+- react-i18next setup with language detector
+- Translation files (English + Chinese/Spanish)
+- Language selector in settings page
+- Extract all hardcoded strings to translation keys
+- Test pluralization and interpolation
 
-**Uses:**
-- React 18.2 + Vite 5.0 + Tailwind CSS
-- TanStack Query for server state
-- react-virtuoso for efficient rendering of 4000+ items
+**Complexity:** Medium (3-4 days)
 
-**Research flag:** LOW — standard React patterns, well-documented.
+### Phase 4: Clipboard & Download Enhancements
+**Rationale:** Independent features that extend existing capabilities, can be built in parallel after foundation is stable.
+**Delivers:** Enhanced clipboard copy with format selection, batch ZIP download
+**Uses:** Existing GIF conversion API, existing selection state
+**Implements:** Clipboard and download utilities from architecture
+**Avoids:** Memory limits pitfall with batched fetches and progress tracking
 
-### Phase 3: Vector Search System
-**Rationale:** Requires working image system first. Core differentiator but high complexity. Must implement async processing to avoid blocking UI.
+**Features:**
+- Clipboard copy utility with format detection
+- Format selector UI in lightbox (Copy Original / Copy as GIF)
+- Batch download utility with client-zip
+- Progress modal for download operations
+- Download button in toolbar
 
-**Delivers:**
-- Vector storage layer with sqlite-vss
-- CLIP embedding generation service
-- Background job queue for vectorization
-- Vector similarity search API
-- Search UI with image-based queries
+**Complexity:** Medium (3-4 days)
 
-**Addresses:**
-- Vector similarity search (core differentiator)
+### Phase 5: Visual Polish
+**Rationale:** Final refinement pass after all features are functional. Must test animations in both light and dark themes.
+**Delivers:** Loading states, empty states, smooth transitions, enhanced hover effects
+**Uses:** Dark mode (Phase 2), i18n (Phase 3)
+**Implements:** Visual polish enhancements from architecture
+**Avoids:** Accessibility pitfall with `prefers-reduced-motion` support
 
-**Uses:**
-- @xenova/transformers for CLIP inference
-- sqlite-vss for vector indexing
-- BullMQ or similar for job queue
+**Features:**
+- Loading skeletons for image grid
+- Empty states with icons and CTAs
+- Smooth transitions (200-300ms) for interactive elements
+- Enhanced hover states (scale, shadow)
+- Modal animations (fade in backdrop, slide up content)
+- Focus indicators for keyboard navigation
 
-**Avoids:**
-- Pitfall #2 (synchronous vectorization) — job queue from start
-- Pitfall #4 (memory explosion) — resize images before inference
-- Pitfall #7 (missing index) — create index immediately
-
-**Research flag:** HIGH — sqlite-vss API and performance characteristics need validation, CLIP model download and caching behavior must be tested, job queue integration requires planning.
-
-### Phase 4: OCR & Advanced Search
-**Rationale:** Enhances search capabilities after core vector search works. OCR is expensive (1-3s per image) so must be async.
-
-**Delivers:**
-- OCR service with Tesseract.js
-- Text extraction at index time
-- Full-text search integration
-- Advanced search filters (tags + text + similarity)
-- Tag autocomplete and suggestions
-
-**Addresses:**
-- OCR text extraction (differentiator)
-- Advanced search filters (differentiator)
-- Tag autocomplete (differentiator)
-
-**Uses:**
-- Tesseract.js 5.x with Chinese + English support
-
-**Avoids:**
-- Pitfall #5 (OCR in search path) — run at index time only
-
-**Research flag:** MEDIUM — Tesseract.js performance with large batches needs testing, Chinese language support validation required.
-
-### Phase 5: Bulk Operations & Polish
-**Rationale:** Workflow enhancements after core functionality complete. Addresses power user needs.
-
-**Delivers:**
-- Bulk tagging operations
-- Multi-dimensional tag taxonomy
-- Thumbnail generation
-- Progress indicators for async operations
-- WebSocket notifications for processing status
-
-**Addresses:**
-- Bulk tagging operations (differentiator)
-- Multi-dimensional tagging (differentiator)
-
-**Implements:**
-- WebSocket handler for real-time updates
-- Thumbnail generation pipeline
-
-**Research flag:** LOW — standard patterns for bulk operations and WebSockets.
-
-### Phase 6: Mobile & Desktop (Optional)
-**Rationale:** Reuses all backend and shared code. Only if web app proves insufficient.
-
-**Delivers:**
-- React Native mobile app (iOS/Android)
-- Electron desktop wrapper
-
-**Addresses:**
-- Platform-specific needs if web UI insufficient
-
-**Research flag:** LOW — defer until web app validated with users.
+**Complexity:** Low-Medium (2-3 days)
 
 ### Phase Ordering Rationale
 
-- **Foundation first** — Database schema and type system establish contracts for all other phases. Vector dimension mismatch is critical pitfall that must be avoided early.
-- **Backend before frontend** — API must exist before UI can consume it. Service layer encapsulates business logic for reuse.
-- **Core features before differentiators** — Upload, browse, search by filename are table stakes. Vector search and OCR are differentiators that can launch later.
-- **Async processing from Phase 1** — Job queue and background processing patterns must be established before vector search to avoid UI blocking pitfalls.
-- **Vector search before OCR** — CLIP embeddings are faster (100-500ms) than OCR (1-3s). Validate vector search performance before adding OCR complexity.
-- **Mobile/Desktop last** — Reuses all backend code. Only build if responsive web UI proves insufficient.
+- **Foundation first** - Settings store and CSS variables are dependencies for dark mode, i18n, and visual polish. Building these first prevents rework.
+- **Dark mode before polish** - Visual polish must be tested in both themes. Implementing dark mode early allows polish work to account for both from the start.
+- **i18n before new features** - Extracting strings is tedious. Do it once before adding clipboard/download features that introduce new strings.
+- **Features before polish** - Clipboard and download are functional enhancements. Polish is aesthetic refinement. Function before form.
+- **Parallel opportunities** - Phase 4 features (clipboard, download) can be built in parallel by different developers.
 
 ### Research Flags
 
-Phases likely needing deeper research during planning:
-- **Phase 3 (Vector Search):** Complex integration with sqlite-vss, CLIP model behavior, job queue architecture. Needs API research and performance testing.
-- **Phase 4 (OCR):** Tesseract.js performance characteristics with large batches, Chinese language support validation.
-
 Phases with standard patterns (skip research-phase):
-- **Phase 2 (Frontend Foundation):** Well-documented React patterns, standard state management.
-- **Phase 5 (Bulk Operations):** Standard CRUD operations and WebSocket patterns.
-- **Phase 6 (Mobile/Desktop):** Standard React Native and Electron patterns.
+- **Phase 1:** Settings page and localStorage persistence are well-documented patterns
+- **Phase 2:** Dark mode with CSS variables is a solved problem with extensive 2026 best practices
+- **Phase 3:** react-i18next has comprehensive official documentation and examples
+- **Phase 4:** Clipboard API and client-zip have clear documentation and examples
+- **Phase 5:** Visual polish uses standard CSS techniques
+
+**No phases need `/gsd:research-phase`** - all features have mature patterns and excellent documentation.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | MEDIUM | Core technologies (React, Fastify, SQLite, Prisma) are HIGH confidence. sqlite-vss (0.1.x) and Bun compatibility with native extensions are MEDIUM confidence—need validation. |
-| Features | MEDIUM | Table stakes features based on competitor analysis patterns. Differentiators (vector search, OCR) are well-understood but implementation complexity is MEDIUM. |
-| Architecture | HIGH | Layered architecture with repository pattern and service layer are established patterns. Async processing approach is proven for expensive operations. |
-| Pitfalls | MEDIUM | Critical pitfalls identified from domain knowledge of CLIP, SQLite, and Node.js patterns. Specific sqlite-vss behaviors need validation during implementation. |
+| Stack | HIGH | All recommendations based on official docs, npm stats, and 2026 best practices |
+| Features | HIGH | Clear table stakes vs differentiators based on web search of modern app expectations |
+| Architecture | HIGH | Integration patterns leverage existing v1.0 architecture, no breaking changes |
+| Pitfalls | MEDIUM | Derived from research files rather than dedicated pitfalls research, but covers critical issues |
 
-**Overall confidence:** MEDIUM
-
-Research is based on training data (January 2025 cutoff) without access to current documentation or Context7. Core architectural patterns and technology choices are sound, but specific implementation details need validation.
+**Overall confidence:** HIGH
 
 ### Gaps to Address
 
-Areas where research was inconclusive or needs validation during implementation:
+- **Server-side ZIP generation** - Research recommends client-side with client-zip, but notes server-side may be needed for 50+ images. Decision point: implement client-side first, add server endpoint if performance testing shows need.
 
-- **sqlite-vss API and behavior:** Official documentation needed for index creation, query syntax, performance characteristics. Test with sample dataset in Phase 1.
-- **Bun compatibility with native modules:** sqlite-vss requires native compilation. Test compatibility early in Phase 1, have Node.js fallback plan.
-- **@xenova/transformers model caching:** Verify model download behavior (500MB+ on first run), cache location, warmup strategy. Test in Phase 3.
-- **CLIP model dimensions and normalization:** Verify exact output dimensions for chosen model variant, confirm normalization requirements. Document in Phase 1.
-- **Prisma virtual table support:** Prisma doesn't natively support sqlite-vss virtual tables. Plan hybrid approach (Prisma for regular tables, raw SQL for vector operations) in Phase 1.
-- **Tesseract.js Chinese support:** Validate Chinese language pack availability and performance. Test in Phase 4.
-- **Job queue selection:** Evaluate BullMQ vs alternatives for Bun compatibility. Decide in Phase 1.
+- **Translation quality** - Research covers technical implementation but not translation accuracy. Recommendation: start with English + 1 language, use professional translation service or native speaker review.
+
+- **Animation complexity** - Research recommends CSS-only initially, defer Framer Motion. Decision point: if requirements expand to complex orchestrated animations, revisit library choice.
+
+- **Accessibility testing** - Research mentions WCAG requirements but doesn't detail testing process. Recommendation: use automated tools (axe DevTools) for contrast ratios, manual testing with keyboard navigation.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- Layered architecture patterns (Martin Fowler's Enterprise Application Architecture)
-- Repository pattern (Domain-Driven Design)
-- React 18 documentation and concurrent features
-- Fastify 4 official documentation
-- Prisma 5 documentation for SQLite
+- **STACK.md** - Technology recommendations based on official documentation, npm stats, performance benchmarks
+- **FEATURES.md** - Feature landscape based on 2026 web app expectations, official API documentation
+- **ARCHITECTURE-UX-POLISH.md** - Integration patterns based on existing v1.0 codebase analysis
 
 ### Secondary (MEDIUM confidence)
-- CLIP paper and model architecture (ViT-B/32 = 512-dim, ViT-L/14 = 768-dim)
-- @xenova/transformers library patterns for ONNX runtime
-- sqlite-vss extension capabilities (based on training data, needs verification)
-- Competitor analysis patterns (Gboard, Telegram stickers, Discord emoji managers, Eagle, Pixave)
-- Node.js/Bun runtime patterns and performance characteristics
+- Web search results for dark mode best practices (dev.to, CSS-tricks)
+- Web search results for i18n patterns (i18next.com, phrase.com)
+- Web search results for clipboard API usage (web.dev, MDN)
+- Web search results for batch download patterns (Medium, Stack Overflow)
 
-### Tertiary (LOW confidence)
-- Bun 1.3.9 compatibility with native SQLite extensions (needs testing)
-- sqlite-vss 0.1.x API details (needs official documentation)
-- Tesseract.js 5.x Chinese language support (needs validation)
+### Key Insights
+1. Dark mode is table stakes in 2026 - users expect it in all apps
+2. react-i18next is the dominant i18n solution for React (3.5M weekly downloads vs 1.2M for react-intl)
+3. client-zip outperforms JSZip for uncompressed archives (40% faster, 3.4x smaller bundle)
+4. CSS-only dark mode performs better than any library (zero runtime overhead)
+5. All features can be implemented without server changes (optional server-side ZIP for large batches)
 
 ---
-*Research completed: 2026-02-11*
+*Research completed: 2026-02-12*
 *Ready for roadmap: yes*
