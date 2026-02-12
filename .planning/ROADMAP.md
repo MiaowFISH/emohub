@@ -148,6 +148,12 @@ Plans:
 4. User with reduced motion preference sees instant state changes without animation
 5. All animations work correctly in both light and dark themes
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — CSS transition foundation: utilities, focus-visible, reduced-motion, FOUC prevention
+- [ ] 09-02-PLAN.md — Apply transitions to components: ImageGrid CSS classes, smooth theme switch, lightbox animations
+
 **Status:** Pending
 
 ---
@@ -164,7 +170,7 @@ Plans:
 | 6. Dark Mode | v1.1 | 2/2 | Complete | 2026-02-12 |
 | 7. Internationalization | v1.1 | 2/2 | Complete | 2026-02-12 |
 | 8. Enhanced Operations | v1.1 | 2/2 | Complete | 2026-02-12 |
-| 9. Visual Polish | v1.1 | 0/0 | Pending | — |
+| 9. Visual Polish | v1.1 | 0/2 | Pending | — |
 
 ---
 
