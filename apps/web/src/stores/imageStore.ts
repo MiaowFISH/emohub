@@ -9,6 +9,7 @@ interface ImageState {
   isLoading: boolean
   hasMore: boolean
   selectedIds: Set<string>
+  activeTagFilter: string[]
   fetchImages: (page?: number, tagIds?: string[]) => Promise<void>
   fetchMore: () => Promise<void>
   addImages: (images: Image[]) => void
@@ -25,6 +26,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
   isLoading: false,
   hasMore: true,
   selectedIds: new Set<string>(),
+  activeTagFilter: [],
 
   fetchImages: async (page = 1, tagIds?: string[]) => {
     set({ isLoading: true })
@@ -36,7 +38,8 @@ export const useImageStore = create<ImageState>((set, get) => ({
         total: response.meta.total,
         page: response.meta.page,
         isLoading: false,
-        hasMore: data.length < response.meta.total
+        hasMore: data.length < response.meta.total,
+        activeTagFilter: tagIds || []
       })
     } catch (error) {
       console.error('Failed to fetch images:', error)
@@ -45,12 +48,13 @@ export const useImageStore = create<ImageState>((set, get) => ({
   },
 
   fetchMore: async () => {
-    const { isLoading, hasMore, page, images } = get()
+    const { isLoading, hasMore, page, images, activeTagFilter } = get()
     if (isLoading || !hasMore) return
     set({ isLoading: true })
     try {
       const nextPage = page + 1
-      const response = await imageApi.list(nextPage, 50)
+      const tagIds = activeTagFilter.length > 0 ? activeTagFilter : undefined
+      const response = await imageApi.list(nextPage, 50, tagIds)
       const newData = response.data || []
       const merged = [...images, ...newData]
       set({
