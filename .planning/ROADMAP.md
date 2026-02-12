@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Project Setup & Backend Foundation** - Monorepo structure, database schema, API foundation
 - [x] **Phase 2: Image Management** - Upload, storage, viewing, and optimization
 - [x] **Phase 3: Tag System** - Tagging, tag management, and batch operations
-- [ ] **Phase 4: Search & Polish** - Search functionality and responsive UI
+- [x] **Phase 4: Search & Polish** - Search functionality and responsive UI
 
 ## Phase Details
 
@@ -83,8 +83,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Text search across filenames and tag names with debounced SearchBar
-- [ ] 04-02-PLAN.md — Responsive layout with mobile sidebar and human verification
+- [x] 04-01-PLAN.md — Text search across filenames and tag names with debounced SearchBar
+- [x] 04-02-PLAN.md — Responsive layout with mobile sidebar and human verification
 
 ## Progress
 
@@ -96,4 +96,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Project Setup & Backend Foundation | 2/2 | ✓ Complete | 2026-02-12 |
 | 2. Image Management | 5/5 | ✓ Complete | 2026-02-12 |
 | 3. Tag System | 4/4 | ✓ Complete | 2026-02-12 |
-| 4. Search & Polish | 0/2 | Not started | - |
+| 4. Search & Polish | 2/2 | ✓ Complete | 2026-02-12 |
