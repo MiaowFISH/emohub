@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { TagFilter } from '@/components/TagFilter'
+import { TagManager } from '@/components/TagManager'
 import { ImageUpload } from '@/components/ImageUpload'
 import { ImageToolbar } from '@/components/ImageToolbar'
 import { ImageGrid } from '@/components/ImageGrid'
@@ -68,54 +69,7 @@ const HomePage = () => {
           onClose={() => setLightboxIndex(-1)}
         />
 
-        {/* TagManager modal placeholder - will be replaced by Plan 02 */}
-        {showTagManager && (
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 1000
-            }}
-            onClick={() => setShowTagManager(false)}
-          >
-            <div
-              style={{
-                backgroundColor: 'white',
-                padding: '24px',
-                borderRadius: '8px',
-                maxWidth: '600px',
-                width: '90%'
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h2 style={{ margin: '0 0 16px 0' }}>Tag Manager</h2>
-              <p style={{ color: '#6b7280', marginBottom: '16px' }}>
-                Tag management UI will be implemented in Plan 03-02
-              </p>
-              <button
-                onClick={() => setShowTagManager(false)}
-                style={{
-                  padding: '8px 16px',
-                  fontSize: '14px',
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: 'pointer'
-                }}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
+        <TagManager isOpen={showTagManager} onClose={() => setShowTagManager(false)} />
       </div>
     </div>
   )

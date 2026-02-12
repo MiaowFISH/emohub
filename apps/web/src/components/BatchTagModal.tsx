@@ -112,6 +112,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
 
         {mode === 'add' ? (
           <div style={{ marginBottom: '20px' }}>
+            {/* @ts-ignore react-tag-autocomplete types incompatible with React 19 */}
             <ReactTags
               selected={selectedTags}
               suggestions={suggestions}

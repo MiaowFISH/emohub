@@ -34,23 +34,20 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
 
   const handleAdd = async (newTag: ReactTag) => {
     try {
-      if (newTag.value) {
+      // Check if this is an existing tag by looking it up in the store
+      const existingTag = tags.find(t => t.id === String(newTag.value))
+      if (existingTag) {
         // Existing tag selected from autocomplete
-        const tagId = String(newTag.value)
-        await tagApi.batchAdd([imageId], [tagId])
-        const addedTag = tags.find(t => t.id === tagId)
-        if (addedTag) {
-          const updatedTags = [...currentTags, addedTag]
-          onTagsChange(updatedTags)
-        }
+        await tagApi.batchAdd([imageId], [existingTag.id])
+        const updatedTags = [...currentTags, existingTag]
+        onTagsChange(updatedTags)
       } else {
-        // New tag created inline
+        // New tag created inline (allowNew gives it a generated value, so check store instead)
         const response = await tagApi.create(newTag.label)
         if (response.data) {
           await tagApi.batchAdd([imageId], [response.data.id])
           const updatedTags = [...currentTags, response.data]
           onTagsChange(updatedTags)
-          // Refresh tag store to include new tag
           await fetchTags()
         }
       }
@@ -72,6 +69,7 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
 
   return (
     <div style={{ width: '100%' }}>
+      {/* @ts-ignore react-tag-autocomplete types incompatible with React 19 */}
       <ReactTags
         selected={selected}
         suggestions={suggestions}

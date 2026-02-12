@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import { imageApi } from '@/lib/api'
@@ -17,6 +17,11 @@ interface ImageLightboxProps {
 export const ImageLightbox = ({ images, index, onClose }: ImageLightboxProps) => {
   const [currentIndex, setCurrentIndex] = useState(index)
   const { images: storeImages } = useImageStore()
+
+  // Sync currentIndex when the parent changes which image to show
+  useEffect(() => {
+    setCurrentIndex(index)
+  }, [index])
 
   const slides = images.map(img => ({
     src: imageApi.getFullUrl(img.id),
