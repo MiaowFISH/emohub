@@ -25,11 +25,12 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
   const suggestions = tags.map(tag => ({ value: tag.id, label: tag.name }))
 
   const handleAddTags = async (newTag: ReactTag) => {
-    if (newTag.value) {
-      // Existing tag
-      setSelectedTags([...selectedTags, newTag])
+    // Check if this is an existing tag by looking it up in the store
+    const existingTag = tags.find(t => t.id === String(newTag.value))
+    if (existingTag) {
+      setSelectedTags([...selectedTags, { value: existingTag.id, label: existingTag.name }])
     } else {
-      // New tag - create it first
+      // New tag — create it first, then add to selection
       try {
         const response = await tagApi.create(newTag.label)
         if (response.data) {

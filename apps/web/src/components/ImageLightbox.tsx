@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useRef, useCallback } from 'react'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import { imageApi } from '@/lib/api'
@@ -15,13 +15,10 @@ interface ImageLightboxProps {
 }
 
 export const ImageLightbox = ({ images, index, onClose }: ImageLightboxProps) => {
-  const [currentIndex, setCurrentIndex] = useState(index)
+  const viewIndexRef = useRef(index)
   const { images: storeImages } = useImageStore()
 
-  // Sync currentIndex when the parent changes which image to show
-  useEffect(() => {
-    setCurrentIndex(index)
-  }, [index])
+  const isOpen = index >= 0
 
   const slides = images.map(img => ({
     src: imageApi.getFullUrl(img.id),
@@ -30,35 +27,43 @@ export const ImageLightbox = ({ images, index, onClose }: ImageLightboxProps) =>
     height: img.height
   }))
 
-  const currentImage = images[currentIndex]
+  // Track which slide the user navigated to inside the lightbox
+  const handleView = useCallback(({ index: newIndex }: { index: number }) => {
+    viewIndexRef.current = newIndex
+  }, [])
+
+  // When opening, reset the ref to the clicked index
+  if (isOpen) {
+    viewIndexRef.current = index
+  }
+
+  const activeIndex = isOpen ? viewIndexRef.current : 0
+  const currentImage = images[activeIndex]
 
   const handleTagsChange = (newTags: ImageTag[]) => {
-    // Update the image in the store
+    if (!currentImage) return
     const imageIndex = storeImages.findIndex(img => img.id === currentImage.id)
     if (imageIndex !== -1) {
       const updatedImages = [...storeImages]
       updatedImages[imageIndex] = { ...updatedImages[imageIndex], tags: newTags }
       useImageStore.setState({ images: updatedImages })
     }
-    // Also update local images array
-    images[currentIndex] = { ...currentImage, tags: newTags }
   }
+
+  if (!isOpen) return null
 
   return (
     <>
       <Lightbox
-        open={index >= 0}
+        open
         close={onClose}
-        index={currentIndex}
+        index={index}
         slides={slides}
         carousel={{ finite: false }}
         controller={{ closeOnBackdropClick: true }}
-        on={{
-          view: ({ index: newIndex }) => setCurrentIndex(newIndex)
-        }}
+        on={{ view: handleView }}
       />
-      {/* Tag input overlay */}
-      {index >= 0 && currentImage && (
+      {currentImage && (
         <div
           style={{
             position: 'fixed',
