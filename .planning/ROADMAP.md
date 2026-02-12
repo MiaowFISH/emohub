@@ -55,6 +55,12 @@ Plans:
 - THEME-02: User's theme preference persists across page refreshes
 - THEME-03: System theme option automatically follows OS theme changes
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — FOUC prevention script and expanded CSS variable palette
+- [ ] 06-02-PLAN.md — Convert all component hardcoded colors to CSS variables
+
 **Success Criteria:**
 1. User can select light, dark, or system theme from settings
 2. Theme changes apply instantly to all UI components
@@ -62,7 +68,7 @@ Plans:
 4. When system theme is selected, UI automatically updates when OS theme changes
 5. No white flash occurs when loading page in dark mode
 
-**Status:** Pending
+**Status:** Planned
 
 ---
 
@@ -143,7 +149,7 @@ Plans:
 | 3. Tag System | v1.0 | 4/4 | Complete | 2026-02-12 |
 | 4. Search & Polish | v1.0 | 2/2 | Complete | 2026-02-12 |
 | 5. Settings Foundation | v1.1 | 1/1 | Complete | 2026-02-12 |
-| 6. Dark Mode | v1.1 | 0/0 | Pending | — |
+| 6. Dark Mode | v1.1 | 0/2 | Planned | — |
 | 7. Internationalization | v1.1 | 0/0 | Pending | — |
 | 8. Enhanced Operations | v1.1 | 0/0 | Pending | — |
 | 9. Visual Polish | v1.1 | 0/0 | Pending | — |
