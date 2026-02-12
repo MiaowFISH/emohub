@@ -4,6 +4,7 @@ import { useTagStore } from '@/stores/tagStore'
 import { imageApi } from '@/lib/api'
 import { useState, useCallback } from 'react'
 import { BatchTagModal } from './BatchTagModal'
+import { toast } from 'sonner'
 import '@/styles/buttons.css'
 
 export const ImageToolbar = () => {
@@ -25,7 +26,7 @@ export const ImageToolbar = () => {
       clearSelection()
       setShowConfirm(false)
     } catch (error) {
-      alert(t('toolbar.delete_failed', { error: error instanceof Error ? error.message : 'Unknown error' }))
+      toast.error(t('toolbar.delete_failed', { error: error instanceof Error ? error.message : 'Unknown error' }))
     } finally {
       setIsDeleting(false)
     }
@@ -62,7 +63,7 @@ export const ImageToolbar = () => {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
     } catch (error) {
-      alert(`Failed to download image: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      toast.error(t('toolbar.convert_failed', { error: error instanceof Error ? error.message : 'Unknown error' }))
     } finally {
       setIsConverting(false)
     }

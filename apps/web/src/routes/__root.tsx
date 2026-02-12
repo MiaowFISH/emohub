@@ -1,5 +1,6 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { Toaster } from 'sonner'
 
 const RootLayout = () => {
   const { t } = useTranslation('common')
@@ -65,6 +66,7 @@ const RootLayout = () => {
       <main style={{ flex: 1, padding: '2rem' }}>
         <Outlet />
       </main>
+      <Toaster position="bottom-center" richColors theme="system" />
     </div>
   )
 }

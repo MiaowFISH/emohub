@@ -10,7 +10,18 @@
     "downloading": "Downloading...",
     "confirm_delete_title": "Confirm Delete",
     "confirm_delete_message": "Delete {{count}} image(s)? This cannot be undone.",
-    "delete_failed": "Failed to delete images: {{error}}"
+    "delete_failed": "Failed to delete images: {{error}}",
+    "convert_failed": "Failed to convert image: {{error}}"
+  },
+  "clipboard": {
+    "copy": "Copy",
+    "copy_original": "Copy Original",
+    "copy_as_gif": "Copy as GIF",
+    "copying": "Copying...",
+    "copy_success": "Copied to clipboard!",
+    "copy_failed": "Failed to copy image",
+    "permission_denied": "Clipboard permission denied. Please allow clipboard access.",
+    "not_supported": "Clipboard API not supported in this browser"
   },
   "upload": {
     "uploading": "Uploading...",

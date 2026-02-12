@@ -11,10 +11,10 @@
 
 ## Current Position
 
-**Phase:** 7 - Internationalization
-**Plan:** 2 of 2 complete
-**Status:** Phase 7 Complete
-**Progress:** `[██████████] 100%` (2/2 plans complete)
+**Phase:** 8 - Enhanced Operations
+**Plan:** 1 of 2 complete (Plan 02 complete, Plan 01 in progress)
+**Status:** Phase 8 In Progress
+**Progress:** [█████████░] 95%
 
 ## Performance Metrics
 
@@ -48,9 +48,13 @@
 | Dark theme status colors lighter/more saturated | Better readability on dark backgrounds | 2026-02-12 |
 | Bidirectional sync between i18next and settingsStore | Event listeners and store subscriptions avoid circular imports | 2026-02-12 |
 | Three namespaces (common, settings, images) | Logical separation enables lazy loading and matches component organization | 2026-02-12 |
+| Skeleton shimmer respects prefers-reduced-motion | Accessibility requirement - users with motion sensitivity should not see animations | 2026-02-12 |
+| EmptyState differentiates no-images vs no-results | Contextual guidance helps users understand why they see empty state and what to do next | 2026-02-12 |
+| Button hierarchy uses CSS classes | Maintainability, consistency, easier theming, reduced code duplication | 2026-02-12 |
 | Phase 06 P02 | 145 | 2 tasks | 6 files |
 | Phase 07 P01 | 283 | 2 tasks | 11 files |
 | Phase 07 P02 | 410 | 2 tasks | 12 files |
+| Phase 08 P02 | 181 | 2 tasks | 9 files |
 
 ### Active TODOs
 
@@ -63,7 +67,9 @@
 - [x] Phase 6 Plan 2: Apply theme to all components
 - [x] Phase 7 Plan 1: i18n infrastructure setup
 - [x] Phase 7 Plan 2: Convert components to use translations
-- [ ] Plan Phase 8: Enhanced Operations
+- [x] Phase 8 Plan 2: Skeleton loading and visual hierarchy
+- [ ] Phase 8 Plan 1: Clipboard operations (in progress)
+- [ ] Plan Phase 9: Visual Polish
 
 ### Known Blockers
 
@@ -71,23 +77,25 @@ None currently.
 
 ### Recent Changes
 
+- 2026-02-12: Phase 8 Plan 2 completed - Skeleton loading cards with shimmer animation, contextual empty states, CSS button hierarchy system
+- 2026-02-12: Phase 7 Plan 2 completed - All components converted to use translation keys
 - 2026-02-12: Phase 7 Plan 1 completed - i18next infrastructure with bidirectional store sync, 6 translation files (3 namespaces × 2 languages)
 - 2026-02-12: Phase 6 Plan 2 completed - All components converted to CSS variables
 - 2026-02-12: Phase 6 Plan 1 completed - FOUC prevention inline script and 28 semantic color variables for both themes
-- 2026-02-12: Phase 5 Plan 1 completed - Settings foundation with persist store, /settings page, CSS variables
-- 2026-02-12: Roadmap created for v1.1 UX Polish milestone
 
 ## Session Continuity
 
-**What just happened:** Phase 7 (Internationalization) completed — i18next infrastructure established with bidirectional store sync, 6 translation files (3 namespaces × 2 languages), all 12 components/routes converted to useTranslation() hooks. Verification passed 8/8 must-haves.
+**What just happened:** Phase 8 Plan 2 completed — Skeleton loading system with shimmer animation (respects prefers-reduced-motion), contextual empty states (no-images vs no-results), and CSS button hierarchy system. Removed 150+ lines of inline button styles. All text bilingual (EN/ZH).
 
-**What's next:** Plan and execute Phase 8 (Enhanced Operations) — clipboard copy with format options, visual hierarchy improvements, skeleton loading states.
+**What's next:** Complete Phase 8 Plan 1 (clipboard operations), then plan and execute Phase 9 (Visual Polish).
 
 **Context for next session:**
-- Phase 7 complete: Full Chinese/English bilingual support with instant language switching
-- All components use useTranslation() hooks — zero hardcoded strings remain
-- i18next configured with http-backend, Suspense loading, TypeScript autocomplete
-- Phase 8 and 9 remain in v1.1 milestone
+- Phase 8 Plan 2 complete: SkeletonCard, EmptyState, buttons.css with 6 hierarchy classes
+- Skeleton cards integrated into ImageGrid for initial load and infinite scroll
+- Empty states provide contextual guidance based on user scenario
+- Button hierarchy improves visual clarity (primary/secondary/danger/success/warning/icon)
+- Phase 8 Plan 1 (clipboard) running in parallel — may already be complete
+- Phase 9 remains in v1.1 milestone
 
 ---
 

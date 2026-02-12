@@ -17,6 +17,7 @@
   "status": {
     "loading": "加载中...",
     "processing": "处理中...",
-    "deleting": "删除中..."
+    "deleting": "删除中...",
+    "copying": "复制中..."
   }
 }

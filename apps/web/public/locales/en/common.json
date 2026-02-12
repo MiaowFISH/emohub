@@ -17,6 +17,7 @@
   "status": {
     "loading": "Loading...",
     "processing": "Processing...",
-    "deleting": "Deleting..."
+    "deleting": "Deleting...",
+    "copying": "Copying..."
   }
 }
