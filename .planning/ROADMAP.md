@@ -86,8 +86,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — i18next setup, translation files, settings store sync
-- [ ] 07-02-PLAN.md — Convert all components to use translation keys
+- [x] 07-01-PLAN.md — i18next setup, translation files, settings store sync
+- [x] 07-02-PLAN.md — Convert all components to use translation keys
 
 **Success Criteria:**
 1. User can select language from settings page
@@ -96,7 +96,7 @@ Plans:
 4. No untranslated text appears in either language
 5. Pluralization and date formatting work correctly in both languages
 
-**Status:** Pending
+**Status:** Complete — 2026-02-12
 
 ---
 
@@ -156,7 +156,7 @@ Plans:
 | 4. Search & Polish | v1.0 | 2/2 | Complete | 2026-02-12 |
 | 5. Settings Foundation | v1.1 | 1/1 | Complete | 2026-02-12 |
 | 6. Dark Mode | v1.1 | 2/2 | Complete | 2026-02-12 |
-| 7. Internationalization | v1.1 | 0/2 | Pending | — |
+| 7. Internationalization | v1.1 | 2/2 | Complete | 2026-02-12 |
 | 8. Enhanced Operations | v1.1 | 0/0 | Pending | — |
 | 9. Visual Polish | v1.1 | 0/0 | Pending | — |
 
