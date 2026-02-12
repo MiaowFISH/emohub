@@ -12,9 +12,9 @@
 ## Current Position
 
 **Phase:** 8 - Enhanced Operations
-**Plan:** 1 of 2 complete (Plan 02 complete, Plan 01 in progress)
-**Status:** Phase 8 In Progress
-**Progress:** [█████████░] 95%
+**Plan:** 2 of 2 complete
+**Status:** Phase 8 Complete
+**Progress:** [██████████] 100%
 
 ## Performance Metrics
 
@@ -51,10 +51,14 @@
 | Skeleton shimmer respects prefers-reduced-motion | Accessibility requirement - users with motion sensitivity should not see animations | 2026-02-12 |
 | EmptyState differentiates no-images vs no-results | Contextual guidance helps users understand why they see empty state and what to do next | 2026-02-12 |
 | Button hierarchy uses CSS classes | Maintainability, consistency, easier theming, reduced code duplication | 2026-02-12 |
+| Sonner for toast notifications | Lightweight (22KB), rich colors, system theme support | 2026-02-12 |
+| Clipboard API requires PNG format | Convert all images to PNG before copying (API requirement) | 2026-02-12 |
+| Server-side GIF conversion | Leverage existing imageApi.convertToGif endpoint instead of client-side processing | 2026-02-12 |
 | Phase 06 P02 | 145 | 2 tasks | 6 files |
 | Phase 07 P01 | 283 | 2 tasks | 11 files |
 | Phase 07 P02 | 410 | 2 tasks | 12 files |
 | Phase 08 P02 | 181 | 2 tasks | 9 files |
+| Phase 08 P01 | 389 | 2 tasks | 9 files |
 
 ### Active TODOs
 
@@ -68,7 +72,7 @@
 - [x] Phase 7 Plan 1: i18n infrastructure setup
 - [x] Phase 7 Plan 2: Convert components to use translations
 - [x] Phase 8 Plan 2: Skeleton loading and visual hierarchy
-- [ ] Phase 8 Plan 1: Clipboard operations (in progress)
+- [x] Phase 8 Plan 1: Clipboard operations with format selection
 - [ ] Plan Phase 9: Visual Polish
 
 ### Known Blockers
@@ -77,24 +81,25 @@ None currently.
 
 ### Recent Changes
 
+- 2026-02-12: Phase 8 Plan 1 completed - Clipboard copy with PNG/GIF format selector, toast notifications via sonner, server-side GIF conversion
 - 2026-02-12: Phase 8 Plan 2 completed - Skeleton loading cards with shimmer animation, contextual empty states, CSS button hierarchy system
 - 2026-02-12: Phase 7 Plan 2 completed - All components converted to use translation keys
 - 2026-02-12: Phase 7 Plan 1 completed - i18next infrastructure with bidirectional store sync, 6 translation files (3 namespaces × 2 languages)
 - 2026-02-12: Phase 6 Plan 2 completed - All components converted to CSS variables
-- 2026-02-12: Phase 6 Plan 1 completed - FOUC prevention inline script and 28 semantic color variables for both themes
 
 ## Session Continuity
 
-**What just happened:** Phase 8 Plan 2 completed — Skeleton loading system with shimmer animation (respects prefers-reduced-motion), contextual empty states (no-images vs no-results), and CSS button hierarchy system. Removed 150+ lines of inline button styles. All text bilingual (EN/ZH).
+**What just happened:** Phase 8 (Enhanced Operations) completed — Plan 01: Clipboard copy with PNG/GIF format selector, toast notifications via sonner, server-side GIF conversion. Plan 02: Skeleton loading, contextual empty states, CSS button hierarchy. All features bilingual (EN/ZH).
 
-**What's next:** Complete Phase 8 Plan 1 (clipboard operations), then plan and execute Phase 9 (Visual Polish).
+**What's next:** Plan and execute Phase 9 (Visual Polish) — final UX refinements, animations, micro-interactions.
 
 **Context for next session:**
-- Phase 8 Plan 2 complete: SkeletonCard, EmptyState, buttons.css with 6 hierarchy classes
-- Skeleton cards integrated into ImageGrid for initial load and infinite scroll
-- Empty states provide contextual guidance based on user scenario
-- Button hierarchy improves visual clarity (primary/secondary/danger/success/warning/icon)
-- Phase 8 Plan 1 (clipboard) running in parallel — may already be complete
+- Phase 8 complete: Clipboard operations + visual hierarchy improvements
+- Sonner toast system integrated app-wide with system theme support
+- Copy button in lightbox with format selector (Original/GIF)
+- Skeleton loading for initial load and infinite scroll
+- Empty states provide contextual guidance
+- Button hierarchy CSS classes reduce inline styles by 150+ lines
 - Phase 9 remains in v1.1 milestone
 
 ---
