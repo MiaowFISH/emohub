@@ -187,7 +187,8 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
           box-shadow: 0 4px 6px -1px var(--color-shadow);
           max-height: 200px;
           overflow-y: auto;
-          margin-top: 4px;
+          bottom: 100%;
+          margin-bottom: 4px;
           min-width: 200px;
           list-style: none;
           padding: 0;

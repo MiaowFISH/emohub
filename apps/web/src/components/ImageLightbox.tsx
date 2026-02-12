@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react'
+import { useRef, useState, useCallback, useMemo } from 'react'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 import { imageApi } from '@/lib/api'
@@ -16,28 +16,32 @@ interface ImageLightboxProps {
 
 export const ImageLightbox = ({ images, index, onClose }: ImageLightboxProps) => {
   const viewIndexRef = useRef(index)
+  const prevIndexRef = useRef(index)
+  const [, forceUpdate] = useState(0)
   const { images: storeImages } = useImageStore()
 
   const isOpen = index >= 0
 
-  const slides = images.map(img => ({
+  // Only sync ref when parent passes a genuinely new index (clicking a different image)
+  if (index !== prevIndexRef.current) {
+    prevIndexRef.current = index
+    viewIndexRef.current = index
+  }
+
+  const imageIds = images.map(img => img.id).join(',')
+  const slides = useMemo(() => images.map(img => ({
     src: imageApi.getFullUrl(img.id),
     alt: img.originalName,
     width: img.width,
     height: img.height
-  }))
+  })), [imageIds])
 
-  // Track which slide the user navigated to inside the lightbox
   const handleView = useCallback(({ index: newIndex }: { index: number }) => {
     viewIndexRef.current = newIndex
+    forceUpdate(n => n + 1)
   }, [])
 
-  // When opening, reset the ref to the clicked index
-  if (isOpen) {
-    viewIndexRef.current = index
-  }
-
-  const activeIndex = isOpen ? viewIndexRef.current : 0
+  const activeIndex = viewIndexRef.current
   const currentImage = images[activeIndex]
 
   const handleTagsChange = (newTags: ImageTag[]) => {
@@ -53,41 +57,41 @@ export const ImageLightbox = ({ images, index, onClose }: ImageLightboxProps) =>
   if (!isOpen) return null
 
   return (
-    <>
-      <Lightbox
-        open
-        close={onClose}
-        index={index}
-        slides={slides}
-        animation={{
-          fade: 250,
-          swipe: 250,
-          navigation: 250,
-        }}
-        carousel={{ finite: false }}
-        controller={{ closeOnBackdropClick: true }}
-        on={{ view: handleView }}
-      />
-      {currentImage && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: '40px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '90%',
-            maxWidth: '600px',
-            zIndex: 2000,
-            pointerEvents: 'auto'
-          }}
-        >
-          <TagInput
-            imageId={currentImage.id}
-            currentTags={currentImage.tags || []}
-            onTagsChange={handleTagsChange}
-          />
-        </div>
-      )}
-    </>
+    <Lightbox
+      open
+      close={onClose}
+      index={index}
+      slides={slides}
+      animation={{
+        fade: 250,
+        swipe: 250,
+        navigation: 250,
+      }}
+      carousel={{ finite: false }}
+      controller={{ closeOnBackdropClick: true }}
+      on={{ view: handleView }}
+      render={{
+        controls: currentImage ? () => (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '40px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '90%',
+              maxWidth: '600px',
+              pointerEvents: 'auto'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <TagInput
+              imageId={currentImage.id}
+              currentTags={currentImage.tags || []}
+              onTagsChange={handleTagsChange}
+            />
+          </div>
+        ) : undefined,
+      }}
+    />
   )
 }
