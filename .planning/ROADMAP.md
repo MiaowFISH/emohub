@@ -80,10 +80,11 @@ Plans:
   1. User can search images by typing tag names and see filtered results
   2. User can search images by typing keywords that match filenames or tag names
   3. Web interface adapts to different screen sizes (mobile, tablet, desktop)
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 04-01: TBD during planning
+- [ ] 04-01-PLAN.md — Text search across filenames and tag names with debounced SearchBar
+- [ ] 04-02-PLAN.md — Responsive layout with mobile sidebar and human verification
 
 ## Progress
 
@@ -95,4 +96,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Project Setup & Backend Foundation | 2/2 | ✓ Complete | 2026-02-12 |
 | 2. Image Management | 5/5 | ✓ Complete | 2026-02-12 |
 | 3. Tag System | 4/4 | ✓ Complete | 2026-02-12 |
-| 4. Search & Polish | 0/TBD | Not started | - |
+| 4. Search & Polish | 0/2 | Not started | - |
