@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ReactTags, Tag as ReactTag } from 'react-tag-autocomplete'
 import { useTagStore } from '@/stores/tagStore'
 import { tagApi } from '@/lib/api'
@@ -11,6 +12,8 @@ interface BatchTagModalProps {
 }
 
 export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagModalProps) => {
+  const { t } = useTranslation('images')
+  const { t: tCommon } = useTranslation('common')
   const { tags, fetchTags } = useTagStore()
   const [selectedTags, setSelectedTags] = useState<ReactTag[]>([])
   const [checkedTagIds, setCheckedTagIds] = useState<Set<string>>(new Set())
@@ -63,7 +66,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
       if (mode === 'add') {
         const tagIds = selectedTags.map(t => String(t.value))
         if (tagIds.length === 0) {
-          alert('Please select at least one tag')
+          alert(t('batch_tag.select_one_tag'))
           setIsLoading(false)
           return
         }
@@ -71,7 +74,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
       } else {
         const tagIds = Array.from(checkedTagIds)
         if (tagIds.length === 0) {
-          alert('Please select at least one tag to remove')
+          alert(t('batch_tag.select_one_tag_remove'))
           setIsLoading(false)
           return
         }
@@ -79,7 +82,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
       }
       onComplete()
     } catch (error) {
-      alert(`Failed to ${mode} tags: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      alert(t('batch_tag.operation_failed', { mode, error: error instanceof Error ? error.message : 'Unknown error' }))
     } finally {
       setIsLoading(false)
     }
@@ -109,7 +112,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
         flexDirection: 'column'
       }}>
         <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
-          {mode === 'add' ? `Add Tags to ${imageIds.length} Images` : `Remove Tags from ${imageIds.length} Images`}
+          {mode === 'add' ? t('batch_tag.add_title', { count: imageIds.length }) : t('batch_tag.remove_title', { count: imageIds.length })}
         </h3>
 
         {mode === 'add' ? (
@@ -121,8 +124,8 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
               onAdd={handleAddTags}
               onDelete={handleDeleteTag}
               allowNew={true}
-              placeholderText="Type to add tags..."
-              noOptionsText="No matching tags"
+              placeholderText={t('batch_tag.add_placeholder')}
+              noOptionsText={t('tag_input.no_options')}
               classNames={{
                 root: 'react-tags',
                 rootIsActive: 'is-active',
@@ -145,7 +148,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
         ) : (
           <div style={{ marginBottom: '20px' }}>
             {tags.length === 0 ? (
-              <p style={{ color: 'var(--color-text-secondary)', fontSize: '14px' }}>No tags available</p>
+              <p style={{ color: 'var(--color-text-secondary)', fontSize: '14px' }}>{t('batch_tag.no_tags_available')}</p>
             ) : (
               <div style={{ maxHeight: '300px', overflow: 'auto' }}>
                 {tags.map(tag => (
@@ -194,7 +197,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
               color: 'var(--color-text-primary)'
             }}
           >
-            Cancel
+            {tCommon('actions.cancel')}
           </button>
           <button
             onClick={handleApply}
@@ -210,7 +213,7 @@ export const BatchTagModal = ({ mode, imageIds, onClose, onComplete }: BatchTagM
               opacity: isLoading ? 0.6 : 1
             }}
           >
-            {isLoading ? 'Processing...' : mode === 'add' ? 'Apply' : 'Remove'}
+            {isLoading ? tCommon('status.processing') : mode === 'add' ? tCommon('actions.apply') : tCommon('actions.remove')}
           </button>
         </div>
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ReactTags, Tag as ReactTag } from 'react-tag-autocomplete'
 import { useTagStore } from '@/stores/tagStore'
 import { tagApi } from '@/lib/api'
@@ -12,6 +13,7 @@ interface TagInputProps {
 }
 
 export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) => {
+  const { t } = useTranslation('images')
   const { tags, fetchTags } = useTagStore()
   const [selected, setSelected] = useState<ReactTag[]>([])
 
@@ -76,8 +78,8 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
         onAdd={handleAdd}
         onDelete={handleDelete}
         allowNew={true}
-        placeholderText="Add tags..."
-        noOptionsText="No matching tags"
+        placeholderText={t('tag_input.placeholder')}
+        noOptionsText={t('tag_input.no_options')}
         classNames={{
           root: 'react-tags',
           rootIsActive: 'is-active',

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useImageStore } from '@/stores/imageStore'
 import { useTagStore } from '@/stores/tagStore'
 import { imageApi } from '@/lib/api'
@@ -5,6 +6,8 @@ import { useState, useCallback } from 'react'
 import { BatchTagModal } from './BatchTagModal'
 
 export const ImageToolbar = () => {
+  const { t } = useTranslation('images')
+  const { t: tCommon } = useTranslation('common')
   const { images, selectedIds, selectAll, clearSelection, removeImages, fetchImages } = useImageStore()
   const { fetchTags } = useTagStore()
   const [isDeleting, setIsDeleting] = useState(false)
@@ -21,11 +24,11 @@ export const ImageToolbar = () => {
       clearSelection()
       setShowConfirm(false)
     } catch (error) {
-      alert(`Failed to delete images: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      alert(t('toolbar.delete_failed', { error: error instanceof Error ? error.message : 'Unknown error' }))
     } finally {
       setIsDeleting(false)
     }
-  }, [selectedIds, removeImages, clearSelection])
+  }, [selectedIds, removeImages, clearSelection, t])
 
   const selectedImage = selectedIds.size === 1
     ? images.find(img => selectedIds.has(img.id))
@@ -84,7 +87,7 @@ export const ImageToolbar = () => {
         flexWrap: 'wrap'
       }}>
         <span style={{ color: 'var(--color-text-primary)', fontWeight: 500 }}>
-          {selectedIds.size} selected
+          {t('toolbar.selected_count', { count: selectedIds.size })}
         </span>
 
         <button
@@ -99,7 +102,7 @@ export const ImageToolbar = () => {
             color: 'var(--color-text-primary)'
           }}
         >
-          Select All
+          {t('toolbar.select_all')}
         </button>
 
         <button
@@ -114,7 +117,7 @@ export const ImageToolbar = () => {
             color: 'var(--color-text-primary)'
           }}
         >
-          Clear
+          {tCommon('actions.clear')}
         </button>
 
         <div style={{
@@ -136,7 +139,7 @@ export const ImageToolbar = () => {
             color: 'white'
           }}
         >
-          Add Tags
+          {t('toolbar.add_tags')}
         </button>
 
         <button
@@ -151,7 +154,7 @@ export const ImageToolbar = () => {
             color: 'white'
           }}
         >
-          Remove Tags
+          {t('toolbar.remove_tags')}
         </button>
 
         <button
@@ -168,7 +171,7 @@ export const ImageToolbar = () => {
             opacity: isDeleting ? 0.6 : 1
           }}
         >
-          {isDeleting ? 'Deleting...' : 'Delete'}
+          {isDeleting ? tCommon('status.deleting') : tCommon('actions.delete')}
         </button>
 
         <button
@@ -185,7 +188,7 @@ export const ImageToolbar = () => {
             opacity: isConverting ? 0.6 : 1
           }}
         >
-          {isConverting ? (isSelectedGif ? 'Downloading...' : 'Converting...') : (isSelectedGif ? 'Download GIF' : 'Convert to GIF')}
+          {isConverting ? (isSelectedGif ? t('toolbar.downloading') : t('toolbar.converting')) : (isSelectedGif ? t('toolbar.download_gif') : t('toolbar.convert_to_gif'))}
         </button>
       </div>
 
@@ -210,10 +213,10 @@ export const ImageToolbar = () => {
             width: '90%'
           }}>
             <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
-              Confirm Delete
+              {t('toolbar.confirm_delete_title')}
             </h3>
             <p style={{ margin: '0 0 20px 0', color: 'var(--color-text-secondary)' }}>
-              Delete {selectedIds.size} image(s)? This cannot be undone.
+              {t('toolbar.confirm_delete_message', { count: selectedIds.size })}
             </p>
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
               <button
@@ -229,7 +232,7 @@ export const ImageToolbar = () => {
                   color: 'var(--color-text-primary)'
                 }}
               >
-                Cancel
+                {tCommon('actions.cancel')}
               </button>
               <button
                 onClick={handleDelete}
@@ -245,7 +248,7 @@ export const ImageToolbar = () => {
                   opacity: isDeleting ? 0.6 : 1
                 }}
               >
-                {isDeleting ? 'Deleting...' : 'Delete'}
+                {isDeleting ? tCommon('status.deleting') : tCommon('actions.delete')}
               </button>
             </div>
           </div>

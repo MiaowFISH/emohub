@@ -1,4 +1,5 @@
 import { useDropzone } from 'react-dropzone'
+import { useTranslation } from 'react-i18next'
 import { useImageStore } from '@/stores/imageStore'
 import { imageApi } from '@/lib/api'
 import { useState, useCallback, useEffect } from 'react'
@@ -10,6 +11,7 @@ interface UploadResult {
 }
 
 export const ImageUpload = () => {
+  const { t } = useTranslation('images')
   const [isUploading, setIsUploading] = useState(false)
   const [results, setResults] = useState<UploadResult[]>([])
   const { addImages } = useImageStore()
@@ -107,7 +109,7 @@ export const ImageUpload = () => {
                 animation: 'spin 1s linear infinite'
               }}
             />
-            <p style={{ margin: 0, color: 'var(--color-text-secondary)' }}>Uploading...</p>
+            <p style={{ margin: 0, color: 'var(--color-text-secondary)' }}>{t('upload.uploading')}</p>
             <style>{`
               @keyframes spin {
                 0% { transform: rotate(0deg); }
@@ -131,10 +133,10 @@ export const ImageUpload = () => {
               />
             </svg>
             <p style={{ margin: 0, color: 'var(--color-text-primary)', fontSize: '16px', fontWeight: 500 }}>
-              {isDragActive ? 'Drop images here' : 'Drag and drop images here, or click to select'}
+              {isDragActive ? t('upload.drop_here') : t('upload.drag_or_click')}
             </p>
             <p style={{ margin: '8px 0 0', color: 'var(--color-text-muted)', fontSize: '14px' }}>
-              Supports JPG, PNG, WebP, GIF (max 10MB)
+              {t('upload.supported_formats')}
             </p>
           </div>
         )}
@@ -170,7 +172,7 @@ export const ImageUpload = () => {
               )}
               <span style={{ fontSize: '14px', color: 'var(--color-text-primary)', flex: 1 }}>
                 {result.filename}
-                {result.duplicate && <span style={{ color: 'var(--color-warning)', marginLeft: '8px' }}>(duplicate)</span>}
+                {result.duplicate && <span style={{ color: 'var(--color-warning)', marginLeft: '8px' }}>{t('upload.duplicate')}</span>}
                 {result.error && <span style={{ color: 'var(--color-danger)', marginLeft: '8px' }}>- {result.error}</span>}
               </span>
             </div>

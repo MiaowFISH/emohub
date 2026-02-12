@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useTagStore } from '@/stores/tagStore'
 import { useImageStore } from '@/stores/imageStore'
 
@@ -8,6 +9,8 @@ interface TagFilterProps {
 }
 
 export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
+  const { t } = useTranslation('images')
+  const { t: tCommon } = useTranslation('common')
   const { tags, filterTagIds, toggleFilterTag, clearFilters, fetchTags } = useTagStore()
   const { fetchImages, searchQuery } = useImageStore()
 
@@ -52,7 +55,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
           fontWeight: 600,
           margin: 0
         }}>
-          Filter by Tags
+          {t('filter.title')}
         </h2>
         {filterTagIds.size > 0 && (
           <button
@@ -66,7 +69,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
               padding: '4px 8px'
             }}
           >
-            Clear
+            {tCommon('actions.clear')}
           </button>
         )}
       </div>
@@ -80,7 +83,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
           backgroundColor: 'var(--color-bg-secondary)',
           borderRadius: '4px'
         }}>
-          Showing images with {filterTagIds.size} tag(s)
+          {t('filter.showing_count', { count: filterTagIds.size })}
         </div>
       )}
 
@@ -100,7 +103,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
             textAlign: 'center',
             padding: '16px'
           }}>
-            No tags yet
+            {t('filter.no_tags')}
           </div>
         ) : (
           sortedTags.map(tag => (

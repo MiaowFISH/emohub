@@ -1,4 +1,5 @@
 import { useVirtualizer } from '@tanstack/react-virtual'
+import { useTranslation } from 'react-i18next'
 import { useImageStore } from '@/stores/imageStore'
 import { imageApi } from '@/lib/api'
 import { useRef, useState, useEffect, useCallback } from 'react'
@@ -8,6 +9,8 @@ interface ImageGridProps {
 }
 
 export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
+  const { t } = useTranslation('images')
+  const { t: tCommon } = useTranslation('common')
   const { images, isLoading, hasMore, selectedIds, toggleSelect, fetchImages, fetchMore } = useImageStore()
   const parentRef = useRef<HTMLDivElement>(null)
   const [columns, setColumns] = useState(4)
@@ -66,7 +69,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
           color: 'var(--color-text-muted)'
         }}
       >
-        <p>Loading...</p>
+        <p>{tCommon('status.loading')}</p>
       </div>
     )
   }
@@ -83,7 +86,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
           color: 'var(--color-text-muted)'
         }}
       >
-        <p>No images yet. Upload some stickers!</p>
+        <p>{t('grid.no_images')}</p>
       </div>
     )
   }
@@ -239,7 +242,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                                 fontWeight: 500
                               }}
                             >
-                              +{image.tags.length - 3} more
+                              {t('grid.more_tags', { count: image.tags.length - 3 })}
                             </span>
                           )}
                         </div>

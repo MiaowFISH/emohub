@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDebounce } from '@/lib/hooks'
 import { useImageStore } from '@/stores/imageStore'
 
 export const SearchBar = () => {
+  const { t } = useTranslation('images')
   const [inputValue, setInputValue] = useState('')
   const debouncedSearch = useDebounce(inputValue, 400)
   const setSearchQuery = useImageStore(state => state.setSearchQuery)
@@ -16,8 +18,8 @@ export const SearchBar = () => {
       type="search"
       value={inputValue}
       onChange={(e) => setInputValue(e.target.value)}
-      placeholder="Search by filename or tag..."
-      aria-label="Search images"
+      placeholder={t('search.placeholder')}
+      aria-label={t('search.aria_label')}
       style={{
         width: '100%',
         padding: '8px 12px',

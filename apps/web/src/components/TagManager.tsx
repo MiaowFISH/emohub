@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useTagStore } from '@/stores/tagStore'
 
 interface TagManagerProps {
@@ -7,6 +8,8 @@ interface TagManagerProps {
 }
 
 export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
+  const { t } = useTranslation('images')
+  const { t: tCommon } = useTranslation('common')
   const { tags, createTag, renameTag, deleteTag } = useTagStore()
   const [newTagName, setNewTagName] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -111,7 +114,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
               alignItems: 'center'
             }}
           >
-            <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600, color: 'var(--color-text-primary)' }}>Manage Tags</h2>
+            <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 600, color: 'var(--color-text-primary)' }}>{t('tag_manager.title')}</h2>
             <button
               onClick={onClose}
               style={{
@@ -144,7 +147,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleCreateTag()
               }}
-              placeholder="New tag name..."
+              placeholder={t('tag_manager.new_tag_placeholder')}
               style={{
                 flex: 1,
                 padding: '8px 12px',
@@ -169,7 +172,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                 fontWeight: 500
               }}
             >
-              Add
+              {tCommon('actions.add')}
             </button>
           </div>
 
@@ -189,7 +192,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                   color: 'var(--color-text-muted)'
                 }}
               >
-                No tags yet. Create one above!
+                {t('tag_manager.no_tags')}
               </div>
             ) : (
               tags.map((tag) => (
@@ -237,7 +240,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                           fontSize: '13px'
                         }}
                       >
-                        Save
+                        {tCommon('actions.save')}
                       </button>
                       <button
                         onClick={handleCancelEdit}
@@ -251,7 +254,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                           fontSize: '13px'
                         }}
                       >
-                        Cancel
+                        {tCommon('actions.cancel')}
                       </button>
                     </>
                   ) : (
@@ -267,7 +270,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                             borderRadius: '12px'
                           }}
                         >
-                          {tag.imageCount} {tag.imageCount === 1 ? 'image' : 'images'}
+                          {t('tag_manager.image_count', { count: tag.imageCount })}
                         </span>
                       </div>
                       <button
@@ -282,7 +285,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                           fontSize: '13px'
                         }}
                       >
-                        Rename
+                        {tCommon('actions.rename')}
                       </button>
                       <button
                         onClick={() => handleDeleteClick(tag.id, tag.imageCount)}
@@ -296,7 +299,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                           fontSize: '13px'
                         }}
                       >
-                        Delete
+                        {tCommon('actions.delete')}
                       </button>
                     </>
                   )}
@@ -335,10 +338,10 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
             onClick={(e) => e.stopPropagation()}
           >
             <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)' }}>
-              Delete Tag?
+              {t('tag_manager.delete_tag_title')}
             </h3>
             <p style={{ margin: '0 0 20px 0', color: 'var(--color-text-secondary)', fontSize: '14px' }}>
-              This tag is used on {confirmingTag.imageCount} {confirmingTag.imageCount === 1 ? 'image' : 'images'}. Remove it?
+              {t('tag_manager.delete_tag_message', { count: confirmingTag.imageCount })}
             </p>
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
               <button
@@ -354,7 +357,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                   fontWeight: 500
                 }}
               >
-                Cancel
+                {tCommon('actions.cancel')}
               </button>
               <button
                 onClick={() => handleConfirmDelete(deleteConfirmId)}
@@ -369,7 +372,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                   fontWeight: 500
                 }}
               >
-                Delete
+                {tCommon('actions.delete')}
               </button>
             </div>
           </div>
