@@ -108,10 +108,18 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
         .react-tags.is-active {
           border-color: #3b82f6;
         }
+        .react-tags__label {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip: rect(0,0,0,0);
+        }
         .react-tags__list {
           display: inline;
           padding: 0;
           margin: 0;
+          list-style: none;
         }
         .react-tags__list-item {
           display: inline-block;
@@ -122,22 +130,36 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
           align-items: center;
           padding: 4px 8px;
           background: #e5e7eb;
+          border: none;
           border-radius: 4px;
           font-size: 13px;
+          font-family: inherit;
+          cursor: default;
+          color: #374151;
+          line-height: 1.4;
+          gap: 4px;
+        }
+        .react-tags__tag:hover {
+          background: #d1d5db;
         }
         .react-tags__tag-name {
-          margin-right: 6px;
+          margin-right: 2px;
         }
-        .react-tags__tag button {
-          background: none;
-          border: none;
+        .react-tags__tag button,
+        .react-tags__tag > button,
+        .react-tags__list-item button {
+          all: unset;
           cursor: pointer;
-          padding: 0;
           color: #6b7280;
-          font-size: 16px;
+          font-size: 14px;
           line-height: 1;
+          padding: 0 2px;
+          display: inline-flex;
+          align-items: center;
         }
-        .react-tags__tag button:hover {
+        .react-tags__tag button:hover,
+        .react-tags__tag > button:hover,
+        .react-tags__list-item button:hover {
           color: #ef4444;
         }
         .react-tags__combobox {
@@ -149,6 +171,8 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
           padding: 4px;
           font-size: 14px;
           min-width: 150px;
+          font-family: inherit;
+          background: transparent;
         }
         .react-tags__listbox {
           position: absolute;
@@ -161,6 +185,8 @@ export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) 
           overflow-y: auto;
           margin-top: 4px;
           min-width: 200px;
+          list-style: none;
+          padding: 0;
         }
         .react-tags__listbox-option {
           padding: 8px 12px;
