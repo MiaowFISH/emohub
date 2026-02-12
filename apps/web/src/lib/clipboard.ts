@@ -116,7 +116,9 @@ export async function copyImageToClipboard(
 
       const originalBlob = await response.blob()
 
-      // Convert to PNG (Clipboard API requires PNG format)
+      // Always convert through canvas to guarantee valid image/png output.
+      // Clipboard API strictly requires image/png — server responses may have
+      // incorrect content-type or unsupported encoding that causes decode failures.
       try {
         blob = await convertToPng(originalBlob)
       } catch (error) {

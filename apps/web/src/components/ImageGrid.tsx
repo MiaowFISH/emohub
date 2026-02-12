@@ -2,9 +2,11 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import { useTranslation } from 'react-i18next'
 import { useImageStore } from '@/stores/imageStore'
 import { imageApi } from '@/lib/api'
+import { copyImageToClipboard } from '@/lib/clipboard'
+import { toast } from 'sonner'
 import { useRef, useState, useEffect, useCallback } from 'react'
-import { SkeletonCard } from '@/components/SkeletonCard'
 import { EmptyState } from '@/components/EmptyState'
+import '@/styles/skeleton.css'
 
 interface ImageGridProps {
   onImageClick: (index: number) => void
@@ -15,6 +17,15 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
   const { images, isLoading, hasMore, selectedIds, toggleSelect, fetchImages, fetchMore, searchQuery, activeTagFilter } = useImageStore()
   const parentRef = useRef<HTMLDivElement>(null)
   const [columns, setColumns] = useState(4)
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
+
+  const handleImageLoaded = useCallback((id: string) => {
+    setLoadedImages(prev => {
+      const next = new Set(prev)
+      next.add(id)
+      return next
+    })
+  }, [])
 
   useEffect(() => {
     fetchImages()
@@ -49,6 +60,22 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
     return () => el.removeEventListener('scroll', handleScroll)
   }, [hasMore, isLoading, fetchMore])
 
+  const handleCopy = async (e: React.MouseEvent, imageId: string) => {
+    e.stopPropagation()
+    const url = imageApi.getFullUrl(imageId)
+    const toastId = toast.loading(t('clipboard.copying'))
+    try {
+      const result = await copyImageToClipboard(url, 'original')
+      if (result.success) {
+        toast.success(t('clipboard.copy_success'), { id: toastId, duration: 2000 })
+      } else {
+        toast.error(result.error || t('clipboard.copy_failed'), { id: toastId })
+      }
+    } catch {
+      toast.error(t('clipboard.copy_failed'), { id: toastId })
+    }
+  }
+
   const rows = Math.ceil(images.length / columns)
 
   const virtualizer = useVirtualizer({
@@ -76,7 +103,18 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
           }}
         >
           {Array.from({ length: columns * 3 }).map((_, i) => (
-            <SkeletonCard key={i} />
+            <div
+              key={i}
+              style={{
+                position: 'relative',
+                aspectRatio: '1',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                border: '1px solid var(--color-border)'
+              }}
+            >
+              <div className="image-card-spinner" />
+            </div>
           ))}
         </div>
       </div>
@@ -167,15 +205,58 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                         e.currentTarget.style.boxShadow = 'none'
                       }}
                     >
+                      {/* Loading spinner — visible until image loads */}
+                      {!loadedImages.has(image.id) && (
+                        <div className="image-card-spinner" />
+                      )}
                       <img
                         src={imageApi.getThumbnailUrl(image.id)}
-                        alt={image.originalName}
+                        alt=""
+                        aria-label={image.originalName}
+                        onLoad={() => handleImageLoaded(image.id)}
                         style={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'cover'
+                          objectFit: 'cover',
+                          opacity: loadedImages.has(image.id) ? 1 : 0
                         }}
                       />
+                      {/* Copy button - top right, visible on hover */}
+                      <div
+                        className="image-card-copy-btn"
+                        onClick={(e) => handleCopy(e, image.id)}
+                        title={t('clipboard.copy')}
+                        style={{
+                          position: 'absolute',
+                          top: '8px',
+                          right: '8px',
+                          width: '28px',
+                          height: '28px',
+                          borderRadius: '6px',
+                          backgroundColor: 'var(--color-surface-float)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          opacity: 0,
+                          transition: 'opacity 0.15s ease',
+                          zIndex: 1
+                        }}
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="var(--color-text-primary)"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                      </div>
                       <div
                         onClick={(e) => {
                           e.stopPropagation()
@@ -264,21 +345,6 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
           )
         })}
       </div>
-      {/* Loading more skeleton cards during infinite scroll */}
-      {isLoading && images.length > 0 && (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${columns}, 1fr)`,
-            gap: '8px',
-            padding: '8px 0'
-          }}
-        >
-          {Array.from({ length: columns }).map((_, i) => (
-            <SkeletonCard key={`loading-${i}`} />
-          ))}
-        </div>
-      )}
     </div>
   )
 }

@@ -35,7 +35,8 @@ export const ImageToolbar = () => {
   const selectedImage = selectedIds.size === 1
     ? images.find(img => selectedIds.has(img.id))
     : null
-  const isSelectedGif = selectedImage?.mimeType === 'image/gif'
+  const isSelectedGif = selectedImage?.mimeType === 'image/gif' ||
+    selectedImage?.originalName?.toLowerCase().endsWith('.gif')
 
   const handleConvertToGif = useCallback(async () => {
     if (selectedIds.size !== 1) return
@@ -45,8 +46,11 @@ export const ImageToolbar = () => {
       const id = Array.from(selectedIds)[0]
       const img = images.find(i => i.id === id)
 
+      const isGif = img?.mimeType === 'image/gif' ||
+        img?.originalName?.toLowerCase().endsWith('.gif')
+
       let blob: Blob
-      if (img?.mimeType === 'image/gif') {
+      if (isGif) {
         // Already a GIF — download original directly
         const response = await fetch(imageApi.getFullUrl(id))
         blob = await response.blob()

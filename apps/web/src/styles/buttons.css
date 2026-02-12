@@ -114,3 +114,13 @@
   background: var(--color-bg-tertiary);
   color: var(--color-text-primary);
 }
+
+/* Image card copy button — show on hover */
+.image-card-copy-btn:hover {
+  background: var(--color-bg-tertiary) !important;
+}
+
+/* Parent card hover reveals the copy button */
+div:hover > .image-card-copy-btn {
+  opacity: 1 !important;
+}
