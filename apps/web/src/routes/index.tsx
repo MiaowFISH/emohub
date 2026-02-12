@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TagFilter } from '@/components/TagFilter'
 import { TagManager } from '@/components/TagManager'
 import { ImageUpload } from '@/components/ImageUpload'
@@ -12,54 +12,94 @@ import { useImageStore } from '@/stores/imageStore'
 const HomePage = () => {
   const [lightboxIndex, setLightboxIndex] = useState(-1)
   const [showTagManager, setShowTagManager] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const { images } = useImageStore()
 
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  const handleCloseSidebar = () => {
+    setSidebarOpen(false)
+  }
+
   return (
-    <div style={{
-      display: 'flex',
-      height: '100vh'
-    }}>
+    <div className="app-container">
+      {/* Hamburger button - mobile only */}
+      {isMobile && (
+        <button
+          className="hamburger-button"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Toggle menu"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      )}
+
+      {/* Backdrop overlay - mobile only */}
+      {isMobile && sidebarOpen && (
+        <div
+          className="sidebar-backdrop visible"
+          onClick={handleCloseSidebar}
+        />
+      )}
+
       {/* Left sidebar - Tag filter */}
-      <TagFilter />
+      <TagFilter
+        isOpen={sidebarOpen}
+        onClose={handleCloseSidebar}
+      />
 
       {/* Right main content area */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-        padding: '16px',
-        overflowY: 'auto'
-      }}>
+      <div className="main-content">
         {/* Header with upload and manage tags button */}
-        <div style={{
-          display: 'flex',
-          gap: '12px',
-          alignItems: 'center'
-        }}>
-          <ImageUpload />
-          <button
-            onClick={() => setShowTagManager(true)}
-            style={{
-              padding: '8px 16px',
-              fontSize: '14px',
-              fontWeight: 500,
-              color: '#3b82f6',
-              backgroundColor: 'white',
-              border: '1px solid #3b82f6',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#eff6ff'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'white'
-            }}
-          >
-            Manage Tags
-          </button>
+        <div className="header-controls">
+          <div className="header-buttons">
+            <ImageUpload />
+            <button
+              onClick={() => setShowTagManager(true)}
+              style={{
+                padding: '8px 16px',
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#3b82f6',
+                backgroundColor: 'white',
+                border: '1px solid #3b82f6',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#eff6ff'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'white'
+              }}
+            >
+              Manage Tags
+            </button>
+          </div>
         </div>
 
         {/* Search bar */}

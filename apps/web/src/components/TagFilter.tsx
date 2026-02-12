@@ -2,7 +2,12 @@ import { useEffect } from 'react'
 import { useTagStore } from '@/stores/tagStore'
 import { useImageStore } from '@/stores/imageStore'
 
-export const TagFilter = () => {
+interface TagFilterProps {
+  isOpen?: boolean
+  onClose?: () => void
+}
+
+export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
   const { tags, filterTagIds, toggleFilterTag, clearFilters, fetchTags } = useTagStore()
   const { fetchImages, searchQuery } = useImageStore()
 
@@ -23,11 +28,14 @@ export const TagFilter = () => {
   // Sort tags alphabetically
   const sortedTags = [...tags].sort((a, b) => a.name.localeCompare(b.name))
 
+  const handleTagToggle = (tagId: string) => {
+    toggleFilterTag(tagId)
+    // Auto-close sidebar on mobile after selecting a tag
+    onClose?.()
+  }
+
   return (
-    <div style={{
-      width: '240px',
-      height: '100vh',
-      borderRight: '1px solid #e5e7eb',
+    <div className={`sidebar ${isOpen ? 'open' : ''}`} style={{
       padding: '16px',
       display: 'flex',
       flexDirection: 'column',
@@ -122,7 +130,7 @@ export const TagFilter = () => {
               <input
                 type="checkbox"
                 checked={filterTagIds.has(tag.id)}
-                onChange={() => toggleFilterTag(tag.id)}
+                onChange={() => handleTagToggle(tag.id)}
                 style={{
                   cursor: 'pointer',
                   width: '16px',

@@ -1,0 +1,118 @@
+/* Responsive Layout Styles */
+
+/* Mobile-first base styles */
+.app-container {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 240px;
+  height: 100vh;
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.sidebar-backdrop.visible {
+  display: block;
+}
+
+.hamburger-button {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1001;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.hamburger-button:hover {
+  background-color: #f9fafb;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  padding-top: 64px;
+  overflow-y: auto;
+}
+
+.header-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Tablet: 768px - 1023px */
+@media (min-width: 768px) {
+  .sidebar {
+    position: static;
+    left: 0;
+    width: 200px;
+    transition: none;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar-backdrop {
+    display: none !important;
+  }
+
+  .hamburger-button {
+    display: none;
+  }
+
+  .main-content {
+    padding-top: 16px;
+  }
+
+  .header-controls {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+}

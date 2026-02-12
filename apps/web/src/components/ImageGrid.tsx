@@ -21,7 +21,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
 
     const resizeObserver = new ResizeObserver((entries) => {
       const width = entries[0].contentRect.width
-      const newColumns = Math.max(Math.floor(width / 200), 2)
+      const newColumns = Math.max(Math.floor(width / 180), 1)
       setColumns(newColumns)
     })
 
