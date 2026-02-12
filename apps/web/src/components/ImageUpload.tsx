@@ -2,7 +2,6 @@ import { useDropzone } from 'react-dropzone'
 import { useImageStore } from '@/stores/imageStore'
 import { imageApi } from '@/lib/api'
 import { useState, useCallback, useEffect } from 'react'
-import type { Image } from '@emohub/shared'
 
 interface UploadResult {
   filename: string
@@ -25,15 +24,17 @@ export const ImageUpload = () => {
       const response = await imageApi.upload(acceptedFiles)
 
       if (response.success && response.data) {
-        const uploadResults: UploadResult[] = response.data.map(item => ({
-          filename: item.filename,
-          duplicate: item.duplicate,
+        // Normalize response.data to array
+        const dataArray = Array.isArray(response.data) ? response.data : [response.data]
+
+        const uploadResults: UploadResult[] = dataArray.map((item, index) => ({
+          filename: item.originalName || acceptedFiles[index]?.name || 'Unknown',
+          duplicate: !!item.duplicate,
           error: undefined
         }))
 
-        const newImages = response.data
-          .filter(item => !item.duplicate && item.image)
-          .map(item => item.image)
+        // Only add non-duplicate images to the store
+        const newImages = dataArray.filter(item => !item.duplicate)
 
         if (newImages.length > 0) {
           addImages(newImages)

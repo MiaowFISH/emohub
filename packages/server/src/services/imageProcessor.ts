@@ -76,10 +76,10 @@ export async function generateThumbnail(
   const metadata = await sharp(inputPath).metadata();
 
   if (metadata.format === 'gif') {
-    // Preserve GIF animation for thumbnails
+    // Preserve GIF animation for thumbnails with infinite loop
     await sharp(inputPath, { animated: true })
       .resize(300, 300, { fit: 'cover' })
-      .gif()
+      .gif({ loop: 0 })
       .toFile(outputPath);
   } else {
     await sharp(inputPath)

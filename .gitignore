@@ -30,6 +30,7 @@ storage/
 # Build output
 dist/
 .bun-cache
+tsconfig.tsbuildinfo
 
 # Turbo cache
 .turbo

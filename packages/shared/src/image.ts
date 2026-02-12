@@ -28,3 +28,7 @@ export interface CreateImageInput {
 export interface ImageWithTags extends Image {
   tags: Array<{ id: string; name: string; category: string | null }>;
 }
+
+export interface ImageUploadResult extends Image {
+  duplicate: boolean;
+}

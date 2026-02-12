@@ -13,7 +13,7 @@ EmoHub delivers a personal sticker management system in 4 phases. Starting with 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Project Setup & Backend Foundation** - Monorepo structure, database schema, API foundation
-- [ ] **Phase 2: Image Management** - Upload, storage, viewing, and optimization
+- [x] **Phase 2: Image Management** - Upload, storage, viewing, and optimization
 - [ ] **Phase 3: Tag System** - Tagging, tag management, and batch operations
 - [ ] **Phase 4: Search & Polish** - Search functionality and responsive UI
 
@@ -49,11 +49,11 @@ Plans:
 **Plans:** 5 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Server image processing pipeline and API routes (upload, list, delete, serve, GIF convert)
-- [ ] 02-02-PLAN.md — Web app foundation (Vite, TanStack Router, API client, Zustand store)
-- [ ] 02-03-PLAN.md — Upload UI, virtual scrolling image grid, and lightbox preview
-- [ ] 02-04-PLAN.md — Image selection, batch delete, and GIF conversion UI
-- [ ] 02-05-PLAN.md — Human verification of all IMG requirements
+- [x] 02-01-PLAN.md — Server image processing pipeline and API routes (upload, list, delete, serve, GIF convert)
+- [x] 02-02-PLAN.md — Web app foundation (Vite, TanStack Router, API client, Zustand store)
+- [x] 02-03-PLAN.md — Upload UI, virtual scrolling image grid, and lightbox preview
+- [x] 02-04-PLAN.md — Image selection, batch delete, and GIF conversion UI
+- [x] 02-05-PLAN.md — Human verification of all IMG requirements
 
 ### Phase 3: Tag System
 **Goal**: Users can organize images with tags and perform batch tagging operations
@@ -64,10 +64,13 @@ Plans:
   2. User can create new tags, rename existing tags, and delete unused tags
   3. User can filter the image grid to show only images with specific tags
   4. User can select multiple images and add or remove tags in batch
-**Plans**: TBD
+**Plans:** 4 plans
 
 Plans:
-- [ ] 03-01: TBD during planning
+- [ ] 03-01-PLAN.md — Tag service, API routes, shared types, frontend API client and store
+- [ ] 03-02-PLAN.md — TagInput component with autocomplete, TagManager panel, tag display on images
+- [ ] 03-03-PLAN.md — TagFilter sidebar and home page layout integration
+- [ ] 03-04-PLAN.md — Batch tag operations and human verification of all TAG requirements
 
 ### Phase 4: Search & Polish
 **Goal**: Users can search for images and use the system on different screen sizes
@@ -90,6 +93,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Setup & Backend Foundation | 2/2 | ✓ Complete | 2026-02-12 |
-| 2. Image Management | 0/5 | Planning complete | - |
-| 3. Tag System | 0/TBD | Not started | - |
+| 2. Image Management | 5/5 | ✓ Complete | 2026-02-12 |
+| 3. Tag System | 0/4 | Not started | - |
 | 4. Search & Polish | 0/TBD | Not started | - |

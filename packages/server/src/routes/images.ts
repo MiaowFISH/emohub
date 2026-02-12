@@ -31,21 +31,9 @@ const imageRoutes: FastifyPluginAsync = async (fastify) => {
         });
       }
 
-      if (results.length === 1) {
-        const result = results[0];
-        const isDuplicate = result.duplicate;
-        delete result.duplicate;
-
-        return reply.status(isDuplicate ? 200 : 201).send({
-          success: true,
-          data: result,
-          duplicate: isDuplicate,
-        });
-      }
-
       return reply.status(201).send({
         success: true,
-        data: results,
+        data: results.length === 1 ? results[0] : results,
       });
     } catch (error: any) {
       return reply.status(400).send({

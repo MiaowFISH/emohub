@@ -1,4 +1,4 @@
-import type { Image, ApiResponse, PaginatedResponse } from '@emohub/shared'
+import type { Image, ImageUploadResult, ApiResponse, PaginatedResponse } from '@emohub/shared'
 
 const baseUrl = ''
 
@@ -16,7 +16,7 @@ export const imageApi = {
     return handleResponse<PaginatedResponse<Image>>(response)
   },
 
-  async upload(files: File[]): Promise<ApiResponse<Array<{ filename: string; duplicate: boolean; id: string; image: Image }>>> {
+  async upload(files: File[]): Promise<ApiResponse<ImageUploadResult | ImageUploadResult[]>> {
     const formData = new FormData()
     files.forEach(file => formData.append('file', file))
 
