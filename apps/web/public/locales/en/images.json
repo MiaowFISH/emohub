@@ -21,7 +21,14 @@
   },
   "grid": {
     "no_images": "No images yet. Upload some stickers!",
-    "more_tags": "+{{count}} more"
+    "more_tags": "+{{count}} more",
+    "loading_image": "Loading image..."
+  },
+  "empty": {
+    "no_images_title": "No images yet",
+    "no_images_description": "Upload some stickers to get started!",
+    "no_results_title": "No results found",
+    "no_results_description": "Try a different search term or adjust your tag filters."
   },
   "search": {
     "placeholder": "Search by filename or tag...",

@@ -21,7 +21,14 @@
   },
   "grid": {
     "no_images": "还没有图片，上传一些表情包吧！",
-    "more_tags": "+{{count}} 更多"
+    "more_tags": "+{{count}} 更多",
+    "loading_image": "加载图片中..."
+  },
+  "empty": {
+    "no_images_title": "还没有图片",
+    "no_images_description": "上传一些表情包开始使用吧！",
+    "no_results_title": "未找到结果",
+    "no_results_description": "试试其他搜索词或调整标签筛选条件。"
   },
   "search": {
     "placeholder": "按文件名或标签搜索...",
