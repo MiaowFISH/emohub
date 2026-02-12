@@ -59,6 +59,11 @@ export const ImageLightbox = ({ images, index, onClose }: ImageLightboxProps) =>
         close={onClose}
         index={index}
         slides={slides}
+        animation={{
+          fade: 250,
+          swipe: 250,
+          navigation: 250,
+        }}
         carousel={{ finite: false }}
         controller={{ closeOnBackdropClick: true }}
         on={{ view: handleView }}

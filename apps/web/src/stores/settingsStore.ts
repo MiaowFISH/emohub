@@ -18,7 +18,19 @@ function resolveTheme(theme: Theme): 'light' | 'dark' {
 }
 
 function applyTheme(theme: Theme) {
-  document.documentElement.setAttribute('data-theme', resolveTheme(theme))
+  const html = document.documentElement
+  const resolved = resolveTheme(theme)
+
+  // Enable smooth color transitions for theme switch
+  html.classList.add('theme-transitioning')
+
+  // Apply the theme
+  html.setAttribute('data-theme', resolved)
+
+  // Remove transition class after animation completes (300ms)
+  setTimeout(() => {
+    html.classList.remove('theme-transitioning')
+  }, 350) // Slightly longer than 300ms transition to ensure completion
 }
 
 const initializer: StateCreator<SettingsState> = (set) => ({
