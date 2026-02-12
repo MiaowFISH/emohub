@@ -20,3 +20,23 @@
 
 ---
 
+
+## v1.1 UX Polish (Shipped: 2026-02-13)
+
+**Phases completed:** 5 phases (5-9), 9 plans, 15 tasks
+
+**Key accomplishments:**
+- 设置基础 — Zustand 持久化 settings store + /settings 页面 + CSS 变量系统
+- 暗色模式 — FOUC 防闪烁、39 个语义色彩变量、全组件主题适配
+- 国际化 — i18next 双向同步、6 个翻译文件、12 个组件全双语
+- 剪贴板操作 — 一键复制图片（PNG/GIF 格式可选）、sonner toast 通知
+- 视觉打磨 — 骨架屏加载、上下文空状态、CSS 按钮层级、平滑过渡动画 + reduced-motion 无障碍支持
+
+**Stats:**
+- Lines of code: 5,537 TypeScript/TSX/CSS
+- Files modified: 63 (+8,004 / -391)
+- Timeline: 2026-02-11 → 2026-02-13
+- Git range: feat(05-01) → feat(09-02)
+
+---
+
