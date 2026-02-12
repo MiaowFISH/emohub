@@ -128,7 +128,7 @@ export const ImageToolbar = () => {
           onClick={() => setBatchTagMode('add')}
           style={{
             padding: '6px 12px',
-            backgroundColor: '#10b981',
+            backgroundColor: 'var(--color-success)',
             border: 'none',
             borderRadius: '6px',
             cursor: 'pointer',
@@ -143,7 +143,7 @@ export const ImageToolbar = () => {
           onClick={() => setBatchTagMode('remove')}
           style={{
             padding: '6px 12px',
-            backgroundColor: '#f59e0b',
+            backgroundColor: 'var(--color-warning)',
             border: 'none',
             borderRadius: '6px',
             cursor: 'pointer',
@@ -159,7 +159,7 @@ export const ImageToolbar = () => {
           disabled={isDeleting}
           style={{
             padding: '6px 12px',
-            backgroundColor: '#ef4444',
+            backgroundColor: 'var(--color-danger)',
             border: 'none',
             borderRadius: '6px',
             cursor: isDeleting ? 'not-allowed' : 'pointer',
@@ -176,12 +176,12 @@ export const ImageToolbar = () => {
           disabled={selectedIds.size !== 1 || isConverting}
           style={{
             padding: '6px 12px',
-            backgroundColor: selectedIds.size === 1 ? '#3b82f6' : '#e5e7eb',
+            backgroundColor: selectedIds.size === 1 ? 'var(--color-info)' : 'var(--color-disabled-bg)',
             border: 'none',
             borderRadius: '6px',
             cursor: selectedIds.size === 1 && !isConverting ? 'pointer' : 'not-allowed',
             fontSize: '14px',
-            color: selectedIds.size === 1 ? 'white' : '#9ca3af',
+            color: selectedIds.size === 1 ? 'white' : 'var(--color-disabled-text)',
             opacity: isConverting ? 0.6 : 1
           }}
         >
@@ -196,7 +196,7 @@ export const ImageToolbar = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: 'var(--color-overlay)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -236,7 +236,7 @@ export const ImageToolbar = () => {
                 disabled={isDeleting}
                 style={{
                   padding: '8px 16px',
-                  backgroundColor: '#ef4444',
+                  backgroundColor: 'var(--color-danger)',
                   border: 'none',
                   borderRadius: '6px',
                   cursor: isDeleting ? 'not-allowed' : 'pointer',

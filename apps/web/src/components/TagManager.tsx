@@ -79,7 +79,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: 'var(--color-overlay)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -97,7 +97,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
             maxHeight: '70vh',
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 20px 25px -5px var(--color-shadow)'
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -160,7 +160,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
               onClick={handleCreateTag}
               style={{
                 padding: '8px 16px',
-                backgroundColor: '#3b82f6',
+                backgroundColor: 'var(--color-info)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '6px',
@@ -229,7 +229,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                         onClick={handleSaveEdit}
                         style={{
                           padding: '6px 12px',
-                          backgroundColor: '#10b981',
+                          backgroundColor: 'var(--color-success)',
                           color: 'white',
                           border: 'none',
                           borderRadius: '4px',
@@ -243,7 +243,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                         onClick={handleCancelEdit}
                         style={{
                           padding: '6px 12px',
-                          backgroundColor: '#6b7280',
+                          backgroundColor: 'var(--color-disabled-text)',
                           color: 'white',
                           border: 'none',
                           borderRadius: '4px',
@@ -288,8 +288,8 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                         onClick={() => handleDeleteClick(tag.id, tag.imageCount)}
                         style={{
                           padding: '6px 12px',
-                          backgroundColor: '#fef2f2',
-                          color: '#ef4444',
+                          backgroundColor: 'var(--color-danger-bg)',
+                          color: 'var(--color-danger)',
                           border: 'none',
                           borderRadius: '4px',
                           cursor: 'pointer',
@@ -316,7 +316,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            backgroundColor: 'var(--color-overlay-heavy)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -330,7 +330,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
               borderRadius: '12px',
               padding: '24px',
               maxWidth: '400px',
-              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)'
+              boxShadow: '0 20px 25px -5px var(--color-shadow)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -360,7 +360,7 @@ export const TagManager = ({ isOpen, onClose }: TagManagerProps) => {
                 onClick={() => handleConfirmDelete(deleteConfirmId)}
                 style={{
                   padding: '8px 16px',
-                  backgroundColor: '#ef4444',
+                  backgroundColor: 'var(--color-danger)',
                   color: 'white',
                   border: 'none',
                   borderRadius: '6px',
