@@ -116,8 +116,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Clipboard copy with format selection and toast notifications
-- [ ] 08-02-PLAN.md — Skeleton loading screens, empty states, and button hierarchy
+- [x] 08-01-PLAN.md — Clipboard copy with format selection and toast notifications
+- [x] 08-02-PLAN.md — Skeleton loading screens, empty states, and button hierarchy
 
 **Success Criteria:**
 1. User can click copy button in lightbox to copy image to clipboard
@@ -127,7 +127,7 @@ Plans:
 5. User sees skeleton screens while images load
 6. User sees helpful empty state message when no images match search
 
-**Status:** Planned
+**Status:** Complete — 2026-02-12
 
 ---
 
@@ -163,7 +163,7 @@ Plans:
 | 5. Settings Foundation | v1.1 | 1/1 | Complete | 2026-02-12 |
 | 6. Dark Mode | v1.1 | 2/2 | Complete | 2026-02-12 |
 | 7. Internationalization | v1.1 | 2/2 | Complete | 2026-02-12 |
-| 8. Enhanced Operations | v1.1 | 0/2 | Planned | — |
+| 8. Enhanced Operations | v1.1 | 2/2 | Complete | 2026-02-12 |
 | 9. Visual Polish | v1.1 | 0/0 | Pending | — |
 
 ---
