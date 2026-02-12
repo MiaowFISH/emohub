@@ -104,19 +104,52 @@ export async function listImages(
   prisma: PrismaClient,
   page: number = 1,
   limit: number = 50,
-  tagIds?: string[]
+  tagIds?: string[],
+  search?: string
 ): Promise<ListImagesResult> {
   const skip = (page - 1) * limit;
 
-  const where = tagIds && tagIds.length > 0
-    ? {
-        tags: {
-          some: {
-            tagId: { in: tagIds },
+  const conditions: any[] = [];
+
+  // Tag filter condition
+  if (tagIds && tagIds.length > 0) {
+    conditions.push({
+      tags: {
+        some: {
+          tagId: { in: tagIds },
+        },
+      },
+    });
+  }
+
+  // Search condition (filename OR tag name)
+  if (search && search.trim()) {
+    const trimmedSearch = search.trim();
+    conditions.push({
+      OR: [
+        {
+          originalName: {
+            contains: trimmedSearch,
+            mode: 'insensitive',
           },
         },
-      }
-    : {};
+        {
+          tags: {
+            some: {
+              tag: {
+                name: {
+                  contains: trimmedSearch,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+        },
+      ],
+    });
+  }
+
+  const where = conditions.length > 0 ? { AND: conditions } : {};
 
   const [rawImages, total] = await Promise.all([
     prisma.image.findMany({
