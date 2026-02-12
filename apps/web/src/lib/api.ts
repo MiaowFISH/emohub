@@ -1,4 +1,4 @@
-import type { Image, ImageUploadResult, ApiResponse, PaginatedResponse } from '@emohub/shared'
+import type { Image, ImageUploadResult, ApiResponse, PaginatedResponse, Tag, TagWithCount } from '@emohub/shared'
 
 const baseUrl = ''
 
@@ -11,8 +11,12 @@ async function handleResponse<T>(response: Response): Promise<T> {
 }
 
 export const imageApi = {
-  async list(page = 1, limit = 50): Promise<PaginatedResponse<Image>> {
-    const response = await fetch(`${baseUrl}/api/images?page=${page}&limit=${limit}`)
+  async list(page = 1, limit = 50, tagIds?: string[]): Promise<PaginatedResponse<Image>> {
+    const params = new URLSearchParams({ page: String(page), limit: String(limit) })
+    if (tagIds && tagIds.length > 0) {
+      params.append('tagIds', tagIds.join(','))
+    }
+    const response = await fetch(`${baseUrl}/api/images?${params}`)
     return handleResponse<PaginatedResponse<Image>>(response)
   },
 
@@ -59,5 +63,61 @@ export const imageApi = {
       throw new Error(`Failed to convert image: ${response.statusText}`)
     }
     return response.blob()
+  }
+}
+
+export const tagApi = {
+  async list(search?: string): Promise<ApiResponse<TagWithCount[]>> {
+    const params = search ? `?search=${encodeURIComponent(search)}` : ''
+    const response = await fetch(`${baseUrl}/api/tags${params}`)
+    return handleResponse<ApiResponse<TagWithCount[]>>(response)
+  },
+
+  async create(name: string, category?: string): Promise<ApiResponse<Tag>> {
+    const response = await fetch(`${baseUrl}/api/tags`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, category })
+    })
+    return handleResponse<ApiResponse<Tag>>(response)
+  },
+
+  async rename(id: string, name: string): Promise<ApiResponse<Tag>> {
+    const response = await fetch(`${baseUrl}/api/tags/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    })
+    return handleResponse<ApiResponse<Tag>>(response)
+  },
+
+  async delete(id: string): Promise<ApiResponse<Tag>> {
+    const response = await fetch(`${baseUrl}/api/tags/${id}`, {
+      method: 'DELETE'
+    })
+    return handleResponse<ApiResponse<Tag>>(response)
+  },
+
+  async batchAdd(imageIds: string[], tagIds: string[]): Promise<ApiResponse<void>> {
+    const response = await fetch(`${baseUrl}/api/tags/batch/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageIds, tagIds })
+    })
+    return handleResponse<ApiResponse<void>>(response)
+  },
+
+  async batchRemove(imageIds: string[], tagIds: string[]): Promise<ApiResponse<void>> {
+    const response = await fetch(`${baseUrl}/api/tags/batch/remove`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageIds, tagIds })
+    })
+    return handleResponse<ApiResponse<void>>(response)
+  },
+
+  async getImageTags(imageId: string): Promise<ApiResponse<Tag[]>> {
+    const response = await fetch(`${baseUrl}/api/tags/image/${imageId}`)
+    return handleResponse<ApiResponse<Tag[]>>(response)
   }
 }

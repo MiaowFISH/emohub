@@ -9,7 +9,7 @@ interface ImageState {
   isLoading: boolean
   hasMore: boolean
   selectedIds: Set<string>
-  fetchImages: (page?: number) => Promise<void>
+  fetchImages: (page?: number, tagIds?: string[]) => Promise<void>
   fetchMore: () => Promise<void>
   addImages: (images: Image[]) => void
   removeImages: (ids: string[]) => void
@@ -26,10 +26,10 @@ export const useImageStore = create<ImageState>((set, get) => ({
   hasMore: true,
   selectedIds: new Set<string>(),
 
-  fetchImages: async (page = 1) => {
+  fetchImages: async (page = 1, tagIds?: string[]) => {
     set({ isLoading: true })
     try {
-      const response = await imageApi.list(page, 50)
+      const response = await imageApi.list(page, 50, tagIds)
       const data = response.data || []
       set({
         images: data,
