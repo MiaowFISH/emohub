@@ -67,7 +67,8 @@ export const ImageToolbar = () => {
         borderBottom: '1px solid #e5e7eb',
         position: 'sticky',
         top: 0,
-        zIndex: 10
+        zIndex: 10,
+        flexWrap: 'wrap'
       }}>
         <span style={{ color: '#374151', fontWeight: 500 }}>
           {selectedIds.size} selected

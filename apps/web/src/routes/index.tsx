@@ -73,37 +73,44 @@ const HomePage = () => {
 
       {/* Right main content area */}
       <div className="main-content">
-        {/* Header with upload and manage tags button */}
-        <div className="header-controls">
-          <div className="header-buttons">
-            <ImageUpload />
-            <button
-              onClick={() => setShowTagManager(true)}
-              style={{
-                padding: '8px 16px',
-                fontSize: '14px',
-                fontWeight: 500,
-                color: '#3b82f6',
-                backgroundColor: 'white',
-                border: '1px solid #3b82f6',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#eff6ff'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'white'
-              }}
-            >
-              Manage Tags
-            </button>
+        {/* Top bar: search + manage tags */}
+        <div style={{
+          display: 'flex',
+          gap: '8px',
+          alignItems: 'center',
+          flexWrap: 'wrap'
+        }}>
+          <div style={{ flex: 1, minWidth: '160px' }}>
+            <SearchBar />
           </div>
+          <button
+            onClick={() => setShowTagManager(true)}
+            style={{
+              padding: '8px 16px',
+              fontSize: '14px',
+              fontWeight: 500,
+              color: '#3b82f6',
+              backgroundColor: 'white',
+              border: '1px solid #3b82f6',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              whiteSpace: 'nowrap',
+              flexShrink: 0
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#eff6ff'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'white'
+            }}
+          >
+            Manage Tags
+          </button>
         </div>
 
-        {/* Search bar */}
-        <SearchBar />
+        {/* Upload area */}
+        <ImageUpload />
 
         <ImageToolbar />
         <ImageGrid onImageClick={setLightboxIndex} />

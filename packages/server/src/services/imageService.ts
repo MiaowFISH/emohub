@@ -123,14 +123,14 @@ export async function listImages(
   }
 
   // Search condition (filename OR tag name)
+  // SQLite doesn't support Prisma's mode: 'insensitive', so we use lowercase contains
   if (search && search.trim()) {
-    const trimmedSearch = search.trim();
+    const lowerSearch = search.trim().toLowerCase();
     conditions.push({
       OR: [
         {
           originalName: {
-            contains: trimmedSearch,
-            mode: 'insensitive',
+            contains: lowerSearch,
           },
         },
         {
@@ -138,8 +138,7 @@ export async function listImages(
             some: {
               tag: {
                 name: {
-                  contains: trimmedSearch,
-                  mode: 'insensitive',
+                  contains: lowerSearch,
                 },
               },
             },

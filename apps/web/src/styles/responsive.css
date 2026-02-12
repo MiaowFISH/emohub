@@ -66,19 +66,6 @@
   overflow-y: auto;
 }
 
-.header-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.header-buttons {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
 /* Tablet: 768px - 1023px */
 @media (min-width: 768px) {
   .sidebar {
@@ -102,11 +89,6 @@
 
   .main-content {
     padding-top: 16px;
-  }
-
-  .header-controls {
-    flex-direction: row;
-    align-items: flex-start;
   }
 }
 
