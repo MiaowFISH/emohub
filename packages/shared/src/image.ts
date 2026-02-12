@@ -11,6 +11,7 @@ export interface Image {
   thumbnailPath: string | null;
   createdAt: Date;
   updatedAt: Date;
+  tags?: Array<{ id: string; name: string; category: string | null }>;
 }
 
 export interface CreateImageInput {

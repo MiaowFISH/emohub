@@ -199,6 +199,51 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                           </svg>
                         )}
                       </div>
+                      {/* Tag pills */}
+                      {image.tags && image.tags.length > 0 && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            bottom: '8px',
+                            left: '8px',
+                            right: '8px',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: '4px',
+                            pointerEvents: 'none'
+                          }}
+                        >
+                          {image.tags.slice(0, 3).map((tag) => (
+                            <span
+                              key={tag.id}
+                              style={{
+                                fontSize: '11px',
+                                padding: '2px 6px',
+                                backgroundColor: '#e5e7eb',
+                                borderRadius: '4px',
+                                color: '#374151',
+                                fontWeight: 500
+                              }}
+                            >
+                              {tag.name}
+                            </span>
+                          ))}
+                          {image.tags.length > 3 && (
+                            <span
+                              style={{
+                                fontSize: '11px',
+                                padding: '2px 6px',
+                                backgroundColor: '#e5e7eb',
+                                borderRadius: '4px',
+                                color: '#6b7280',
+                                fontWeight: 500
+                              }}
+                            >
+                              +{image.tags.length - 3} more
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )
                 })}

@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react'
 import { ReactTags, Tag as ReactTag } from 'react-tag-autocomplete'
 import { useTagStore } from '@/stores/tagStore'
 import { tagApi } from '@/lib/api'
-import type { Tag } from '@emohub/shared'
+
+type ImageTag = { id: string; name: string; category: string | null }
 
 interface TagInputProps {
   imageId: string
-  currentTags: Tag[]
-  onTagsChange: (tags: Tag[]) => void
+  currentTags: ImageTag[]
+  onTagsChange: (tags: ImageTag[]) => void
 }
 
 export const TagInput = ({ imageId, currentTags, onTagsChange }: TagInputProps) => {
