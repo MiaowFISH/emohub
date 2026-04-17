@@ -308,3 +308,50 @@ def test_batch_delete_removes_images_related_rows_and_files(
     assert not stored_thumb.exists()
     assert kept_image.exists()
     assert kept_thumb.exists()
+
+
+def test_tags_list_returns_available_tags_with_image_counts(
+    client, image_factory, tag_factory
+) -> None:
+    image = image_factory(original_name="tagged.png")
+    tag_factory(
+        image=image,
+        category="character",
+        name="艾玛",
+        normalized_key="character:艾玛",
+    )
+
+    response = client.get("/api/tags")
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["success"] is True
+    assert len(body["data"]) == 1
+    assert body["data"][0]["name"] == "艾玛"
+    assert body["data"][0]["category"] == "character"
+    assert body["data"][0]["imageCount"] == 1
+    assert body["data"][0]["id"]
+    assert body["data"][0]["createdAt"]
+
+
+def test_full_image_route_serves_original_file(
+    client, image_factory, tmp_path, monkeypatch
+) -> None:
+    storage_root = tmp_path / "data"
+    monkeypatch.setattr(settings, "storage_root", str(storage_root))
+
+    image = image_factory(
+        original_name="full.png",
+        mime_type="image/png",
+        storage_path="images/cc/full.png",
+        thumbnail_path="cc/full.jpg",
+    )
+    stored_image = storage_root / image.storage_path
+    stored_image.parent.mkdir(parents=True, exist_ok=True)
+    stored_image.write_bytes(b"png-data")
+
+    response = client.get(f"/api/images/{image.id}/full")
+
+    assert response.status_code == 200
+    assert response.content == b"png-data"
+    assert response.headers["content-type"] == "image/png"

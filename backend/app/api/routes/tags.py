@@ -1,11 +1,44 @@
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.core.db import get_session
+from app.db.models.image_tag import ImageTagRecord
+from app.db.models.tag import TagRecord
 from app.schemas.tags import BatchTagMutation
 from app.services.tag_service import MissingImageIdsError, apply_batch_mutation
 
 router = APIRouter(prefix="/api/tags", tags=["tags"])
+
+
+@router.get("")
+def list_tags(session: Session = Depends(get_session)) -> dict[str, object]:
+    rows = session.execute(
+        select(
+            TagRecord.id,
+            TagRecord.name,
+            TagRecord.category,
+            TagRecord.created_at,
+            func.count(ImageTagRecord.id).label("image_count"),
+        )
+        .outerjoin(ImageTagRecord, ImageTagRecord.tag_id == TagRecord.id)
+        .group_by(TagRecord.id)
+        .order_by(func.count(ImageTagRecord.id).desc(), TagRecord.created_at.desc())
+    ).all()
+
+    return {
+        "success": True,
+        "data": [
+            {
+                "id": row.id,
+                "name": row.name,
+                "category": row.category,
+                "createdAt": row.created_at.isoformat(),
+                "imageCount": row.image_count,
+            }
+            for row in rows
+        ],
+    }
 
 
 @router.post("/batch")
