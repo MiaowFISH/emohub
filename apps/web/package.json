@@ -1,5 +1,7 @@
 {
-  "name": "web",
+  "name": "@emohub/web",
+  "private": true,
+  "description": "EmoHub rebuild Web/PWA client",
   "type": "module",
   "scripts": {
     "dev": "vite",
