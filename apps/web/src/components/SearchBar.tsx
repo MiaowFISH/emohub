@@ -8,10 +8,13 @@ export const SearchBar = () => {
   const [inputValue, setInputValue] = useState('')
   const debouncedSearch = useDebounce(inputValue, 400)
   const setSearchQuery = useImageStore(state => state.setSearchQuery)
+  const currentStoreQuery = useImageStore(state => state.searchQuery)
 
   useEffect(() => {
-    setSearchQuery(debouncedSearch)
-  }, [debouncedSearch, setSearchQuery])
+    if (debouncedSearch !== currentStoreQuery) {
+      setSearchQuery(debouncedSearch)
+    }
+  }, [debouncedSearch, setSearchQuery, currentStoreQuery])
 
   return (
     <input

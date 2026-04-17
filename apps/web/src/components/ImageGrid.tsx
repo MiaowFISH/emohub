@@ -15,7 +15,7 @@ interface ImageGridProps {
 
 export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
   const { t } = useTranslation('images')
-  const { images, isLoading, hasMore, selectedIds, toggleSelect, fetchImages, fetchMore, searchQuery, activeTagFilter } = useImageStore()
+  const { images, isLoading, hasMore, selectedIds, toggleSelect, fetchImages, fetchMore, searchQuery, activeTagFilter, isInitialized } = useImageStore()
   const parentRef = useRef<HTMLDivElement>(null)
   const [columns, setColumns] = useState(4)
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
@@ -29,8 +29,10 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
   }, [])
 
   useEffect(() => {
-    fetchImages()
-  }, [fetchImages])
+    if (!isInitialized && !isLoading) {
+      fetchImages()
+    }
+  }, [fetchImages, isInitialized, isLoading])
 
   useEffect(() => {
     if (!parentRef.current) return

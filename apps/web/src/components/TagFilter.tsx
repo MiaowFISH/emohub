@@ -19,22 +19,23 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
     fetchTags()
   }, [fetchTags])
 
-  // Re-fetch images when filter changes
-  useEffect(() => {
-    if (filterTagIds.size > 0) {
-      fetchImages(1, Array.from(filterTagIds), searchQuery || undefined)
-    } else {
-      fetchImages(1, undefined, searchQuery || undefined)
-    }
-  }, [filterTagIds, fetchImages, searchQuery])
-
   // Sort tags alphabetically
   const sortedTags = [...tags].sort((a, b) => a.name.localeCompare(b.name))
 
   const handleTagToggle = (tagId: string) => {
     toggleFilterTag(tagId)
+    const newTags = new Set(filterTagIds)
+    if (newTags.has(tagId)) newTags.delete(tagId)
+    else newTags.add(tagId)
+    fetchImages(1, newTags.size > 0 ? Array.from(newTags) : undefined, searchQuery || undefined)
+    
     // Auto-close sidebar on mobile after selecting a tag
     onClose?.()
+  }
+
+  const handleClearFilters = () => {
+    clearFilters()
+    fetchImages(1, undefined, searchQuery || undefined)
   }
 
   return (
@@ -59,7 +60,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
         </h2>
         {filterTagIds.size > 0 && (
           <button
-            onClick={clearFilters}
+            onClick={handleClearFilters}
             style={{
               fontSize: '12px',
               color: 'var(--color-accent)',
