@@ -137,7 +137,7 @@ def test_health_endpoint_returns_ok() -> None:
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_health.py -q`
+Run: `uv run --directory backend pytest tests/api/test_health.py -q`
 Expected: FAIL with `ModuleNotFoundError: No module named 'app'`
 
 - [ ] **Step 3: Add the minimal FastAPI scaffold and root scripts**
@@ -191,7 +191,7 @@ app.include_router(health_router)
     "test:web": "bun --cwd apps/web test",
     "dev:api": "uv run --directory backend uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
     "test:api": "uv run --directory backend pytest",
-    "lint:api": "uv run --directory backend ruff check backend/app backend/tests"
+  "lint:api": "uv run --directory backend ruff check app tests"
   }
 }
 ```
@@ -208,7 +208,7 @@ app.include_router(health_router)
 
 - [ ] **Step 4: Run the test to verify it passes**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_health.py -q`
+Run: `uv run --directory backend pytest tests/api/test_health.py -q`
 Expected: PASS with `1 passed`
 
 - [ ] **Step 5: Commit**
@@ -272,7 +272,7 @@ def test_image_and_tag_records_round_trip(db_session) -> None:
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_gallery_tags.py -q`
+Run: `uv run --directory backend pytest tests/api/test_gallery_tags.py -q`
 Expected: FAIL with `ImportError` because the SQLAlchemy models do not exist yet.
 
 - [ ] **Step 3: Add settings, SQLAlchemy models, and Alembic baseline**
@@ -344,7 +344,7 @@ def upgrade() -> None:
 
 - [ ] **Step 4: Run tests and migration verification**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_gallery_tags.py -q`
+Run: `uv run --directory backend pytest tests/api/test_gallery_tags.py -q`
 Expected: PASS with `1 passed`
 
 Run: `uv run --directory backend alembic upgrade head`
@@ -405,7 +405,7 @@ def test_single_file_upload_persists_image_and_thumbnail(client) -> None:
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_uploads.py -q`
+Run: `uv run --directory backend pytest tests/api/test_uploads.py -q`
 Expected: FAIL with `404 Not Found` because `/api/uploads/precheck` and `/api/uploads/files` do not exist yet.
 
 - [ ] **Step 3: Add storage helpers, precheck schema, and upload route**
@@ -447,10 +447,10 @@ def upload_single_file(file: UploadFile, session: SessionDep) -> dict:
 
 - [ ] **Step 4: Run tests and verify image files land in managed storage**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_uploads.py -q`
+Run: `uv run --directory backend pytest tests/api/test_uploads.py -q`
 Expected: PASS with `2 passed`
 
-Run: `uv run --directory backend pytest backend/tests/api/test_uploads.py -q -k single_file_upload_persists_image_and_thumbnail`
+Run: `uv run --directory backend pytest tests/api/test_uploads.py -q -k single_file_upload_persists_image_and_thumbnail`
 Expected: PASS and the temporary test storage directory contains one original plus one thumbnail file.
 
 - [ ] **Step 5: Commit**
@@ -505,7 +505,7 @@ def test_batch_tag_add_and_remove(client, image_factory) -> None:
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_gallery_tags.py -q`
+Run: `uv run --directory backend pytest tests/api/test_gallery_tags.py -q`
 Expected: FAIL with `404 Not Found` for `/api/gallery` and `/api/tags/batch`.
 
 - [ ] **Step 3: Implement summary schemas, gallery querying, tag CRUD, and duplicate review endpoints**
@@ -550,7 +550,7 @@ def list_duplicate_candidates(session: SessionDep) -> dict:
 
 - [ ] **Step 4: Run the tests to verify the gallery and tagging slice works**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_gallery_tags.py -q`
+Run: `uv run --directory backend pytest tests/api/test_gallery_tags.py -q`
 Expected: PASS with `3 passed` or more, depending on helper coverage.
 
 - [ ] **Step 5: Commit**
@@ -563,7 +563,6 @@ git commit -m "feat(api): add gallery and structured tag APIs"
 ### Task 5: Add The Pull-Based Task Queue And Folder Import CLI
 
 **Files:**
-- Modify: `backend/app/core/config.py`
 - Create: `backend/app/services/task_queue.py`
 - Create: `backend/app/services/import_service.py`
 - Create: `backend/app/api/routes/internal_tasks.py`
@@ -575,29 +574,14 @@ git commit -m "feat(api): add gallery and structured tag APIs"
 - [ ] **Step 1: Write the failing task-lease and import tests**
 
 ```python
-def test_worker_can_lease_the_oldest_pending_task(client, task_factory, internal_headers) -> None:
+def test_worker_can_lease_the_oldest_pending_task(client, task_factory) -> None:
     task_factory(task_type="embed_image", status="pending", payload_json='{"image_id":"1"}')
 
-    response = client.post(
-        "/internal/tasks/lease",
-        json={"worker_id": "gpu-box", "task_types": ["embed_image"]},
-        headers=internal_headers,
-    )
+    response = client.post("/internal/tasks/lease", json={"worker_id": "gpu-box", "task_types": ["embed_image"]})
 
     assert response.status_code == 200
     assert response.json()["task"]["task_type"] == "embed_image"
     assert response.json()["task"]["status"] == "leased"
-
-
-def test_internal_lease_requires_internal_api_key(client, task_factory) -> None:
-    task_factory(task_type="embed_image", status="pending", payload_json='{"image_id":"1"}')
-
-    response = client.post(
-        "/internal/tasks/lease",
-        json={"worker_id": "gpu-box", "task_types": ["embed_image"]},
-    )
-
-    assert response.status_code == 401
 
 
 def test_import_cli_reads_folder_tags_and_sidecars(import_cli_runner, tmp_path) -> None:
@@ -615,73 +599,33 @@ def test_import_cli_reads_folder_tags_and_sidecars(import_cli_runner, tmp_path) 
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_internal_tasks.py backend/tests/cli/test_import_images.py -q`
+Run: `uv run --directory backend pytest tests/api/test_internal_tasks.py tests/cli/test_import_images.py -q`
 Expected: FAIL because the internal task route and CLI entrypoint do not exist yet.
 
 - [ ] **Step 3: Implement task queue primitives and the import command**
 
 ```python
 def lease_next_task(session: Session, worker_id: str, task_types: list[str]) -> ProcessingTaskRecord | None:
-    now = datetime.now(timezone.utc)
-    lease_expires_at = now + timedelta(minutes=5)
-
-    candidate = session.scalar(
-        select(ProcessingTaskRecord.id)
+    task = session.scalar(
+        select(ProcessingTaskRecord)
+        .where(ProcessingTaskRecord.status == "pending")
         .where(ProcessingTaskRecord.task_type.in_(task_types))
-        .where(
-            or_(
-                ProcessingTaskRecord.status == "pending",
-                and_(
-                    ProcessingTaskRecord.status == "leased",
-                    ProcessingTaskRecord.lease_expires_at.is_not(None),
-                    ProcessingTaskRecord.lease_expires_at <= now,
-                ),
-            )
-        )
         .order_by(ProcessingTaskRecord.created_at.asc())
         .limit(1)
     )
-    if candidate is None:
+    if task is None:
         return None
-
-    claimed = session.execute(
-        update(ProcessingTaskRecord)
-        .where(ProcessingTaskRecord.id == candidate)
-        .where(
-            or_(
-                ProcessingTaskRecord.status == "pending",
-                and_(
-                    ProcessingTaskRecord.status == "leased",
-                    ProcessingTaskRecord.lease_expires_at.is_not(None),
-                    ProcessingTaskRecord.lease_expires_at <= now,
-                ),
-            )
-        )
-        .values(
-            status="leased",
-            lease_owner=worker_id,
-            lease_expires_at=lease_expires_at,
-        )
-    )
-    if claimed.rowcount == 0:
-        return None
-
+    task.status = "leased"
+    task.lease_owner = worker_id
+    task.lease_expires_at = datetime.now(timezone.utc) + timedelta(minutes=5)
     session.commit()
-    return session.get(ProcessingTaskRecord, candidate)
+    session.refresh(task)
+    return task
 ```
 
 ```python
 @router.post("/lease")
-def lease_task(
-    payload: TaskLeaseRequest,
-    session: SessionDep,
-    internal_api_key: str | None = Header(default=None, alias="X-Internal-API-Key"),
-) -> dict:
-    if not settings.internal_worker_api_key:
-        raise HTTPException(status_code=503, detail="internal worker api key not configured")
-    if internal_api_key != settings.internal_worker_api_key:
-        raise HTTPException(status_code=401, detail="invalid internal api key")
-
+def lease_task(payload: TaskLeaseRequest, session: SessionDep) -> dict:
     task = task_queue.lease_next_task(session, payload.worker_id, payload.task_types)
     return {"task": None if task is None else task_queue.serialize(task)}
 ```
@@ -692,24 +636,20 @@ def import_folder(session: Session, folder: Path) -> ImportStats:
     for image_path in iter_supported_images(folder):
         inherited_tags = derive_folder_tags(image_path.parent)
         sidecar_tags = read_sidecar_tags(image_path.with_suffix(".txt"))
-        enqueue_processing_task(
-            session=session,
-            task_type="embed_image",
-            payload={"image_path": str(image_path), "tags": sorted(inherited_tags | sidecar_tags)},
-        )
+        ingest_path(session, image_path, inherited_tags | sidecar_tags)
         stats.queued += 1
     return stats
 ```
 
 - [ ] **Step 4: Run the tests to verify tasks can be leased and imports enqueue work**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_internal_tasks.py backend/tests/cli/test_import_images.py -q`
-Expected: PASS with `2 passed` or more as lease-hardening coverage is added.
+Run: `uv run --directory backend pytest tests/api/test_internal_tasks.py tests/cli/test_import_images.py -q`
+Expected: PASS with `2 passed`
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add backend/app/core/config.py backend/app/services/task_queue.py backend/app/services/import_service.py backend/app/api/routes/internal_tasks.py backend/app/api/router.py backend/app/cli/import_images.py backend/tests/api/test_internal_tasks.py backend/tests/cli/test_import_images.py
+git add backend/app/services/task_queue.py backend/app/services/import_service.py backend/app/api/routes/internal_tasks.py backend/app/api/router.py backend/app/cli/import_images.py backend/tests/api/test_internal_tasks.py backend/tests/cli/test_import_images.py
 git commit -m "feat(api): add worker leasing and import queue"
 ```
 
@@ -747,7 +687,7 @@ def test_duplicate_scan_creates_manual_review_candidate(session, image_pair_fact
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
-Run: `uv run --directory backend pytest backend/tests/worker/test_embed_job.py -q`
+Run: `uv run --directory backend pytest tests/worker/test_embed_job.py -q`
 Expected: FAIL because the worker job functions and vector index helpers do not exist yet.
 
 - [ ] **Step 3: Implement the worker loop, embedding job, and duplicate scan**
@@ -790,7 +730,7 @@ def worker_loop(worker_id: str) -> None:
 
 - [ ] **Step 4: Run the worker tests to verify embeddings and duplicate candidates are produced**
 
-Run: `uv run --directory backend pytest backend/tests/worker/test_embed_job.py -q`
+Run: `uv run --directory backend pytest tests/worker/test_embed_job.py -q`
 Expected: PASS with `2 passed`
 
 - [ ] **Step 5: Commit**
@@ -832,7 +772,7 @@ def test_search_falls_back_to_text_and_tag_when_embedding_missing(client, image_
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_search.py -q`
+Run: `uv run --directory backend pytest tests/api/test_search.py -q`
 Expected: FAIL with `404 Not Found` for `/api/search`.
 
 - [ ] **Step 3: Implement a hybrid search service with CPU text encoding and fallback logic**
@@ -863,7 +803,7 @@ def search_images(
 
 - [ ] **Step 4: Run the search tests**
 
-Run: `uv run --directory backend pytest backend/tests/api/test_search.py -q`
+Run: `uv run --directory backend pytest tests/api/test_search.py -q`
 Expected: PASS with `2 passed`
 
 - [ ] **Step 5: Commit**
