@@ -15,6 +15,14 @@ class GalleryListResponse(BaseModel):
     items: list[GalleryItem]
 
 
+class BatchDeleteRequest(BaseModel):
+    ids: list[str]
+
+
+class BatchDeleteResponse(BaseModel):
+    deleted: int
+
+
 class SearchResponse(BaseModel):
     mode: Literal["hybrid", "text_tag_fallback"]
     items: list[GalleryItem]

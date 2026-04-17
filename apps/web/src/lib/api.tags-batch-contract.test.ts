@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { tagApi } from './api'
+import { imageApi, tagApi } from './api'
 
 describe('tagApi batch contract', () => {
   const fetchMock = vi.fn()
@@ -42,6 +42,16 @@ describe('tagApi batch contract', () => {
         add: [],
         remove: ['tag-2']
       })
+    })
+  })
+
+  it('posts batch delete to /api/gallery/batch with backend payload shape', async () => {
+    await imageApi.deleteBatch(['img-1', 'img-2'])
+
+    expect(fetchMock).toHaveBeenCalledWith('/api/gallery/batch', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids: ['img-1', 'img-2'] })
     })
   })
 })

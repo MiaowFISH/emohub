@@ -2,8 +2,12 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.core.db import get_session
-from app.schemas.gallery import GalleryListResponse
-from app.services.gallery_service import list_gallery
+from app.schemas.gallery import (
+    BatchDeleteRequest,
+    BatchDeleteResponse,
+    GalleryListResponse,
+)
+from app.services.gallery_service import delete_images, list_gallery
 
 router = APIRouter(prefix="/api/gallery", tags=["gallery"])
 
@@ -15,3 +19,13 @@ def get_gallery(
     session: Session = Depends(get_session),
 ) -> GalleryListResponse:
     return list_gallery(session=session, query=q, normalized_tags=tag or [])
+
+
+@router.delete("/batch", response_model=BatchDeleteResponse)
+def delete_gallery_batch(
+    payload: BatchDeleteRequest,
+    session: Session = Depends(get_session),
+) -> BatchDeleteResponse:
+    return BatchDeleteResponse(
+        deleted=delete_images(session=session, image_ids=payload.ids)
+    )

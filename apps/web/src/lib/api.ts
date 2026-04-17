@@ -161,7 +161,7 @@ export const imageApi = {
   },
 
   async deleteBatch(ids: string[]): Promise<ApiResponse<unknown>> {
-    const response = await fetch(`${baseUrl}/api/images/batch`, {
+    const response = await fetch(`${baseUrl}/api/gallery/batch`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ids })

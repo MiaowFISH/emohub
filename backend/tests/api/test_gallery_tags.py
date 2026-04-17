@@ -5,6 +5,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import select
 
 from app.core.db import get_session
+from app.core.config import settings
 from app.db.models.duplicate import DuplicateCandidateRecord
 from app.db.models.image import ImageRecord
 from app.db.models.image_tag import ImageTagRecord
@@ -244,3 +245,66 @@ def test_duplicates_returns_pending_candidates(
     assert len(body["items"]) == 1
     assert body["items"][0]["id"] == pending.id
     assert body["items"][0]["status"] == "pending"
+
+
+def test_batch_delete_removes_images_related_rows_and_files(
+    client, image_factory, tag_factory, db_session, tmp_path, monkeypatch
+) -> None:
+    storage_root = tmp_path / "data"
+    thumbnail_root = storage_root / "thumbnails"
+    monkeypatch.setattr(settings, "storage_root", str(storage_root))
+    monkeypatch.setattr(settings, "thumbnail_root", str(thumbnail_root))
+
+    image_a = image_factory(
+        original_name="delete-a.png",
+        storage_path="images/aa/delete-a.png",
+        thumbnail_path="aa/delete-a.jpg",
+    )
+    image_b = image_factory(
+        original_name="keep-b.png",
+        storage_path="images/bb/keep-b.png",
+        thumbnail_path="bb/keep-b.jpg",
+    )
+    tag_factory(
+        image=image_a,
+        category="character",
+        name="艾玛",
+        normalized_key="character:艾玛",
+    )
+    db_session.add(
+        DuplicateCandidateRecord(
+            image_a_id=image_a.id,
+            image_b_id=image_b.id,
+            score=0.98,
+            status="pending",
+        )
+    )
+    db_session.commit()
+
+    stored_image = storage_root / image_a.storage_path
+    stored_thumb = thumbnail_root / (image_a.thumbnail_path or "")
+    kept_image = storage_root / image_b.storage_path
+    kept_thumb = thumbnail_root / (image_b.thumbnail_path or "")
+    for path in (stored_image, stored_thumb, kept_image, kept_thumb):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(b"file")
+
+    response = client.request(
+        "DELETE", "/api/gallery/batch", json={"ids": [image_a.id]}
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"deleted": 1}
+    assert db_session.get(ImageRecord, image_a.id) is None
+    assert db_session.get(ImageRecord, image_b.id) is not None
+    assert (
+        db_session.scalars(
+            select(ImageTagRecord).where(ImageTagRecord.image_id == image_a.id)
+        ).all()
+        == []
+    )
+    assert db_session.scalars(select(DuplicateCandidateRecord)).all() == []
+    assert not stored_image.exists()
+    assert not stored_thumb.exists()
+    assert kept_image.exists()
+    assert kept_thumb.exists()
