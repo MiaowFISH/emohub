@@ -26,6 +26,7 @@ node_modules
 
 # Storage
 storage/
+backend/data
 
 # Build output
 dist/
@@ -41,4 +42,5 @@ tsconfig.tsbuildinfo
 
 #
 __pycache__
-.ruff_cache
+.playwright-mcp/
+.ruff_cache/
