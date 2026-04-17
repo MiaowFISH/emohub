@@ -2,6 +2,57 @@ import type { Image, ImageUploadResult, ApiResponse, PaginatedResponse, Tag, Tag
 
 const baseUrl = ''
 
+interface BackendGalleryItem {
+  id: string
+  original_name: string
+  thumbnail_url: string
+  processing_state: string
+  embedding_state: string
+  tags: string[]
+}
+
+interface BackendGalleryResponse {
+  items: BackendGalleryItem[]
+}
+
+interface BackendSearchResponse extends BackendGalleryResponse {
+  mode: 'hybrid' | 'text_tag_fallback'
+}
+
+const PLACEHOLDER_DATE = new Date(0)
+
+function toTagShape(normalizedKey: string): NonNullable<Image['tags']>[number] {
+  const separatorIndex = normalizedKey.indexOf(':')
+  return {
+    id: normalizedKey,
+    name: normalizedKey,
+    category: separatorIndex > 0 ? normalizedKey.slice(0, separatorIndex) : null
+  }
+}
+
+function toImageShape(item: BackendGalleryItem): Image {
+  return {
+    id: item.id,
+    filename: item.original_name,
+    originalName: item.original_name,
+    mimeType: '',
+    size: 0,
+    width: 0,
+    height: 0,
+    hash: '',
+    storagePath: '',
+    thumbnailPath: item.thumbnail_url ? `/media/thumbs/${item.thumbnail_url}` : null,
+    createdAt: PLACEHOLDER_DATE,
+    updatedAt: PLACEHOLDER_DATE,
+    tags: item.tags.map(toTagShape)
+  }
+}
+
+function withQuery(path: string, params: URLSearchParams): string {
+  const query = params.toString()
+  return query ? `${path}?${query}` : path
+}
+
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const error = await response.json().catch(() => ({ error: 'Request failed' }))
@@ -56,15 +107,31 @@ export const uploadApi = {
 
 export const imageApi = {
   async list(page = 1, limit = 50, tagIds?: string[], search?: string): Promise<PaginatedResponse<Image>> {
-    const params = new URLSearchParams({ page: String(page), limit: String(limit) })
+    const cleanedSearch = search?.trim()
+    const params = new URLSearchParams()
+    if (cleanedSearch) {
+      params.append('q', cleanedSearch)
+    }
     if (tagIds && tagIds.length > 0) {
-      params.append('tagIds', tagIds.join(','))
+      tagIds.forEach((tagId) => {
+        params.append('tag', tagId)
+      })
     }
-    if (search && search.trim()) {
-      params.append('search', search.trim())
+
+    const path = cleanedSearch ? '/api/search' : '/api/gallery'
+    const response = await fetch(withQuery(`${baseUrl}${path}`, params))
+    const payload = await handleResponse<BackendGalleryResponse | BackendSearchResponse>(response)
+    const data = payload.items.map(toImageShape)
+
+    return {
+      success: true,
+      data,
+      meta: {
+        total: data.length,
+        page,
+        limit
+      }
     }
-    const response = await fetch(`${baseUrl}/api/images?${params}`)
-    return handleResponse<PaginatedResponse<Image>>(response)
   },
 
   async upload(files: File[]): Promise<ApiResponse<ImageUploadResult | ImageUploadResult[]>> {
@@ -146,19 +213,27 @@ export const tagApi = {
   },
 
   async batchAdd(imageIds: string[], tagIds: string[]): Promise<ApiResponse<void>> {
-    const response = await fetch(`${baseUrl}/api/tags/batch/add`, {
+    const response = await fetch(`${baseUrl}/api/tags/batch`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ imageIds, tagIds })
+      body: JSON.stringify({
+        image_ids: imageIds,
+        add: tagIds,
+        remove: []
+      })
     })
     return handleResponse<ApiResponse<void>>(response)
   },
 
   async batchRemove(imageIds: string[], tagIds: string[]): Promise<ApiResponse<void>> {
-    const response = await fetch(`${baseUrl}/api/tags/batch/remove`, {
+    const response = await fetch(`${baseUrl}/api/tags/batch`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ imageIds, tagIds })
+      body: JSON.stringify({
+        image_ids: imageIds,
+        add: [],
+        remove: tagIds
+      })
     })
     return handleResponse<ApiResponse<void>>(response)
   },
@@ -166,5 +241,27 @@ export const tagApi = {
   async getImageTags(imageId: string): Promise<ApiResponse<Tag[]>> {
     const response = await fetch(`${baseUrl}/api/tags/image/${imageId}`)
     return handleResponse<ApiResponse<Tag[]>>(response)
+  }
+}
+
+export const tagBatchApi = {
+  async mutate(imageIds: string[], add: {category: string, name: string}[], remove: string[]): Promise<{updated: number}> {
+    const response = await fetch(`${baseUrl}/api/tags/batch`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        image_ids: imageIds,
+        add,
+        remove
+      })
+    })
+    return handleResponse<{updated: number}>(response)
+  }
+}
+
+export const duplicatesApi = {
+  async list(): Promise<{items: {id: string, image_a_id: string, image_b_id: string, score: number, status: string}[]}> {
+    const response = await fetch(`${baseUrl}/api/duplicates`)
+    return handleResponse<{items: {id: string, image_a_id: string, image_b_id: string, score: number, status: string}[]}>(response)
   }
 }
