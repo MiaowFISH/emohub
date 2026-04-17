@@ -1,6 +1,4 @@
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTagStore } from '@/stores/tagStore'
 import { useImageStore } from '@/stores/imageStore'
 
 interface TagFilterProps {
@@ -11,20 +9,30 @@ interface TagFilterProps {
 export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
   const { t } = useTranslation('images')
   const { t: tCommon } = useTranslation('common')
-  const { tags, filterTagIds, toggleFilterTag, clearFilters, fetchTags } = useTagStore()
-  const { fetchImages, searchQuery } = useImageStore()
+  const { images, activeTagFilter, fetchImages, searchQuery } = useImageStore()
 
-  // Fetch tags on mount
-  useEffect(() => {
-    fetchTags()
-  }, [fetchTags])
+  const tagCounts = new Map<string, { id: string, name: string, imageCount: number }>()
+  images.forEach((image) => {
+    image.tags?.forEach((tag) => {
+      const existing = tagCounts.get(tag.id)
+      if (existing) {
+        existing.imageCount += 1
+        return
+      }
 
-  // Sort tags alphabetically
-  const sortedTags = [...tags].sort((a, b) => a.name.localeCompare(b.name))
+      tagCounts.set(tag.id, {
+        id: tag.id,
+        name: tag.name,
+        imageCount: 1
+      })
+    })
+  })
+
+  const sortedTags = [...tagCounts.values()].sort((a, b) => a.name.localeCompare(b.name))
+  const activeTagIds = new Set(activeTagFilter)
 
   const handleTagToggle = (tagId: string) => {
-    toggleFilterTag(tagId)
-    const newTags = new Set(filterTagIds)
+    const newTags = new Set(activeTagIds)
     if (newTags.has(tagId)) newTags.delete(tagId)
     else newTags.add(tagId)
     fetchImages(1, newTags.size > 0 ? Array.from(newTags) : undefined, searchQuery || undefined)
@@ -34,7 +42,6 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
   }
 
   const handleClearFilters = () => {
-    clearFilters()
     fetchImages(1, undefined, searchQuery || undefined)
   }
 
@@ -58,7 +65,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
         }}>
           {t('filter.title')}
         </h2>
-        {filterTagIds.size > 0 && (
+        {activeTagIds.size > 0 && (
           <button
             onClick={handleClearFilters}
             style={{
@@ -76,7 +83,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
       </div>
 
       {/* Active filter summary */}
-      {filterTagIds.size > 0 && (
+      {activeTagIds.size > 0 && (
         <div style={{
           fontSize: '12px',
           color: 'var(--color-text-secondary)',
@@ -84,7 +91,7 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
           backgroundColor: 'var(--color-bg-secondary)',
           borderRadius: '4px'
         }}>
-          {t('filter.showing_count', { count: filterTagIds.size })}
+          {t('filter.showing_count', { count: activeTagIds.size })}
         </div>
       )}
 
@@ -118,23 +125,23 @@ export const TagFilter = ({ isOpen = false, onClose }: TagFilterProps = {}) => {
                 padding: '8px',
                 borderRadius: '4px',
                 transition: 'background-color 0.2s',
-                backgroundColor: filterTagIds.has(tag.id) ? 'var(--color-accent-bg)' : 'transparent'
+                backgroundColor: activeTagIds.has(tag.id) ? 'var(--color-accent-bg)' : 'transparent'
               }}
               onMouseEnter={(e) => {
-                if (!filterTagIds.has(tag.id)) {
+                if (!activeTagIds.has(tag.id)) {
                   e.currentTarget.style.backgroundColor = 'var(--color-bg-secondary)'
                 }
               }}
               onMouseLeave={(e) => {
-                if (!filterTagIds.has(tag.id)) {
+                if (!activeTagIds.has(tag.id)) {
                   e.currentTarget.style.backgroundColor = 'transparent'
                 }
               }}
             >
-              <input
-                type="checkbox"
-                checked={filterTagIds.has(tag.id)}
-                onChange={() => handleTagToggle(tag.id)}
+                <input
+                  type="checkbox"
+                  checked={activeTagIds.has(tag.id)}
+                  onChange={() => handleTagToggle(tag.id)}
                 style={{
                   cursor: 'pointer',
                   width: '16px',

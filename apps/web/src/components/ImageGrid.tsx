@@ -199,7 +199,7 @@ export const ImageGrid = ({ onImageClick }: ImageGridProps) => {
                         <div className="image-card-spinner" />
                       )}
                       <img
-                        src={imageApi.getThumbnailUrl(image.id)}
+                        src={image.thumbnailPath ?? undefined}
                         alt=""
                         aria-label={image.originalName}
                         onLoad={() => handleImageLoaded(image.id)}
