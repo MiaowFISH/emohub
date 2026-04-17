@@ -38,3 +38,7 @@ tsconfig.tsbuildinfo
 # Local git worktrees
 .worktrees/
 .ace-tool/
+
+#
+__pycache__
+.ruff_cache
