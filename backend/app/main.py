@@ -25,11 +25,25 @@ def create_app() -> FastAPI:
     )
     if web_dist_root.exists():
         assets_root = web_dist_root / "assets"
+        locales_root = web_dist_root / "locales"
+        icons_root = web_dist_root / "icons"
         if assets_root.exists():
             app.mount(
                 "/assets",
                 StaticFiles(directory=assets_root),
                 name="web-assets",
+            )
+        if locales_root.exists():
+            app.mount(
+                "/locales",
+                StaticFiles(directory=locales_root),
+                name="web-locales",
+            )
+        if icons_root.exists():
+            app.mount(
+                "/icons",
+                StaticFiles(directory=icons_root),
+                name="web-icons",
             )
 
         @app.get("/manifest.webmanifest", include_in_schema=False)
@@ -40,6 +54,13 @@ def create_app() -> FastAPI:
         async def service_worker() -> FileResponse:
             return FileResponse(
                 web_dist_root / "sw.js", media_type="application/javascript"
+            )
+
+        @app.get("/favicon.ico", include_in_schema=False)
+        async def favicon() -> FileResponse:
+            return FileResponse(
+                web_dist_root / "icons" / "app-icon.svg",
+                media_type="image/svg+xml",
             )
 
         @app.get("/", include_in_schema=False)

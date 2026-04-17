@@ -25,7 +25,11 @@ def test_media_thumbnails_are_served_with_immutable_cache(
 def test_dist_shell_files_are_served_when_present(tmp_path, monkeypatch) -> None:
     dist_root = tmp_path / "apps" / "web" / "dist"
     assets_root = dist_root / "assets"
+    locales_root = dist_root / "locales" / "zh"
+    icons_root = dist_root / "icons"
     assets_root.mkdir(parents=True, exist_ok=True)
+    locales_root.mkdir(parents=True, exist_ok=True)
+    icons_root.mkdir(parents=True, exist_ok=True)
     (dist_root / "index.html").write_text(
         "<html><body>EmoHub</body></html>", encoding="utf-8"
     )
@@ -35,6 +39,8 @@ def test_dist_shell_files_are_served_when_present(tmp_path, monkeypatch) -> None
     (dist_root / "sw.js").write_text(
         "self.addEventListener('install', () => {})", encoding="utf-8"
     )
+    (locales_root / "common.json").write_text('{"ok":"ok"}', encoding="utf-8")
+    (icons_root / "app-icon.svg").write_text("<svg></svg>", encoding="utf-8")
 
     monkeypatch.setattr(settings, "web_dist_root", str(dist_root))
 
@@ -43,3 +49,6 @@ def test_dist_shell_files_are_served_when_present(tmp_path, monkeypatch) -> None
     assert client.get("/").status_code == 200
     assert client.get("/manifest.webmanifest").status_code == 200
     assert client.get("/sw.js").status_code == 200
+    assert client.get("/locales/zh/common.json").status_code == 200
+    assert client.get("/icons/app-icon.svg").status_code == 200
+    assert client.get("/favicon.ico").status_code == 200
