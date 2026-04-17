@@ -34,3 +34,7 @@ tsconfig.tsbuildinfo
 
 # Turbo cache
 .turbo
+
+# Local git worktrees
+.worktrees/
+.ace-tool/
