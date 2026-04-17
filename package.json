@@ -8,6 +8,12 @@
     "apps/*"
   ],
   "scripts": {
+    "dev:web": "bun --cwd apps/web dev",
+    "build:web": "bun --cwd apps/web build",
+    "test:web": "bun --cwd apps/web test",
+    "dev:api": "uv run --directory backend uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+    "test:api": "uv run --directory backend pytest",
+    "lint:api": "uv run --directory backend ruff check app tests",
     "db:migrate": "bunx prisma migrate dev",
     "db:generate": "bunx prisma generate",
     "db:push": "bunx prisma db push",
