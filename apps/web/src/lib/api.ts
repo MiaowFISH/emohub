@@ -10,6 +10,50 @@ async function handleResponse<T>(response: Response): Promise<T> {
   return response.json()
 }
 
+export const uploadApi = {
+  async precheck(hashes: string[]): Promise<{ existing: { hash: string, image_id: string }[], missing: string[] }> {
+    const response = await fetch(`${baseUrl}/api/uploads/precheck`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hashes })
+    })
+    return handleResponse(response)
+  },
+  
+  async uploadFile(file: File, onProgress?: (progress: number) => void): Promise<{ duplicate: boolean, image: { id: string, sha256: string, processing_state: string, thumbnail_url: string } }> {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.open('POST', `${baseUrl}/api/uploads/files`)
+      
+      if (onProgress && xhr.upload) {
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            onProgress(Math.round((e.loaded / e.total) * 100))
+          }
+        }
+      }
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            resolve(JSON.parse(xhr.responseText))
+          } catch (e) {
+            reject(new Error('Invalid JSON response'))
+          }
+        } else {
+          reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`))
+        }
+      }
+
+      xhr.onerror = () => reject(new Error('Network error'))
+      
+      const formData = new FormData()
+      formData.append('file', file)
+      xhr.send(formData)
+    })
+  }
+}
+
 export const imageApi = {
   async list(page = 1, limit = 50, tagIds?: string[], search?: string): Promise<PaginatedResponse<Image>> {
     const params = new URLSearchParams({ page: String(page), limit: String(limit) })

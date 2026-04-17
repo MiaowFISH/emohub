@@ -11,6 +11,7 @@ interface ImageState {
   selectedIds: Set<string>
   activeTagFilter: string[]
   searchQuery: string
+  isInitialized: boolean
   fetchImages: (page?: number, tagIds?: string[], search?: string) => Promise<void>
   fetchMore: () => Promise<void>
   addImages: (images: Image[]) => void
@@ -30,6 +31,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
   selectedIds: new Set<string>(),
   activeTagFilter: [],
   searchQuery: '',
+  isInitialized: false,
 
   fetchImages: async (page = 1, tagIds?: string[], search?: string) => {
     set({ isLoading: true })
@@ -43,11 +45,12 @@ export const useImageStore = create<ImageState>((set, get) => ({
         isLoading: false,
         hasMore: data.length < response.meta.total,
         activeTagFilter: tagIds || [],
-        searchQuery: search || ''
+        searchQuery: search || '',
+        isInitialized: true
       })
     } catch (error) {
       console.error('Failed to fetch images:', error)
-      set({ isLoading: false })
+      set({ isLoading: false, isInitialized: true })
     }
   },
 
@@ -118,6 +121,7 @@ export const useImageStore = create<ImageState>((set, get) => ({
   setSearchQuery: (query) => {
     const { activeTagFilter } = get()
     const tagIds = activeTagFilter.length > 0 ? activeTagFilter : undefined
-    get().fetchImages(1, tagIds, query)
+    set({ searchQuery: query })
+    return get().fetchImages(1, tagIds, query)
   }
 }))
