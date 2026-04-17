@@ -1,24 +1,9 @@
 import React from 'react'
 import { useImageStore } from '@/stores/imageStore'
 import type { Image } from '@emohub/shared'
-
-const formatBytes = (bytes: number): string => {
-  if (bytes === 0) return '0 Bytes'
-  const k = 1024
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-}
-
-const formatDate = (date: string | Date): string => {
-  return new Date(date).toLocaleString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
+import { TagEditor } from './TagEditor'
+import { BatchTagBar } from './BatchTagBar'
+import { DuplicateReviewPanel } from './DuplicateReviewPanel'
 
 const EmptyState: React.FC = () => (
   <div style={{
@@ -35,31 +20,6 @@ const EmptyState: React.FC = () => (
     padding: '16px'
   }}>
     No image selected
-  </div>
-)
-
-const SummaryState: React.FC<{ count: number }> = ({ count }) => (
-  <div style={{
-    marginTop: '16px',
-    height: '200px',
-    backgroundColor: 'var(--color-bg-tertiary)',
-    border: '1px dashed var(--color-border)',
-    borderRadius: '4px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px',
-    color: 'var(--color-text-secondary)',
-    textAlign: 'center',
-    padding: '16px'
-  }}>
-    <div style={{ fontWeight: 600, color: 'var(--color-text)' }}>
-      {count} images selected
-    </div>
-    <div style={{ fontSize: '0.9rem' }}>
-      Bulk actions will be available here.
-    </div>
   </div>
 )
 
@@ -89,7 +49,8 @@ const MissingSelectionState: React.FC = () => (
 )
 
 const DetailState: React.FC<{ image: Image }> = ({ image }) => {
-  const tags = image.tags || []
+  const tagCount = image.tags?.length ?? 0
+  const hasPreview = Boolean(image.thumbnailPath && (image.thumbnailPath.startsWith('/') || image.thumbnailPath.startsWith('http://') || image.thumbnailPath.startsWith('https://')))
   
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -100,11 +61,25 @@ const DetailState: React.FC<{ image: Image }> = ({ image }) => {
         overflow: 'hidden',
         border: '1px solid var(--color-border)'
       }}>
-        <img 
-          src={`/api/images/${image.id}/file`} 
-          alt={image.originalName || 'Image preview'} 
-          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-        />
+        {hasPreview ? (
+          <img 
+            src={image.thumbnailPath ?? undefined}
+            alt={image.originalName || 'Image preview'} 
+            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          />
+        ) : (
+          <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--color-text-secondary)',
+            fontSize: '0.9rem'
+          }}>
+            Preview unavailable
+          </div>
+        )}
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -116,40 +91,14 @@ const DetailState: React.FC<{ image: Image }> = ({ image }) => {
             <span style={{ color: 'var(--color-text-secondary)' }}>Name</span>
             <span style={{ wordBreak: 'break-all' }}>{image.originalName}</span>
             
-            <span style={{ color: 'var(--color-text-secondary)' }}>Dimensions</span>
-            <span>{image.width} × {image.height}</span>
+            <span style={{ color: 'var(--color-text-secondary)' }}>Status</span>
+            <span>{image.mimeType || 'Unknown file metadata'}</span>
             
-            <span style={{ color: 'var(--color-text-secondary)' }}>Size</span>
-            <span>{formatBytes(image.size)}</span>
+            <span style={{ color: 'var(--color-text-secondary)' }}>Preview</span>
+            <span>{hasPreview ? 'Available' : 'Unavailable'}</span>
             
-            <span style={{ color: 'var(--color-text-secondary)' }}>Type</span>
-            <span>{image.mimeType}</span>
-            
-            <span style={{ color: 'var(--color-text-secondary)' }}>Added</span>
-            <span>{formatDate(image.createdAt)}</span>
-          </div>
-        </div>
-
-        <div style={{ height: '1px', backgroundColor: 'var(--color-border)', margin: '4px 0' }} />
-
-        <div>
-          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Tags</span>
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-            {tags.map(tag => (
-              <span key={tag.id} style={{ 
-                backgroundColor: 'var(--color-bg-tertiary)', 
-                border: '1px solid var(--color-border)',
-                padding: '2px 8px', 
-                borderRadius: '12px',
-                fontSize: '0.8rem',
-                color: 'var(--color-text)'
-              }}>
-                {tag.name}
-              </span>
-            ))}
-            {tags.length === 0 && <span style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', fontStyle: 'italic' }}>No tags</span>}
+            <span style={{ color: 'var(--color-text-secondary)' }}>Tags</span>
+            <span>{tagCount}</span>
           </div>
         </div>
 
@@ -159,34 +108,14 @@ const DetailState: React.FC<{ image: Image }> = ({ image }) => {
           <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px' }}>
             Tag Editor
           </div>
-          <div style={{ 
-            fontSize: '0.85rem', 
-            color: 'var(--color-text-muted)', 
-            padding: '12px', 
-            backgroundColor: 'var(--color-bg-tertiary)', 
-            borderRadius: '4px',
-            textAlign: 'center',
-            border: '1px dashed var(--color-border)'
-          }}>
-            Interactive tag editing placeholder
-          </div>
+          <TagEditor image={image} />
         </div>
 
         <div>
           <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px' }}>
             Duplicate Context
           </div>
-          <div style={{ 
-            fontSize: '0.85rem', 
-            color: 'var(--color-text-muted)', 
-            padding: '12px', 
-            backgroundColor: 'var(--color-bg-tertiary)', 
-            borderRadius: '4px',
-            textAlign: 'center',
-            border: '1px dashed var(--color-border)'
-          }}>
-            Duplicate resolution placeholder
-          </div>
+          <DuplicateReviewPanel image={image} />
         </div>
 
       </div>
@@ -226,7 +155,7 @@ export const DetailRail: React.FC = () => {
       {selectedCount === 0 && <EmptyState />}
       {selectedCount === 1 && selectedImage && <DetailState image={selectedImage} />}
       {selectedCount === 1 && !selectedImage && <MissingSelectionState />}
-      {selectedCount > 1 && <SummaryState count={selectedCount} />}
+      {selectedCount > 1 && <BatchTagBar count={selectedCount} />}
       
     </div>
   )
